@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { firestore, storage } from 'src/main';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor() {
+    console.log(firestore)
+    console.log(storage)
+  }
 
 }
