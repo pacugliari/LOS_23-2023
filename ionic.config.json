@@ -1,0 +1,7 @@
+{
+  "name": "los_23-2023",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
