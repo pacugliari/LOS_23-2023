@@ -45,7 +45,7 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 
 | Integrante | Branch | Tareas | Estado tarea | Completo |
 |------------|--------|--------|--------------|----------|
-| Alfa       | Alfa   |Alta de dueño/supervisor,Splash Animado,Login | Asignado   |❌
+| Alfa       | Alfa   |Alta de dueño/supervisor,Splash Animado,Login | Asignado   |✔️
 | Beta       | Beta   |Alta de clientes,Alta de Mesa,Icono| Asignado     |❌
 | Gamma      | Gamma  |Alta de productos,Alta de empleados| Asignado     |❌
 
@@ -93,3 +93,11 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 | Gamma      | Gamma  |Juego para obtener un 20% de descuento| Asignado     |❌
 
 
+## Logo
+![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/icono-app.png?raw=true)
+
+## Imagenes
+
+| | |  |  |
+|------------|--------|--------|--------------|
+![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/splash.png?raw=true)|![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/login.png?raw=true)|![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/spinner.gif?raw=true)|![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/altaDueSup.png?raw=true)|
