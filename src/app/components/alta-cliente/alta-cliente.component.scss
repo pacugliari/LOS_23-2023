@@ -1,0 +1,70 @@
+/* Estilos para el formulario de alta de cliente */
+.alta-cliente-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.alta-cliente-form h2 {
+  font-size: 24px;
+  margin: 0 0 20px;
+  color: #333;
+  text-align: center;
+}
+
+.alta-cliente-form label {
+  font-weight: bold;
+  margin: 5px 0;
+  color: #333;
+}
+
+.alta-cliente-form input[type="text"],
+.alta-cliente-form input[type="checkbox"] {
+  width: 100%;
+  padding: 12px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.alta-cliente-form input[type="text"]:focus {
+  border-color: #3f51b5;
+}
+
+.alta-cliente-form button {
+  background-color: #3f51b5;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.alta-cliente-form button:hover {
+  background-color: #2a3e94;
+}
+
+.invalid {
+  color: red;
+}
+
+body,
+h2,
+label,
+.form-control,
+.btn-primary {
+  font-family: "Roboto", sans-serif;
+}
+
+.alta-cliente-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
