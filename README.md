@@ -94,10 +94,10 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 
 
 ## Logo
-![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/icono-app.png?raw=true)
+[<img src="https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/icono-app.png?raw=true" width="250"/>]()
 
 ## Imagenes
 
-| | |  |  |
+| Splash | Login | Spinner | Alta dueño/supervisor  |
 |------------|--------|--------|--------------|
 ![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/splash.png?raw=true)|![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/login.png?raw=true)|![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/spinner.gif?raw=true)|![](https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/altaDueSup.png?raw=true)|
