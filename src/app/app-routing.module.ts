@@ -1,14 +1,37 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { SplashComponent } from './components/splash/splash.component';
+import { LoginComponent } from './components/login/login.component';
+import { AltaDuenioComponent } from './components/alta-duenio/alta-duenio.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { HomeComponent } from './components/home/home.component';
+import { PerfilGuard } from './guards/perfil.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'splash-animado',component:SplashComponent
+  },
+  {
+    path: 'login',component:LoginComponent
+  },
+  {
+    path: 'home',component:HomeComponent,canActivate: [AuthGuard]
+  },
+  {
+    path: 'alta/dueño',component:AltaDuenioComponent,canActivate: [PerfilGuard]
+  },
+  {
+    path: 'spinner',component:SpinnerComponent
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'splash-animado',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'splash-animado',
     pathMatch: 'full'
   },
 ];
