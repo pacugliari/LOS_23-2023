@@ -1,7 +1,10 @@
 ion-toolbar {
   text-align: center;
+  color: #000;
 }
-
+ion-header {
+  color: #000;
+}
 ion-toolbar,
 ion-card {
   --background: #fefae0;
@@ -11,14 +14,5 @@ ion-input,
 ion-content,
 ion-item {
   --background: #faedcd;
-}
-
-ion-fab-button,
-ion-button {
-  --background: #d0a933;
-}
-
-ion-img {
-  border-radius: 15px;
-  object-fit: cover;
+  color: #000;
 }

@@ -8,39 +8,54 @@ import { HomeComponent } from './components/home/home.component';
 import { PerfilGuard } from './guards/perfil.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { AltaClienteComponent } from './components/alta-cliente/alta-cliente.component';
+import { RegistroClienteComponent } from './components/registro-cliente/registro-cliente.component';
+import { AltaClienteAnonimoComponent } from './components/alta-cliente-anonimo/alta-cliente-anonimo.component';
+import { AltaMesaComponent } from './components/alta-mesa/alta-mesa.component';
+import { ListadoMesasComponent } from './components/listado-mesas/listado-mesas.component';
 const routes: Routes = [
   {
-    path: 'splash-animado',component:SplashComponent
+    path: 'splash-animado',
+    component: SplashComponent,
   },
   {
-    path: 'login',component:LoginComponent
+    path: 'login',
+    component: LoginComponent,
   },
   {
-    path: 'home',component:HomeComponent,canActivate: [AuthGuard]
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
   },
   {
-    path: 'alta/dueño',component:AltaDuenioComponent,canActivate: [PerfilGuard]
+    path: 'alta/dueño',
+    component: AltaDuenioComponent,
+    canActivate: [PerfilGuard],
   },
   {
-    path: 'spinner',component:SpinnerComponent
+    path: 'spinner',
+    component: SpinnerComponent,
   },
   { path: 'alta/cliente', component: AltaClienteComponent },
+  { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
+  { path: 'alta/mesa', component: AltaMesaComponent },
+  { path: 'registroCliente', component: RegistroClienteComponent },
+  { path: 'lista/mesas', component: ListadoMesasComponent },
   {
     path: '',
     redirectTo: 'splash-animado',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '**',
     redirectTo: 'splash-animado',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

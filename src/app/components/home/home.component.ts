@@ -7,20 +7,22 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent  implements OnInit {
-
-  constructor(private usuarioService:UsuarioService,private router:Router) { }
+export class HomeComponent implements OnInit {
+  constructor(private usuarioService: UsuarioService, private router: Router) {}
 
   ngOnInit() {}
 
-  altaSupervisor(){
-    this.router.navigate(["alta/dueño"], { replaceUrl: true })
+  altaSupervisor() {
+    this.router.navigate(['alta/dueño'], { replaceUrl: true });
   }
-  altaCliente(){
-    this.router.navigate(["alta/cliente"], { replaceUrl: true })
+  altaMesa() {
+    this.router.navigate(['alta/mesa'], { replaceUrl: true });
+  }
+  verMesas() {
+    this.router.navigate(['lista/mesas'], { replaceUrl: true });
   }
 
-  salir(){
+  salir() {
     this.usuarioService.salir();
   }
 }

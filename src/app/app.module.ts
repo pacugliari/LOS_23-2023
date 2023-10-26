@@ -13,6 +13,12 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { HomeComponent } from './components/home/home.component';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { AltaClienteAnonimoComponent } from './components/alta-cliente-anonimo/alta-cliente-anonimo.component';
+import { RegistroClienteComponent } from './components/registro-cliente/registro-cliente.component';
+import { AltaMesaComponent } from './components/alta-mesa/alta-mesa.component';
+import { ListadoMesasComponent } from './components/listado-mesas/listado-mesas.component';
+
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -23,18 +29,24 @@ import { Vibration } from '@ionic-native/vibration/ngx';
     SpinnerComponent,
     HomeComponent,
     AltaClienteComponent,
+    AltaClienteAnonimoComponent,
+    RegistroClienteComponent,
+    AltaMesaComponent,
+    ListadoMesasComponent,
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    BrowserModule, 
-    IonicModule.forRoot(), 
-    AppRoutingModule ,
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    QRCodeModule,
   ],
   providers: [
     BarcodeScanner,
     Vibration,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

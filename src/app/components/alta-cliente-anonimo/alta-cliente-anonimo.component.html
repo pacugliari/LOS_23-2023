@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Alta de Cliente</ion-title>
+    <ion-title>Alta de Cliente Anonimo</ion-title>
     <ion-buttons slot="start">
       <ion-button color="dark" routerLink="/login">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
@@ -31,51 +31,12 @@
               </div>
 
               <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%">
-                <ion-label position="fixed">Usuario</ion-label>
-                <ion-input
-                  type="text"
-                  formControlName="usuario"
-                  name="usuario"
-                  [class]="isValidField('usuario')"
-                ></ion-input>
-              </ion-item>
-              <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%">
-                <ion-label position="fixed">Clave</ion-label>
-                <ion-input
-                  type="password"
-                  formControlName="clave"
-                  name="clave"
-                  [class]="isValidField('clave')"
-                ></ion-input>
-              </ion-item>
-
-              <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%">
                 <ion-label position="fixed">Nombre</ion-label>
                 <ion-input
                   type="text"
                   formControlName="nombre"
                   name="nombre"
                   [class]="isValidField('nombre')"
-                ></ion-input>
-              </ion-item>
-
-              <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%">
-                <ion-label position="fixed">Apellido</ion-label>
-                <ion-input
-                  type="text"
-                  formControlName="apellido"
-                  name="apellido"
-                  [class]="isValidField('apellido')"
-                ></ion-input>
-              </ion-item>
-
-              <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%">
-                <ion-label position="fixed">DNI</ion-label>
-                <ion-input
-                  type="number"
-                  formControlName="dni"
-                  name="dni"
-                  [class]="isValidField('dni')"
                 ></ion-input>
               </ion-item>
 

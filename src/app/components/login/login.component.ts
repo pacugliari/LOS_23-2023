@@ -75,7 +75,7 @@ export class LoginComponent  implements OnInit {
   }
 
   registroCliente(){
-    alert("implementar el registro de cliente-beta")
+    this.router.navigate(['registroCliente'], { replaceUrl: true });
   }
 
 

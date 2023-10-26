@@ -13,15 +13,16 @@ import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
-  selector: 'app-alta-cliente',
-  templateUrl: './alta-cliente.component.html',
-  styleUrls: ['./alta-cliente.component.scss'],
+  selector: 'app-alta-cliente-anonimo',
+  templateUrl: './alta-cliente-anonimo.component.html',
+  styleUrls: ['./alta-cliente-anonimo.component.scss'],
 })
-export class AltaClienteComponent {
+export class AltaClienteAnonimoComponent {
   scannedBarCode: any;
   imageElement: any = '../../../assets/usuario.png';
   foto: boolean = false;
   public cargando: boolean = false;
+  public registroAnonimo: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private barcodeScanner: BarcodeScanner,
@@ -32,41 +33,38 @@ export class AltaClienteComponent {
   ) {}
 
   form = this.formBuilder.group({
-    usuario: ['', [Validators.required]],
-    clave: ['', [Validators.required]],
     nombre: ['', [Validators.required]],
-    apellido: ['', [Validators.required]],
-    dni: ['', [Validators.required]],
   });
 
   ngOnInit() {}
-
+  toggleRegistroAnonimo() {
+    this.registroAnonimo = !this.registroAnonimo;
+  }
   async registrar() {
     this.cargando = true;
     let registroCorrecto = false;
 
-    if (this.form.valid && this.foto) {
+    if (this.form.get('nombre')?.valid && this.foto) {
       let fotoUrl = await this.storageService.guardarFoto(
         this.imageElement,
-        'clientes'
+        'clientesAnonimos'
       );
       let data = {
-        usuario: this.form.value.usuario,
-        clave: this.form.value.clave,
+        usuario: 'anonimo',
+        clave: 'anonimo',
         nombre: this.form.value.nombre,
-        apellido: this.form.value.apellido,
-        dni: this.form.value.dni,
         foto: fotoUrl,
       };
-
-      await this.firestoreService.guardar(data, 'clientes');
+      await this.firestoreService.guardar(data, 'clientesAnonimos');
       await this.mensajesService.mostrar(
         '',
-        'El cliente fue creado correctamente',
+        'Registro anónimo completado',
         'success'
       );
       registroCorrecto = true;
-    } else if (!this.foto && this.form.valid) {
+      localStorage.setItem('usuario', JSON.stringify(data));
+
+    } else if (!this.foto && this.form.get('nombre')?.valid) {
       await this.mensajesService.mostrar(
         'ERROR',
         'Falta tomar la foto',
@@ -75,13 +73,15 @@ export class AltaClienteComponent {
     } else {
       await this.mensajesService.mostrar(
         'ERROR',
-        'Verifique que esten todos los campos completos',
+        'Verifique que estén todos los campos completos',
         'error'
       );
     }
+
     this.cargando = false;
-    if (registroCorrecto) {
-      this.router.navigate(['login'], { replaceUrl: true });
+    if (registroCorrecto) {      
+      this.router.navigate(['home'], { replaceUrl: true }); 
+      // CAMBIAR POR LUGAR DONDE HACE PEDIDOS
     }
   }
 
@@ -106,12 +106,8 @@ export class AltaClienteComponent {
         let data = userQR.split('@');
         if (!isNaN(Number(data[4]))) {
           this.form.get('nombre')?.setValue(data[2]);
-          this.form.get('apellido')?.setValue(data[1]);
-          this.form.get('dni')?.setValue(data[4]);
         } else {
           this.form.get('nombre')?.setValue(data[5]);
-          this.form.get('apellido')?.setValue(data[4]);
-          this.form.get('dni')?.setValue(data[1].trim());
         }
       })
       .catch((err) => {

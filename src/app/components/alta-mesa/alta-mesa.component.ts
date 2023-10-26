@@ -6,25 +6,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
-  selector: 'app-alta-cliente',
-  templateUrl: './alta-cliente.component.html',
-  styleUrls: ['./alta-cliente.component.scss'],
+  selector: 'app-alta-mesa',
+  templateUrl: './alta-mesa.component.html',
+  styleUrls: ['./alta-mesa.component.scss'],
 })
-export class AltaClienteComponent {
+export class AltaMesaComponent implements OnInit {
   scannedBarCode: any;
-  imageElement: any = '../../../assets/usuario.png';
+  imageElement: any = '../../../assets/mesa.jpg';
   foto: boolean = false;
   public cargando: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
-    private barcodeScanner: BarcodeScanner,
     private mensajesService: MensajeService,
     private storageService: StorageService,
     private firestoreService: FirestoreService,
@@ -32,11 +30,9 @@ export class AltaClienteComponent {
   ) {}
 
   form = this.formBuilder.group({
-    usuario: ['', [Validators.required]],
-    clave: ['', [Validators.required]],
-    nombre: ['', [Validators.required]],
-    apellido: ['', [Validators.required]],
-    dni: ['', [Validators.required]],
+    comensalesMesa: ['', [Validators.required]],
+    tipoMesa: ['', [Validators.required]],
+    numeroMesa: ['', [Validators.required]],
   });
 
   ngOnInit() {}
@@ -44,25 +40,23 @@ export class AltaClienteComponent {
   async registrar() {
     this.cargando = true;
     let registroCorrecto = false;
-
+    console.log(this.form);
     if (this.form.valid && this.foto) {
       let fotoUrl = await this.storageService.guardarFoto(
         this.imageElement,
-        'clientes'
+        'mesas'
       );
       let data = {
-        usuario: this.form.value.usuario,
-        clave: this.form.value.clave,
-        nombre: this.form.value.nombre,
-        apellido: this.form.value.apellido,
-        dni: this.form.value.dni,
+        comensalesMesa: this.form.value.comensalesMesa,
+        tipoMesa: this.form.value.tipoMesa,
+        numeroMesa: this.form.value.numeroMesa,
         foto: fotoUrl,
       };
 
-      await this.firestoreService.guardar(data, 'clientes');
+      await this.firestoreService.guardar(data, 'mesas');
       await this.mensajesService.mostrar(
         '',
-        'El cliente fue creado correctamente',
+        'Mesa creada correctamente',
         'success'
       );
       registroCorrecto = true;
@@ -81,7 +75,7 @@ export class AltaClienteComponent {
     }
     this.cargando = false;
     if (registroCorrecto) {
-      this.router.navigate(['login'], { replaceUrl: true });
+      this.router.navigate(['home'], { replaceUrl: true });
     }
   }
 
@@ -95,32 +89,6 @@ export class AltaClienteComponent {
     });
     this.foto = true;
     this.imageElement = image.dataUrl;
-  }
-
-  leerDocumento() {
-    this.barcodeScanner
-      .scan({ formats: 'PDF_417' })
-      .then((res) => {
-        this.scannedBarCode = res;
-        let userQR = this.scannedBarCode['text'];
-        let data = userQR.split('@');
-        if (!isNaN(Number(data[4]))) {
-          this.form.get('nombre')?.setValue(data[2]);
-          this.form.get('apellido')?.setValue(data[1]);
-          this.form.get('dni')?.setValue(data[4]);
-        } else {
-          this.form.get('nombre')?.setValue(data[5]);
-          this.form.get('apellido')?.setValue(data[4]);
-          this.form.get('dni')?.setValue(data[1].trim());
-        }
-      })
-      .catch((err) => {
-        this.mensajesService.mostrar(
-          'ERROR',
-          'Error al leer el QR del documento',
-          'error'
-        );
-      });
   }
 
   isValidField(field: string): string {
