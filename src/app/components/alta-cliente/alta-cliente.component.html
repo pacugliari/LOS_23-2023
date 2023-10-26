@@ -1,78 +1,115 @@
-<ion-content [style.visibility]="content_visibility" class="container">
-  <div class="alta-cliente-form">
-    <h2>Alta de Cliente</h2>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form" class="formulario">
-      <div class="form-group">
-        <label for="clienteName">Nombre del Cliente:</label>
-        <input
-          type="text"
-          id="clienteName"
-          placeholder="Nombre"
-          formControlName="clienteName"
-        />
-        <div *ngIf="form.controls['clienteName'].errors != null">
-          <small
-            class="invalid"
-            *ngIf="
-              form.controls['clienteName'].errors!['required'] &&
-              form.controls['clienteName'].touched
-            "
-            >Debe ingresar el nombre del Cliente..</small
-          >
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="anonimo">¿Anónimo?</label>
-        <input type="checkbox" id="anonimo" formControlName="esAnonimo" />
-      </div>
-      <div class="form-group" *ngIf="!form.controls['esAnonimo'].value">
-        <label for="clienteLastName">Apellido del Cliente:</label>
-        <input
-          type="text"
-          id="clienteLastName"
-          placeholder="Apellido"
-          formControlName="clienteLastName"
-        />
-        <div *ngIf="form.controls['clienteLastName'].errors != null">
-          <small
-            class="invalid"
-            *ngIf="
-              form.controls['clienteLastName'].errors!['required'] &&
-              form.controls['clienteLastName'].touched
-            "
-            >Debe ingresar el apellido del Cliente..</small
-          >
-        </div>
-      </div>
-      <div class="form-group" *ngIf="!form.controls['esAnonimo'].value">
-        <label for="clienteDni">Dni del Cliente:</label>
-        <input
-          type="text"
-          id="clienteDni"
-          placeholder="Dni"
-          formControlName="clienteDni"
-        />
-        <div *ngIf="form.controls['clienteDni'].errors != null">
-          <small
-            class="invalid"
-            *ngIf="
-              form.controls['clienteDni'].errors!['required'] &&
-              form.controls['clienteDni'].touched
-            "
-            >Debe ingresar el dni del Cliente..</small
-          >
-        </div>
-      </div>
-      <button type="submit" class="ion-margin">Guardar Cliente</button>
-      <ion-button expand="block" class="ion-margin" (click)="leerDocumento()">
-        Scan QR Code
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Alta de Cliente</ion-title>
+    <ion-buttons slot="start">
+      <ion-button color="dark" routerLink="/login">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
-    </form>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <ion-item *ngIf="scannedResult">
-      <ion-label class="ion-text-wrap"
-        >Scanned Result: {{ scannedResult }}</ion-label
-      >
-    </ion-item>
-  </div>
+<ion-content *ngIf="!cargando">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row color="primary">
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center></div>
+          <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+            <ion-card class="auth-card ion-margin">
+              <div
+                class="ion-align-items-center"
+                style="background-color: #fefae0; margin-top: 5vh"
+              >
+                <div>
+                  <img
+                    [src]="imageElement"
+                    class="m-1"
+                    style="border-radius: 50%; width: 120px; height: 120px"
+                  />
+                </div>
+              </div>
+
+              <ion-item style="width: 80%;margin-left: 10%;margin-top: 5%;">
+                <ion-label position="fixed" >Usuario</ion-label>
+                <ion-input type="text" formControlName="usuario" name="usuario" [class]="isValidField('usuario')" ></ion-input> 
+              </ion-item>
+              <ion-item style="width: 80%;margin-left: 10%;margin-top: 5%;">
+                <ion-label position="fixed" >Clave</ion-label>
+                <ion-input type="password" formControlName="clave" name="clave" [class]="isValidField('clave')" ></ion-input> 
+              </ion-item>
+
+              <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%">
+                <ion-label position="fixed">Nombre</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="nombre"
+                  name="nombre"
+                  [class]="isValidField('nombre')"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item
+                style="width: 80%; margin-left: 10%; margin-top: 5%"
+                *ngIf="!registroAnonimo"
+              >
+                <ion-label position="fixed">Apellido</ion-label>
+                <ion-input
+                  type="text"
+                  formControlName="apellido"
+                  name="apellido"
+                  [class]="isValidField('apellido')"
+                ></ion-input>
+              </ion-item>
+
+              <ion-item
+                style="width: 80%; margin-left: 10%; margin-top: 5%"
+                *ngIf="!registroAnonimo"
+              >
+                <ion-label position="fixed">DNI</ion-label>
+                <ion-input
+                  type="number"
+                  formControlName="dni"
+                  name="dni"
+                  [class]="isValidField('dni')"
+                ></ion-input>
+              </ion-item>
+
+              <ion-button (click)="toggleRegistroAnonimo()">
+                {{ registroAnonimo ? "Registro Anónimo" : "Registro Normal" }}
+              </ion-button>
+              <br />
+            </ion-card>
+          </div>
+          <div padding>
+            <div padding>
+              <ion-button
+                class="ion-margin-start ion-margin-end ion-margin-bottom"
+                size="large"
+                style="margin-left: 25%; width: 50%"
+                (click)="registrar()"
+                >Confirmar</ion-button
+              >
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="tomarFoto()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="leerDocumento()">
+      <ion-icon name="qr-code-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>

@@ -1,0 +1,49 @@
+<ion-header style="background-color: #FEFAE0">
+
+  <h1 style="text-align: center;  margin-top: 10px;font-size: 170%;">Inicio de sesión</h1>
+
+</ion-header>
+
+
+<ion-content [fullscreen]="true" padding *ngIf="!cargando">
+    <img src="../../../assets/splash/icono.png" alt="" height="auto" width="90%" style="margin-left: 5%;">
+    <div id="container" >
+    
+      <form novalidate (ngSubmit)="onLogin()" [formGroup]="userForm">
+        <div style="background-color: #FEFAE0;width: 90%;margin-left: 5vw;border-radius: 5%;margin-top: 40vh;">
+          <br>
+          <ion-item style="width: 80%;margin-left: 10%;margin-top: 5%;" >
+            <ion-label position="fixed" >Usuario</ion-label>
+            <ion-input class="closed" type="text" formControlName="usuario" [class]="isValidField('usuario')"></ion-input> 
+          </ion-item>
+    
+      
+          <ion-item style="width: 80%;margin-left: 10%;margin-top: 5%" >
+            <ion-label position="fixed">Clave</ion-label>
+           <ion-input type="password" formControlName="clave" [class]="isValidField('clave')" ></ion-input> 
+          </ion-item>
+    
+          <ion-button *ngIf="!mostrar"  style="width: 80%;margin-left: 10%;margin-top: 5%;--background:#D0A933" expand="block" (click)=onLogin() class=" btnLogin animate__animated  animate__backInLeft ">Iniciar Sesión</ion-button>
+          <ion-button  *ngIf="!mostrar" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="accesoAnonimo()" class=" btnLogin animate__animated  animate__backInLeft ">Inicio anonimo</ion-button>
+          <ion-button  *ngIf="!mostrar" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="registroCliente()" class=" btnLogin animate__animated  animate__backInLeft ">Registrarse</ion-button>
+
+
+          <ion-button *ngIf="mostrar"  style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="selecCuenta('duenio')" class=" btnLogin animate__animated  animate__backInLeft ">Dueño</ion-button>
+          <ion-button  *ngIf="mostrar" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="selecCuenta('supervisor')" class=" btnLogin animate__animated  animate__backInLeft ">Supervisor</ion-button>
+          <br>
+        </div>
+      </form>
+    </div>
+</ion-content>
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>
+
+
+<head>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/>
+</head>

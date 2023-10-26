@@ -14,6 +14,7 @@ if (environment.production) {
   enableProdMode();
 }
 
+// Your web app's Firebase configuration
 export const firebaseConfig = {
   apiKey: "AIzaSyCKXVttkbcP0I3KU1JrxlY1nhkikTW-WFY",
   authDomain: "los-23-2023.firebaseapp.com",

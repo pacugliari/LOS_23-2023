@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-//import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { MensajeService } from 'src/app/services/mensaje.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { Camera, CameraResultType , CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-alta-cliente',
@@ -10,126 +18,147 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
   styleUrls: ['./alta-cliente.component.scss'],
 })
 export class AltaClienteComponent {
-  clienteName: string = '';
-  clienteLastName: string = '';
-  clienteDni: number = -1;
-  esAnonimo: boolean = true;
-  form!: FormGroup;
-  checkError: boolean = false;
-  usandoQR: boolean = false;
-  errorMessage: string = '';
+  scannedBarCode: any;
+  imageElement: any = '../../../assets/usuario.png';
+  foto: boolean = false;
+  public cargando: boolean = false;
+  public registroAnonimo: boolean = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private barcodeScanner: BarcodeScanner,
+    private mensajesService: MensajeService,
+    private storageService: StorageService,
+    private firestoreService: FirestoreService,
+    private router: Router
+  ) {}
 
-  scannedBarCode?: any;
-  qrCodeString = 'This is a secret qr code message';
-  scannedResult: any;
-  content_visibility = '';
+  form = this.formBuilder.group({
+    nombre: ['', [Validators.required]],
+    apellido: ['',[Validators.required]],
+    dni: ['',[Validators.required]],
+  });
 
-  constructor(private barcodeScanner: BarcodeScanner) {} //private authService: AuthService
-
-  ngOnInit(): void {
-    this.form = new FormGroup({
-      clienteName: new FormControl('', [Validators.required]),
-      clienteLastName: new FormControl('', [Validators.required]),
-      clienteDni: new FormControl('', [Validators.required]),
-      esAnonimo: new FormControl(true),
-    });
+  ngOnInit() {}
+  toggleRegistroAnonimo() {
+    this.registroAnonimo = !this.registroAnonimo;
   }
+  async registrar() {
+    this.cargando = true;
+    let registroCorrecto = false;
 
-  // async checkPermission():Promise<boolean | undefined>{
-  //   try {
-  //     // check or request permission
-  //     const status = await BarcodeScanner.checkPermission({ force: true });
-  //     if (status.granted) {
-  //       // the user granted permission
-  //       return true;
-  //     }
-  //     return false;
-  //   } catch(e) {
-  //     console.log(e);
-      
-  //     return false;
-  //   }
-  // }
-  leerDocumento() {
-    this.barcodeScanner.scan({ formats: "PDF_417" }).then((res:any) => {
-      this.scannedBarCode = res;
-      let userQR = this.scannedBarCode["text"]
-      let data = userQR.split("@");
-      if (!(isNaN(Number(data[4])))) {
-        this.form.get("nombre")?.setValue(data[2]);
-        this.form.get("apellido")?.setValue(data[1]);
-        this.form.get("dni")?.setValue(data[4]);
+    if (this.registroAnonimo) {
+      if (this.form.get('nombre')?.valid && this.foto) {
+        let fotoUrl = await this.storageService.guardarFoto(
+          this.imageElement,
+          'clientesAnonimos'
+        );
+        let data = {
+          nombre: this.form.value.nombre,
+          foto: fotoUrl,
+        };
+        await this.firestoreService.guardar(data, 'clientesAnonimos');
+        await this.mensajesService.mostrar(
+          '',
+          'Registro anónimo completado',
+          'success'
+        );
+        registroCorrecto = true;
+      } else if (!this.foto && this.form.get('nombre')?.valid) {
+        await this.mensajesService.mostrar(
+          'ERROR',
+          'Falta tomar la foto',
+          'error'
+        );
       } else {
-        this.form.get("nombre")?.setValue(data[5]);
-        this.form.get("apellido")?.setValue(data[4]);
-        this.form.get("dni")?.setValue(data[1].trim());
+        await this.mensajesService.mostrar(
+          'ERROR',
+          'Verifique que estén todos los campos completos',
+          'error'
+        );
       }
-    }).catch((err:any) => {
-      console.log(err);
-      //this.mensajesService.mostrar("ERROR","Error al leer el QR del documento","error");
-    });
+    }else if (this.form.valid && this.foto) {
+      let fotoUrl = await this.storageService.guardarFoto(
+        this.imageElement,
+        'clientes'
+      );
+      let data = {
+        nombre: this.form.value.nombre,
+        apellido: this.form.value.apellido,
+        dni: this.form.value.dni,
+        foto: fotoUrl,
+      };
+
+      await this.firestoreService.guardar(data, 'clientes');
+      await this.mensajesService.mostrar(
+        '',
+        'El cliente fue creado correctamente',
+        'success'
+      );
+      registroCorrecto = true;
+    } else if (!this.foto && this.form.valid) {
+      await this.mensajesService.mostrar(
+        'ERROR',
+        'Falta tomar la foto',
+        'error'
+      );
+    } else {
+      await this.mensajesService.mostrar(
+        'ERROR',
+        'Verifique que esten todos los campos completos',
+        'error'
+      );
+    }
+    this.cargando = false;
+    if (registroCorrecto) {
+      this.router.navigate(['login'], { replaceUrl: true });
+    }
   }
 
-  // stopScan() {
-  //   BarcodeScanner.showBackground();
-  //   BarcodeScanner.stopScan();
-  //   document.querySelector('body')?.classList.remove('scanner-active');
-  //   this.content_visibility = '';
-  // }
+  async tomarFoto() {
+    const image = await Camera.getPhoto({
+       quality: 50,
+       allowEditing: false,
+       resultType: CameraResultType.DataUrl,
+       source: CameraSource.Camera,
+       webUseInput: true,
+ 
+     });
+     this.foto = true;
+     this.imageElement = image.dataUrl;
+   }
 
-  onSubmit() {
-    //   if (this.form.valid && this.selectedCountry != null) {
-    //    // console.log(this.form.controls);
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'Alta de cliente exitosa',
-    //       text: 'cliente agregado',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     })
-    //       .then(async () => {
-    //         let pais = '';
-    //         if (this.selectedCountry != null) {
-    //           pais = this.selectedCountry.name;
-    //         } else {
-    //           pais = this.form.controls['selectedCountry'].value;
-    //         }
-    //         const cliente = new cliente(
-    //           this.form.controls['clienteName'].value,
-    //           this.form.controls['clienteLastName'].value,
-    //           this.form.controls['clienteEdad'].value,
-    //           pais
-    //         );
-    //         const x = await this.authService.guardarclienteBD(cliente);
-    //         if (x) {
-    //           this.form.reset();
-    //         } else {
-    //           Swal.fire({
-    //             icon: 'error',
-    //             title: 'Error al agregar el cliente',
-    //             text: this.errorMessage,
-    //             timer: 4000,
-    //           });
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         this.errorMessage = error.message;
-    //         Swal.fire({
-    //           icon: 'error',
-    //           title: 'Error al agregar xd  el cliente',
-    //           text: this.errorMessage,
-    //           timer: 4000,
-    //         });
-    //       });
-    //   } else {
-    //     Swal.fire({
-    //       icon: 'error',
-    //       title: 'Error complete los datos!!',
-    //       timer: 2500,
-    //     });
-    //   }
+  leerDocumento() {
+    this.barcodeScanner
+      .scan({ formats: 'PDF_417' })
+      .then((res) => {
+        this.scannedBarCode = res;
+        let userQR = this.scannedBarCode['text'];
+        let data = userQR.split('@');
+        if (!isNaN(Number(data[4]))) {
+          this.form.get('nombre')?.setValue(data[2]);
+          this.form.get('apellido')?.setValue(data[1]);
+          this.form.get('dni')?.setValue(data[4]);
+        } else {
+          this.form.get('nombre')?.setValue(data[5]);
+          this.form.get('apellido')?.setValue(data[4]);
+          this.form.get('dni')?.setValue(data[1].trim());
+        }
+      })
+      .catch((err) => {
+        this.mensajesService.mostrar(
+          'ERROR',
+          'Error al leer el QR del documento',
+          'error'
+        );
+      });
   }
-//   ngOnDestroy(): void {
-//     this.stopScan();
-// }
+
+  isValidField(field: string): string {
+    const validateField = this.form?.get(field);
+    return !validateField?.valid && validateField?.touched
+      ? 'is-invalid'
+      : validateField?.touched
+      ? 'is-valid'
+      : '';
+  }
 }
