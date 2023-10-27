@@ -25,37 +25,42 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+body.scanner-active {
+  --background: transparent;
+  --ion-background-color: transparent;
+}
 
 .test {
-    display: inline-block;
-    padding: 20px;
+  display: inline-block;
+  padding: 20px;
+}
+.spinner-circle {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  margin: 20px;
+}
+.spinner {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  border: 5px solid #d0a933;
+  animation: rotate--spinner 1.6s linear infinite;
+  box-sizing: border-box;
+}
+.icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+}
+
+@keyframes rotate--spinner {
+  from {
+    transform: rotate(0);
   }
-  .spinner-circle {
-    width: 50px;
-    height: 50px;
-    position: relative;
-    margin: 20px;
+  to {
+    transform: rotate(360deg);
   }
-  .spinner {
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    border: 5px solid #D0A933;
-    animation: rotate--spinner 1.6s linear infinite;
-    box-sizing: border-box;
-  }
-  .icon {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%,-50%);
-    font-size: 50px;
-  }
-  
-  @keyframes rotate--spinner {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+}

@@ -1,5 +1,6 @@
 ion-toolbar {
   text-align: center;
+  color: #000;
 }
 
 ion-toolbar,
@@ -11,6 +12,7 @@ ion-input,
 ion-content,
 ion-item {
   --background: #faedcd;
+  color: #000;
 }
 
 ion-fab-button,
@@ -21,4 +23,8 @@ ion-button {
 ion-img {
   border-radius: 15px;
   object-fit: cover;
+}
+
+ion-content {
+  color: #000;
 }
