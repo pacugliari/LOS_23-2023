@@ -1,0 +1,25 @@
+ion-toolbar {
+    text-align: center;
+  }
+  
+  ion-toolbar,
+  ion-card {
+    --background: #fefae0;
+  }
+  
+  ion-input,
+  ion-content,
+  ion-item {
+    --background: #faedcd;
+  }
+  
+  ion-fab-button,
+  ion-button {
+    --background: #d0a933;
+  }
+  
+  ion-img {
+    border-radius: 15px;
+    object-fit: cover;
+  }
+  

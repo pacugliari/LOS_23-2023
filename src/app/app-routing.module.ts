@@ -1,22 +1,76 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-
+import { SplashComponent } from './components/splash/splash.component';
+import { LoginComponent } from './components/login/login.component';
+import { AltaDuenioComponent } from './components/alta-duenio/alta-duenio.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { HomeComponent } from './components/home/home.component';
+import { PerfilGuard } from './guards/perfil.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { AltaClienteComponent } from './components/alta-cliente/alta-cliente.component';
+import { RegistroClienteComponent } from './components/registro-cliente/registro-cliente.component';
+import { AltaClienteAnonimoComponent } from './components/alta-cliente-anonimo/alta-cliente-anonimo.component';
+import { AltaMesaComponent } from './components/alta-mesa/alta-mesa.component';
+import { ListadoMesasComponent } from './components/listado-mesas/listado-mesas.component';
+import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
+import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
+import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
+import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 const routes: Routes = [
   {
+    path: 'splash-animado',
+    component: SplashComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'alta/dueño',
+    component: AltaDuenioComponent,
+    canActivate: [PerfilGuard],
+  },
+  
+  {
+    path: 'spinner',
+    component: SpinnerComponent,
+  },
+
+  { path: 'alta/cliente', component: AltaClienteComponent },
+  { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
+  { path: 'alta/mesa', component: AltaMesaComponent },
+  { path: 'registroCliente', component: RegistroClienteComponent },
+  { path: 'lista/mesas', component: ListadoMesasComponent },
+  { path: 'listado/productos', component: ListadoProductosComponent },
+  { path: 'homeEmpleado', component: HomeEmpleadoComponent },
+  
+  {
+    path: 'alta-empleados',component:AltaEmpleadosComponent
+  },
+  {
+    path: 'alta-productos',component:AltaProductosComponent
   },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    redirectTo: 'splash-animado',
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: 'splash-animado',
+    pathMatch: 'full',
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

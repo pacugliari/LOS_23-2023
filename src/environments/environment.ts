@@ -15,13 +15,5 @@ export const environment = {
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
-// Your web app's Firebase configuration
-export const firebaseConfig = {
-  apiKey: "AIzaSyCKXVttkbcP0I3KU1JrxlY1nhkikTW-WFY",
-  authDomain: "los-23-2023.firebaseapp.com",
-  projectId: "los-23-2023",
-  storageBucket: "los-23-2023.appspot.com",
-  messagingSenderId: "832581136910",
-  appId: "1:832581136910:web:60d075b06f1c32230d025f"
-};
+
 
