@@ -46,8 +46,8 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 | Integrante | Branch | Tareas | Estado tarea | Completo |
 |------------|--------|--------|--------------|----------|
 | Alfa       | Alfa   |Alta de dueño/supervisor,Splash Animado,Login | Asignado   |✔️
-| Beta       | Beta   |Alta de clientes,Alta de Mesa,Icono| Asignado     |❌
-| Gamma      | Gamma  |Alta de productos,Alta de empleados| Asignado     |❌
+| Beta       | Beta   |Alta de clientes,Alta de Mesa,Icono| Asignado     |✔️
+| Gamma      | Gamma  |Alta de productos,Alta de empleados| Asignado     |✔️
 
 ### Semana 2 
 - Fecha de inicio: 28/10/2023 
