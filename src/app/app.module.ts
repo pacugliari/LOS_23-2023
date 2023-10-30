@@ -19,6 +19,10 @@ import { AltaMesaComponent } from './components/alta-mesa/alta-mesa.component';
 import { ListadoMesasComponent } from './components/listado-mesas/listado-mesas.component';
 
 import { QRCodeModule } from 'angularx-qrcode';
+import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
+import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
+import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
+import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 
 @NgModule({
   declarations: [
@@ -28,10 +32,14 @@ import { QRCodeModule } from 'angularx-qrcode';
     AltaDuenioComponent,
     SpinnerComponent,
     HomeComponent,
+    ListadoProductosComponent,
     AltaClienteComponent,
+    AltaProductosComponent,
+    AltaEmpleadosComponent,
     AltaClienteAnonimoComponent,
     RegistroClienteComponent,
     AltaMesaComponent,
+    HomeEmpleadoComponent,
     ListadoMesasComponent,
   ],
   imports: [

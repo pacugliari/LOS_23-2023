@@ -12,6 +12,10 @@ import { RegistroClienteComponent } from './components/registro-cliente/registro
 import { AltaClienteAnonimoComponent } from './components/alta-cliente-anonimo/alta-cliente-anonimo.component';
 import { AltaMesaComponent } from './components/alta-mesa/alta-mesa.component';
 import { ListadoMesasComponent } from './components/listado-mesas/listado-mesas.component';
+import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
+import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
+import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
+import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 const routes: Routes = [
   {
     path: 'splash-animado',
@@ -31,15 +35,26 @@ const routes: Routes = [
     component: AltaDuenioComponent,
     canActivate: [PerfilGuard],
   },
+  
   {
     path: 'spinner',
     component: SpinnerComponent,
   },
+
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
   { path: 'alta/mesa', component: AltaMesaComponent },
   { path: 'registroCliente', component: RegistroClienteComponent },
   { path: 'lista/mesas', component: ListadoMesasComponent },
+  { path: 'listado/productos', component: ListadoProductosComponent },
+  { path: 'homeEmpleado', component: HomeEmpleadoComponent },
+  
+  {
+    path: 'alta-empleados',component:AltaEmpleadosComponent
+  },
+  {
+    path: 'alta-productos',component:AltaProductosComponent
+  },
   {
     path: '',
     redirectTo: 'splash-animado',

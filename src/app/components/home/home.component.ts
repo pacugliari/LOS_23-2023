@@ -18,6 +18,9 @@ export class HomeComponent implements OnInit {
   altaMesa() {
     this.router.navigate(['alta/mesa'], { replaceUrl: true });
   }
+  altaEmpleados() {
+    this.router.navigate(['alta-empleados'], { replaceUrl: true });
+  }
   verMesas() {
     this.router.navigate(['lista/mesas'], { replaceUrl: true });
   }

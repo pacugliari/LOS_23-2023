@@ -1,0 +1,61 @@
+/* Centra el texto en la barra de herramientas */
+ion-toolbar {
+    text-align: center;
+  }
+  
+  /* Estilos generales para la barra de herramientas y las tarjetas */
+  ion-toolbar, ion-card {
+    --background: #FEFAE0;
+  }
+  
+  /* Estilos para entradas de texto, contenido y elementos de lista */
+  ion-input, ion-content, ion-item {
+    --background: #FAEDCD;
+  }
+  
+  /* Estilos para botones de acción flotante y botones */
+  ion-fab-button, ion-button {
+    --background: #D0A933;
+  }
+  .photo-upload-container {
+    background-color: #FEFAE0;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-group {
+    margin: 10px 0;
+  }
+  
+  label {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  input[type="file"] {
+    display: none;
+  }
+  
+  input[type="file"] + label::before {
+    content: "Seleccionar Foto";
+    background-color: #D0A933;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  input[type="file"] + label::before:hover {
+    background-color: #FFC300;
+  }
+  
+  /* Estilos para imágenes */
+  ion-img {
+    border-radius: 15px;
+    object-fit: cover;
+  }
+  

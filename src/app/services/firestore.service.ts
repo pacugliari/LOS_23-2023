@@ -37,4 +37,16 @@ export class FirestoreService {
     });
     return actores;
   }
+  public async traerProductosBd() {
+    const productosCollection = collection(firestore, 'productos');
+    const query = await getDocs(productosCollection);
+    const productos = query.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    return productos; // Cambia el nombre del arreglo a 'producto'
+  }
+  
 }

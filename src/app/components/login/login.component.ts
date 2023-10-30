@@ -35,22 +35,26 @@ export class LoginComponent  implements OnInit {
   }
 
 
-  async onLogin() {
-    this.cargando = true;
-    this.usuario.usuario =this.userForm.value.usuario ? this.userForm.value.usuario : "";
-    this.usuario.clave = this.userForm.value.clave  ? this.userForm.value.clave : "";
-    this.userForm.reset();
+async onLogin() {
+  this.cargando = true;
+  this.usuario.usuario = this.userForm.value.usuario ? this.userForm.value.usuario : "";
+  this.usuario.clave = this.userForm.value.clave ? this.userForm.value.clave : "";
+  this.userForm.reset();
 
-    let esValido = (await this.usuarioSrv.verificarUsuario(this.usuario));
-    this.cargando = false;
+  let esValido = await this.usuarioSrv.verificarUsuario(this.usuario);
+  this.cargando = false;
 
-    if(!esValido){
-      this.mensajesService.mostrar("ERROR","Usuario no autorizado","error")
-     }else{
+  if (!esValido) {
+    this.mensajesService.mostrar("ERROR", "Usuario no autorizado", "error");
+  } else {
+    if (this.usuario.usuario === "cocinero" || this.usuario.usuario === "bartender") {
+      this.router.navigate(['homeEmpleado'], { replaceUrl: true });
+    } else {
       this.router.navigate(['home'], { replaceUrl: true });
-     }
-     
     }
+  }
+}
+
 
     accesoAnonimo(){
       this.mostrar = !this.mostrar;
@@ -61,6 +65,14 @@ export class LoginComponent  implements OnInit {
     switch (cuenta) {
       case "duenio": {
         this.userForm?.setValue({usuario:'dueño',clave: "dueño"});
+        break;
+      }
+      case "cocinero": {
+        this.userForm?.setValue({usuario:'cocinero',clave: "cocinero"});
+        break;
+      }
+      case "bartender": {
+        this.userForm?.setValue({usuario:'bartender',clave: "bartender"});
         break;
       }
       case "supervisor": {
