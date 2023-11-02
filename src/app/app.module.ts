@@ -23,6 +23,9 @@ import { AltaProductosComponent } from './components/alta-productos/alta-product
 import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
+import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +44,11 @@ import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.
     AltaMesaComponent,
     HomeEmpleadoComponent,
     ListadoMesasComponent,
+    ClientesPendientesComponent,
+    HomeClienteComponent
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,

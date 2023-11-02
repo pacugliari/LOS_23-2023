@@ -16,6 +16,8 @@ import { AltaEmpleadosComponent } from './components/alta-empleados/alta-emplead
 import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
+import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
+import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 const routes: Routes = [
   {
     path: 'splash-animado',
@@ -33,14 +35,14 @@ const routes: Routes = [
   {
     path: 'alta/dueño',
     component: AltaDuenioComponent,
-    canActivate: [PerfilGuard],
+    //canActivate: [PerfilGuard],
   },
   
   {
     path: 'spinner',
     component: SpinnerComponent,
   },
-
+  { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
   { path: 'alta/mesa', component: AltaMesaComponent },
@@ -48,7 +50,7 @@ const routes: Routes = [
   { path: 'lista/mesas', component: ListadoMesasComponent },
   { path: 'listado/productos', component: ListadoProductosComponent },
   { path: 'homeEmpleado', component: HomeEmpleadoComponent },
-  
+  { path: 'homeCliente', component: HomeClienteComponent },
   {
     path: 'alta-empleados',component:AltaEmpleadosComponent
   },

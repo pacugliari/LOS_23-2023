@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from 'src/main';
 
 @Injectable({
@@ -24,6 +24,19 @@ export class FirestoreService {
       array.push(data);
     });
     return array;
+  }
+
+  async modificar (data: any,ruta:string){
+    let retorno = false;
+    const usuarioRef = collection(firestore,ruta);
+      const documento = doc(usuarioRef,data.id)
+      await updateDoc(documento,data.data)
+        .then((respuesta)=>{
+          retorno = true;
+        })
+        .catch((error) => {
+      });
+      return retorno;
   }
 
   public async traerActoresBd() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -8,9 +9,16 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+  constructor(private usuarioService: UsuarioService, private router: Router,
+    private pushNotService:PushNotificationService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.pushNotService.escucharNotificaciones('clientes-pendientes');
+  }
+
+  clientesPendientes() {
+    this.router.navigate(['clientes-pendientes'], { replaceUrl: true });
+  }
 
   altaSupervisor() {
     this.router.navigate(['alta/dueño'], { replaceUrl: true });
@@ -25,7 +33,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['lista/mesas'], { replaceUrl: true });
   }
 
-  salir() {
+  async salir() {
+    await this.pushNotService.silenciarNotificaciones();
     this.usuarioService.salir();
+
   }
 }
