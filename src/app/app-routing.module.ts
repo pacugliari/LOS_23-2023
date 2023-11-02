@@ -19,6 +19,7 @@ import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
 import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
+import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 const routes: Routes = [
   {
     path: 'splash-animado',
@@ -45,6 +46,7 @@ const routes: Routes = [
   },
   
 
+  { path: 'anonimo/pendientes', component: AnonimoPendientesComponent },
   { path: 'home/anonimo', component: HomeAnonimoComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'graficos/supervisor', component:   GraficosSupervisorComponent },

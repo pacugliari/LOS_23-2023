@@ -80,7 +80,7 @@ export class AltaClienteAnonimoComponent {
 
     this.cargando = false;
     if (registroCorrecto) {      
-      this.router.navigate(['home-anonimo'], { replaceUrl: true }); 
+      this.router.navigate(['home/anonimo'], { replaceUrl: true }); 
       // CAMBIAR POR LUGAR DONDE HACE PEDIDOS
     }
   }

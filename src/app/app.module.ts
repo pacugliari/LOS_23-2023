@@ -26,6 +26,7 @@ import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
 import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
+import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.com
     AltaDuenioComponent,
     SpinnerComponent,
     HomeComponent,
+    AnonimoPendientesComponent,
     HomeAnonimoComponent,
     EncuestaSupervisorComponent,
     GraficosSupervisorComponent,
