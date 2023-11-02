@@ -23,6 +23,9 @@ import { AltaProductosComponent } from './components/alta-productos/alta-product
 import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
+import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
+import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.
     AltaDuenioComponent,
     SpinnerComponent,
     HomeComponent,
+    HomeAnonimoComponent,
+    EncuestaSupervisorComponent,
+    GraficosSupervisorComponent,
     ListadoProductosComponent,
     AltaClienteComponent,
     AltaProductosComponent,

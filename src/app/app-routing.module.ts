@@ -16,6 +16,9 @@ import { AltaEmpleadosComponent } from './components/alta-empleados/alta-emplead
 import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
+import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
+import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 const routes: Routes = [
   {
     path: 'splash-animado',
@@ -40,8 +43,12 @@ const routes: Routes = [
     path: 'spinner',
     component: SpinnerComponent,
   },
+  
 
+  { path: 'home/anonimo', component: HomeAnonimoComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
+  { path: 'graficos/supervisor', component:   GraficosSupervisorComponent },
+  { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
   { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
   { path: 'alta/mesa', component: AltaMesaComponent },
   { path: 'registroCliente', component: RegistroClienteComponent },
