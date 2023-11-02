@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content [fullscreen]="true" padding *ngIf="!cargando ">
     <ion-grid>
       <ion-row color="primary">
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
@@ -12,7 +12,7 @@
           </div>
           <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
             <ion-card  class="auth-card ion-margin">
-              <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
+              <ion-button (click)="atras()" style="width: 80%;margin-top: 5%;"> Atras </ion-button>
               <br><br>
             </ion-card>
           </div>
@@ -27,3 +27,14 @@
       </ion-row>
     </ion-grid>
 </ion-content>
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>
+
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  </head>

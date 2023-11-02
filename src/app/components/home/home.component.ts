@@ -10,9 +10,23 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class HomeComponent implements OnInit {
   constructor(private usuarioService: UsuarioService, private router: Router,
-    private pushNotService:PushNotificationService) {}
+    private pushNotService:PushNotificationService) {
+      
+    }
+
+    tipo : any = "";
 
   async ngOnInit() {
+    const usuario = this.usuarioService.getUsuarioLogueado();
+    switch(usuario.tipo){
+      case "duenio":
+        this.tipo = "dueño";
+        break;
+      case "supervisor":
+        this.tipo = "supervisor";
+        break;
+    }
+    
     await this.pushNotService.escucharNotificaciones('clientes-pendientes');
   }
 

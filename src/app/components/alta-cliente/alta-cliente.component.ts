@@ -39,6 +39,7 @@ export class AltaClienteComponent {
     nombre: ['', [Validators.required]],
     apellido: ['', [Validators.required]],
     dni: ['', [Validators.required]],
+    correo: ['', [Validators.required,Validators.email]],
   });
 
   ngOnInit() {}
@@ -56,11 +57,13 @@ export class AltaClienteComponent {
       let data = {
         usuario: this.form.value.usuario,
         clave: this.form.value.clave,
+        correo: this.form.value.correo,
         nombre: this.form.value.nombre,
         apellido: this.form.value.apellido,
         dni: this.form.value.dni,
         foto: fotoUrl,
         clientePendiente: true,
+        clienteRechazado: false,
         tipo: "cliente"
       };
 

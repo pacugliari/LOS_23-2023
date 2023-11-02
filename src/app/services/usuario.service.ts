@@ -9,28 +9,51 @@ import { MensajeService } from './mensaje.service';
 })
 export class UsuarioService {
 
+
   constructor(private firestoreService:FirestoreService,private router:Router,private mensaje: MensajeService) { }
 
   async verificarUsuario(usuario: Usuario) {
     let retorno = false;
-    let mostrarErrorCliente = false;
+
+    enum Errores {
+      clientePendiente,
+      clienteRechazado,
+      ok,
+      usuarioNoAutorizado
+    }
+    
+    let error : Errores = Errores.usuarioNoAutorizado;
+
     let usuarios = await this.firestoreService.obtener("usuarios");
     usuarios.forEach(async element => {
       if(element.data.usuario === usuario.usuario && element.data.clave === usuario.clave){
         if(element.data.tipo === "cliente" && element.data.clientePendiente){
-          mostrarErrorCliente = true;
+          error = Errores.clientePendiente
+        }else if (element.data.tipo === "cliente" && !element.data.clientePendiente && element.data.clienteRechazado){
+          error = Errores.clienteRechazado
         }else{
           localStorage.setItem("usuario",JSON.stringify(element.data))
+          error = Errores.ok
           retorno = true;
         }
       }
     });
 
-    if(!retorno && !mostrarErrorCliente){
-      await this.mensaje.mostrar("ERROR", "Usuario no autorizado", "error");
-    }else if (mostrarErrorCliente){
-      await this.mensaje.mostrar("ERROR","El cliente no se encuentra aprobado","error");
+    switch(+error){
+      case Errores.clienteRechazado:
+        await this.mensaje.mostrar("ERROR","El cliente fue rechazado","error");
+      break;
+      case Errores.ok:
+
+      break;
+      case Errores.clientePendiente:
+        await this.mensaje.mostrar("ERROR","El cliente no se encuentra aprobado","error");
+      break;
+      case Errores.usuarioNoAutorizado:
+        await this.mensaje.mostrar("ERROR", "Usuario no autorizado", "error");
+      break;
     }
+
     //console.log(retorno)
     return retorno;
   }
