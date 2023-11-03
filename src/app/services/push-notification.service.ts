@@ -35,26 +35,28 @@ export class PushNotificationService {
     });
   }
 
-  async generarToken(){
-    //Ocurre cuando el registro de las push notifications finaliza sin errores
-    await PushNotifications.addListener(
-      'registration',
-      async (token: Token) => {
-        localStorage.setItem("token",token.value)
-        console.log(token.value)
-      }
-    );
+  async generarToken(): Promise<string> {
+    return new Promise<string>(async (resolve,reject) => {
+      
+      await PushNotifications.addListener(
+        'registration',
+        async (token: Token) => {
+          //Acá deberiamos asociar el token a nuestro usario en nuestra bd
+          console.log('Registration token: ', token.value);
+          resolve(token.value)
+        }
+      );
+  
+      //Ocurre cuando el registro de las push notifications finaliza con errores
+      await PushNotifications.addListener('registrationError', (err) => {
+        console.error('Registration error: ', err.error);
+        reject(err)
+      });
 
-    //Ocurre cuando el registro de las push notifications finaliza con errores
-    await PushNotifications.addListener('registrationError', (err) => {
-      console.error('Registration error: ', err.error);
+      await PushNotifications.register();
     });
-    
-    await this.silenciarNotificaciones();
-    const token = localStorage.getItem("token");
-    console.log(token)
-    return token;
   }
+  
 
   async escucharNotificaciones(ruta:any){
     //Ocurre cuando el dispositivo recive una notificacion push
@@ -105,12 +107,12 @@ export class PushNotificationService {
       }
     );
 
-    if (this.platform.is('capacitor') ) {//&& token
+    /*if (this.platform.is('capacitor') ) {//&& token
       const result = await PushNotifications.requestPermissions();
       if (result.receive === 'granted') {
         await PushNotifications.register();
       }
-    }
+    }*/
   }
 
   async silenciarNotificaciones(){

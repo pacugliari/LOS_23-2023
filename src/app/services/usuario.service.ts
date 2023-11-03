@@ -3,6 +3,7 @@ import { Usuario } from '../models/usuario';
 import { FirestoreService } from './firestore.service';
 import { Router } from '@angular/router';
 import { MensajeService } from './mensaje.service';
+import { PushNotificationService } from './push-notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { MensajeService } from './mensaje.service';
 export class UsuarioService {
 
 
-  constructor(private firestoreService:FirestoreService,private router:Router,private mensaje: MensajeService) { }
+  constructor(private firestoreService:FirestoreService,private router:Router,private mensaje: MensajeService,private pushService:PushNotificationService) { }
 
   async verificarUsuario(usuario: Usuario) {
     let retorno = false;
@@ -25,19 +26,28 @@ export class UsuarioService {
     let error : Errores = Errores.usuarioNoAutorizado;
 
     let usuarios = await this.firestoreService.obtener("usuarios");
-    usuarios.forEach(async element => {
+    let usuarioValido : any = null;
+    usuarios.forEach(async (element :any)=> {
       if(element.data.usuario === usuario.usuario && element.data.clave === usuario.clave){
-        if(element.data.tipo === "cliente" && element.data.clientePendiente){
-          error = Errores.clientePendiente
-        }else if (element.data.tipo === "cliente" && !element.data.clientePendiente && element.data.clienteRechazado){
-          error = Errores.clienteRechazado
-        }else{
-          localStorage.setItem("usuario",JSON.stringify(element.data))
-          error = Errores.ok
-          retorno = true;
-        }
+        usuarioValido = element;
       }
     });
+
+    if(usuarioValido !== null){
+
+      if(usuarioValido.data.tipo === "cliente" && usuarioValido.data.clientePendiente){
+        error = Errores.clientePendiente
+      }else if (usuarioValido.data.tipo === "cliente" && !usuarioValido.data.clientePendiente && usuarioValido.data.clienteRechazado){
+        error = Errores.clienteRechazado
+      }else{
+        usuarioValido.data.tokenPush = await this.pushService.generarToken();
+        await this.firestoreService.modificar({id:usuarioValido.id,data:usuarioValido.data},"usuarios")
+        localStorage.setItem("usuario",JSON.stringify(usuarioValido.data))
+        error = Errores.ok
+        retorno = true;
+      }
+    }
+
 
     switch(+error){
       case Errores.clienteRechazado:

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { Usuario } from 'src/app/models/usuario';
 import { EmailService } from 'src/app/services/email.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -28,7 +29,8 @@ export class LoginComponent  implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private usuarioSrv: UsuarioService,
-    private emailService:EmailService
+    private emailService:EmailService,
+    private firestore:FirestoreService
   ) {
     
   }
@@ -38,6 +40,7 @@ export class LoginComponent  implements OnInit {
     /*this.emailService.enviarMail("los23.email@gmail.com","PROBANDO SERVICIO","PROBANDO SERVICIO").subscribe((resultado)=>{
       console.log(resultado);
     })*/
+
   }
 
 
