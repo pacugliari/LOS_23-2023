@@ -14,6 +14,11 @@ if (environment.production) {
   enableProdMode();
 }
 
+export const pushConfig = {
+  fcmUrl: 'https://fcm.googleapis.com/fcm/send',
+  fcmServerKey: 'AAAAwdmz8g4:APA91bHvWG6OBJm2EzLAUmDSfG4jrZQZv5DHGI95WYalZ-bM9oL0rF-6K-PZOPtg3VU3E6HMHu6DdQ3LvLrkyJ7zUgv-wlIrhKJJWAhLU3eTZViKMQHB9DZ3qZZk_QbuCUQbiLsVu2CF'
+}
+
 // Your web app's Firebase configuration
 export const firebaseConfig = {
   apiKey: "AIzaSyCKXVttkbcP0I3KU1JrxlY1nhkikTW-WFY",

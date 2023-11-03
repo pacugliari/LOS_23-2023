@@ -1,0 +1,77 @@
+/* Estilos para ion-header y ion-toolbar */
+ion-header {
+  ion-toolbar {
+    --background: #3880ff; /* Color de fondo */
+    color: #fff; /* Color del texto */
+  }
+
+  .back-button {
+    color: #fff; /* Color del botón de regreso */
+  }
+
+  ion-title {
+    font-size: 20px; /* Tamaño del título */
+  }
+}
+
+/* Estilos para ion-content */
+ion-content {
+  ion-grid {
+    background-color: #f4f4f4; /* Color de fondo del ion-grid */
+  }
+
+  ion-card {
+    background-color: #fff; /* Color de fondo de la tarjeta */
+    padding: 20px;
+    border-radius: 10px; /* Ajustar borde de la tarjeta */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra */
+  }
+
+  ion-item {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+
+  ion-textarea,
+  ion-input,
+  ion-label {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+
+  .photo-upload-container {
+    background-color: #f4f4f4;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-group {
+    margin: 10px 0;
+  }
+
+  label[for="foto1"],
+  label[for="foto2"],
+  label[for="foto3"] {
+    background-color: #D0A933;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  label[for="foto1"]:hover,
+  label[for="foto2"]:hover,
+  label[for="foto3"]:hover {
+    background-color: #FFC300;
+  }
+  
+  ion-button[type="submit"] {
+    margin-left: 25%;
+    width: 50%;
+  }
+}

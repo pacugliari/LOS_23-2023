@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Alta de Productos</ion-title>
+    <ion-buttons slot="start">
+      <ion-button color="dark" routerLink="/login">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="registrarProducto()">
+    <ion-grid>
+      <ion-row color="primary">
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <ion-card class="auth-card ion-margin">
+            
+            <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%;">
+              <ion-label position="fixed">Nombre del Producto</ion-label>
+              <ion-input type="text" formControlName="nombre" name="nombre"></ion-input>
+            </ion-item>
+            <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%;">
+              <ion-label position="fixed">Descripción</ion-label>
+              <ion-textarea formControlName="descripcion" name="descripcion"></ion-textarea>
+            </ion-item>
+            <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%;">
+              <ion-label position="fixed">Tiempo de Elaboración (minutos)</ion-label>
+              <ion-input type="number" formControlName="tiempo" name="tiempo"></ion-input>
+            </ion-item>
+            <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%;">
+              <ion-label position="fixed">Precio </ion-label>
+              <ion-input type="number" formControlName="precio" name="precio"></ion-input>
+            </ion-item>
+            <div class="photo-upload-container">
+              <div class="form-group">
+                
+                <button (click)="tomarFoto(0)" accept="image/*" capture="environment"> <label for="foto1">Foto 1</label></button>
+              </div>
+              <div class="form-group">
+              
+                <button (click)="tomarFoto(1)" accept="image/*" capture="environment"> <label for="foto2">Foto 2</label></button>
+              </div>
+              <div class="form-group">
+               
+                <button (click)="tomarFoto(2)" accept="image/*" capture="environment"> <label for="foto3">Foto 3</label></button>
+              </div>
+            </div>
+            
+            
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <!-- Botón "Registrar Producto" para guardar el producto -->
+    <ion-button class="ion-margin-start ion-margin-end ion-margin-bottom" size="large" style="margin-left: 25%;width: 50%;" type="submit">Registrar </ion-button>
+  </form>
+
+  <!-- Agrega la generación de código QR aquí -->
+
+</ion-content>

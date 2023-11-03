@@ -51,6 +51,8 @@ export class AltaMesaComponent implements OnInit {
         tipoMesa: this.form.value.tipoMesa,
         numeroMesa: this.form.value.numeroMesa,
         foto: fotoUrl,
+        estado: 'disponible',
+        clienteId :''
       };
 
       await this.firestoreService.guardar(data, 'mesas');

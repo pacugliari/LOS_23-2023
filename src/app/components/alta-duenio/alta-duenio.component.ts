@@ -7,6 +7,7 @@ import { StorageService } from 'src/app/services/storage.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Router } from '@angular/router';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 
 @Component({
   selector: 'app-alta-duenio',
@@ -23,7 +24,7 @@ export class AltaDuenioComponent  implements OnInit {
   constructor(private formBuilder:FormBuilder,private barcodeScanner: BarcodeScanner,
     private mensajesService:MensajeService,private storageService:StorageService,
     private firestoreService:FirestoreService,
-    private router: Router) {
+    private router: Router,private pushNotService:PushNotificationService) {
   }
 
   form = this.formBuilder.group({
@@ -44,6 +45,7 @@ export class AltaDuenioComponent  implements OnInit {
     this.cargando = true;
     let registroCorrecto = false;
     if(this.form.valid && this.seTomoFoto){
+      const token = await this.pushNotService.generarToken();
       let fotoUrl = await this.storageService.guardarFoto(this.imageElement,"usuarios");
       let data = {
         usuario: this.form.value.usuario,
@@ -54,6 +56,7 @@ export class AltaDuenioComponent  implements OnInit {
         dni: this.form.value.dni,
         cuil:this.form.value.cuil,
         foto: fotoUrl,
+        tokenPush:token
       }
 
       await this.firestoreService.guardar(data,"usuarios");

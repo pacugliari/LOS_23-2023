@@ -1,0 +1,17 @@
+<ion-content>
+  <ion-card *ngFor="let producto of productos">
+    <ng-container>
+      <qrcode
+        [qrdata]="producto.nombre"
+        [width]="256"
+        [errorCorrectionLevel]="'M'"
+      ></qrcode>
+    </ng-container>
+    <ion-card-content>
+      <h2>{{ producto.nombre}}</h2>
+      <p> descripcion: {{ producto.descripcion}}</p>
+      <p>precio: {{ producto.precio}}</p>
+      <p>tiempo: {{ producto.tiempo}}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
