@@ -60,6 +60,7 @@ export class AltaMesaComponent implements OnInit {
         'success'
       );
       registroCorrecto = true;
+      
     } else if (!this.foto && this.form.valid) {
       await this.mensajesService.mostrar(
         'ERROR',
