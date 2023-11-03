@@ -10,6 +10,9 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 - Beta: Milagros Luna
 - Gamma: Abril Uberti
 
+## Tablero y cronograma JIRA
+[https://los-23.atlassian.net/jira/software/projects/LOS23/boards/1](https://los-23.atlassian.net/jira/software/projects/LOS23/boards/1)
+
 ## Los perfiles de usuarios son:
 
 - dueño
@@ -28,11 +31,11 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 | Icono de la empresa | ✔️
 | Splash con animación (detallando apellidos y nombres de los integrantes del grupo) | ✔️
 | Sonidos, con posibilidad de desactivarlos desde la aplicación |❌
-| Despacho automático de correos electrónicos (desde cuenta 'empresarial', NO desde la cuenta de un particular) |❌
-| Push notification |❌
-| Spinners, con el logo de la empresa, en todas las esperas.  |❌
-| Vibraciones al detectarse un error |❌
-| Validación de datos, en todos los formularios |❌
+| Despacho automático de correos electrónicos (desde cuenta 'empresarial', NO desde la cuenta de un particular) |✔️
+| Push notification |✔️
+| Spinners, con el logo de la empresa, en todas las esperas.  |✔️
+| Vibraciones al detectarse un error |✔️
+| Validación de datos, en todos los formularios |✔️
 
 
 
@@ -55,9 +58,9 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 
 | Integrante | Branch | Tareas | Estado tarea | Completo |
 |------------|--------|--------|--------------|----------|
-| Alfa       | Alfa   |QR de ingreso al local,Encuesta Clientes| Asignado     |❌
-| Beta       | Beta   |QR de la mesa,Encuesta Empleados| Asignado     |❌
-| Gamma      | Gamma  |QR de propina,Encuesta Supervisor| Asignado     |❌
+| Alfa       | Alfa   |Agregar un nuevo cliente registrado - Agregar cliente nuevo (Push Notification)- Envio de email automatico | Asignado     |✔️
+| Beta       | Beta   |QR de la mesa-Ingresar al local-Ingreso al local(Push Notification)| Asignado     |✔️
+| Gamma      | Gamma  |QR de ingreso al local,Encuesta Clientes| Asignado     |✔️
 
 
 ### Semana 3
@@ -66,8 +69,8 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 
 | Integrante | Branch | Tareas Gestión | Estado tarea | Completo |
 |------------|--------|--------|--------------|----------|
-| Alfa       | Alfa   |Agregar un nuevo cliente registrado-Ingresar al local| Asignado     |❌
-| Beta       | Beta   |Realizar pedidos (platos y bebidas)-Confirmar pedidos| Asignado     |❌
+| Alfa       | Alfa   |QR de propina,Encuesta Supervisor| Asignado     |❌
+| Beta       | Beta   |Realizar pedidos (platos y bebidas)-Confirmar pedidos-Encuesta Empleados| Asignado     |❌
 | Gamma      | Gamma  |Generar reservas agendadas| Asignado     |❌
 
 
@@ -77,8 +80,8 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 
 | Integrante | Branch | Tareas Push Notification| Estado tarea | Completo |
 |------------|--------|--------|--------------|----------|
-| Alfa       | Alfa   |Agregar cliente nuevo-Ingreso al local| Asignado     |❌
-| Beta       | Beta   |Consultar al mozo-Confirmar pedido (por parte del mozo)| Asignado     |❌
+| Alfa       | Alfa   |Consultar al mozo| Asignado     |❌
+| Beta       | Beta   |Confirmar pedido (por parte del mozo)| Asignado     |❌
 | Gamma      | Gamma  |Confirmar realización del pedido (por parte del cocinero o bartender)-Generar reservas agendadas / Delivery| Asignado     |❌
 
 
@@ -95,6 +98,10 @@ La misma para su desarrollo,se ha utilizado Ionic , Angular y Firebase.
 
 ## Logo
 [<img src="https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/icono-app.png?raw=true" width="250"/>]()
+
+## QR Ingreso local
+[<img src="https://github.com/pacugliari/LOS_23-2023/blob/main/imagenesGit/QRIngresoLocal.jpeg?raw=true" width="250"/>]()
+
 
 ## Imagenes
 
