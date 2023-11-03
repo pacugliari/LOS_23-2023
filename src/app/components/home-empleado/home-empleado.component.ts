@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -7,10 +8,21 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './home-empleado.component.html',
   styleUrls: ['./home-empleado.component.scss'],
 })
-export class HomeEmpleadoComponent  implements OnInit {
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+export class HomeEmpleadoComponent implements OnInit {
+  private tipo: string = '';
+  constructor(
+    private usuarioService: UsuarioService,
+    private router: Router,
+    private pushNotService: PushNotificationService
+  ) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    const usuario = this.usuarioService.getUsuarioLogueado();
+    if (usuario.tipo == 'metre') {
+      console.log('el metre esta escuchando');
+      await this.pushNotService.escucharNotificaciones('anonimo-pendientes');
+    }
+  }
 
   verProductos() {
     this.router.navigate(['listado/productos'], { replaceUrl: true });

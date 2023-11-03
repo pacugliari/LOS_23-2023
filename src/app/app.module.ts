@@ -56,7 +56,7 @@ import { GraficoClientesComponent } from './components/grafico-clientes/grafico-
     HomeEmpleadoComponent,
     ListadoMesasComponent,
     ClientesPendientesComponent,
-    HomeClienteComponent
+    HomeClienteComponent,
   ],
   imports: [
     HttpClientModule,

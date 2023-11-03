@@ -51,7 +51,7 @@ const routes: Routes = [
   },
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'home/anonimo', component: HomeAnonimoComponent },
-  { path: 'anonimo/pendientes', component: AnonimoPendientesComponent },
+  { path: 'anonimo-pendientes', component: AnonimoPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'graficos/supervisor', component:   GraficosSupervisorComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },

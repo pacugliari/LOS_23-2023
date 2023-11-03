@@ -51,6 +51,8 @@ export class AltaMesaComponent implements OnInit {
         tipoMesa: this.form.value.tipoMesa,
         numeroMesa: this.form.value.numeroMesa,
         foto: fotoUrl,
+        estado: 'disponible',
+        clienteId :''
       };
 
       await this.firestoreService.guardar(data, 'mesas');
@@ -60,6 +62,7 @@ export class AltaMesaComponent implements OnInit {
         'success'
       );
       registroCorrecto = true;
+      
     } else if (!this.foto && this.form.valid) {
       await this.mensajesService.mostrar(
         'ERROR',
