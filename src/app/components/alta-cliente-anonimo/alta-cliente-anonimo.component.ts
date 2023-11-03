@@ -47,15 +47,18 @@ export class AltaClienteAnonimoComponent {
     if (this.form.get('nombre')?.valid && this.foto) {
       let fotoUrl = await this.storageService.guardarFoto(
         this.imageElement,
-        'clientesAnonimos'
+        'usuarios'
       );
       let data = {
         usuario: 'anonimo',
         clave: 'anonimo',
         nombre: this.form.value.nombre,
+        tipo: 'anonimo',
         foto: fotoUrl,
+        clientePendiente: true,
+        clienteRechazado: false,
       };
-      await this.firestoreService.guardar(data, 'clientesAnonimos');
+      await this.firestoreService.guardar(data, 'usuarios');
       await this.mensajesService.mostrar(
         '',
         'Registro anónimo completado',
@@ -80,7 +83,7 @@ export class AltaClienteAnonimoComponent {
 
     this.cargando = false;
     if (registroCorrecto) {      
-      this.router.navigate(['home'], { replaceUrl: true }); 
+      this.router.navigate(['home/anonimo'], { replaceUrl: true }); 
       // CAMBIAR POR LUGAR DONDE HACE PEDIDOS
     }
   }

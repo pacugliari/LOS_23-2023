@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Vibration } from '@ionic-native/vibration/ngx';
 import { Usuario } from 'src/app/models/usuario';
 import { EmailService } from 'src/app/services/email.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -60,7 +57,9 @@ async onLogin() {
       this.router.navigate(['homeEmpleado'], { replaceUrl: true });
     }else if (usuarioLogueado.tipo === "duenio" || usuarioLogueado.tipo === "supervisor"){
       this.router.navigate(['home'], { replaceUrl: true });
-    }else if (usuarioLogueado.tipo === "cliente"){
+    }else if (usuarioLogueado.tipo === "metre" ){
+      this.router.navigate(['anonimo/pendientes'], { replaceUrl: true });
+    }else if (usuarioLogueado.tipo === "cliente" ){
       this.router.navigate(['homeCliente'], { replaceUrl: true });
     }
   }
@@ -84,6 +83,10 @@ async onLogin() {
       }
       case "bartender": {
         this.userForm?.setValue({usuario:'bartender',clave: "bartender"});
+        break;
+      }
+      case "metre": {
+        this.userForm?.setValue({usuario:'metre',clave: "metre"});
         break;
       }
       case "supervisor": {

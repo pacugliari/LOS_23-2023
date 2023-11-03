@@ -1,12 +1,33 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { doc, collection, addDoc, getDocs, updateDoc, DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { firestore } from 'src/main';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService {
+  encuestasCollection = collection(firestore, 'encuestas');
+
+  
+  async obtenerEncuestas(): Promise<any[]> {
+    const querySnapshot = await getDocs(this.encuestasCollection);
+    const encuestas: any[] = [];
+
+    querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+      encuestas.push({
+        id: doc.id,
+        data: doc.data(),
+      });
+    });
+
+    return encuestas;
+  }
+
+  collection(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor() {}
+  
 
   guardar(data: any, ruta: string) {
     const colRef = collection(firestore, ruta);

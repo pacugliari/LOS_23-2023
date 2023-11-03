@@ -26,6 +26,26 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+<!--
+    <ion-title>Clientes pendientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding *ngIf="!cargando">
+  <ion-card *ngFor="let cliente of clientesPendientes" (click)="verCliente(cliente)">
+    <ion-card-header>
+      <ion-card-title>{{ cliente.data.nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ cliente.data.apellido }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-avatar slot="start">
+        <img [src]="cliente.data.foto" />
+      </ion-avatar>
+      <ion-label>Información adicional del cliente, si es necesaria</ion-label>
+    </ion-card-content>
+  </ion-card>
+>>>>>>> gamma-->
 </ion-content>
 
 <ng-template [ngIf]="cargando">
@@ -37,4 +57,4 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />
-  </head>
+</head>

@@ -34,6 +34,7 @@
     "@ionic-native/vibration": "^5.36.0",
     "@ionic/angular": "^7.0.0",
     "angularx-qrcode": "^16.0.2",
+    "chart.js": "^4.4.0",
     "firebase": "^10.5.0",
     "ionicons": "^7.0.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",
