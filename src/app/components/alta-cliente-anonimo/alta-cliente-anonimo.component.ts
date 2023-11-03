@@ -47,15 +47,18 @@ export class AltaClienteAnonimoComponent {
     if (this.form.get('nombre')?.valid && this.foto) {
       let fotoUrl = await this.storageService.guardarFoto(
         this.imageElement,
-        'clientesAnonimos'
+        'usuarios'
       );
       let data = {
         usuario: 'anonimo',
         clave: 'anonimo',
         nombre: this.form.value.nombre,
+        tipo: 'anonimo',
         foto: fotoUrl,
+        clientePendiente: true,
+        clienteRechazado: false,
       };
-      await this.firestoreService.guardar(data, 'clientesAnonimos');
+      await this.firestoreService.guardar(data, 'usuarios');
       await this.mensajesService.mostrar(
         '',
         'Registro anónimo completado',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -8,9 +9,30 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+  constructor(private usuarioService: UsuarioService, private router: Router,
+    private pushNotService:PushNotificationService) {
+      
+    }
 
-  ngOnInit() {}
+    tipo : any = "";
+
+  async ngOnInit() {
+    const usuario = this.usuarioService.getUsuarioLogueado();
+    switch(usuario.tipo){
+      case "duenio":
+        this.tipo = "dueño";
+        break;
+      case "supervisor":
+        this.tipo = "supervisor";
+        break;
+    }
+    
+    await this.pushNotService.escucharNotificaciones('clientes-pendientes');
+  }
+
+  clientesPendientes() {
+    this.router.navigate(['clientes-pendientes'], { replaceUrl: true });
+  }
 
   altaSupervisor() {
     this.router.navigate(['alta/dueño'], { replaceUrl: true });
@@ -25,7 +47,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['lista/mesas'], { replaceUrl: true });
   }
 
-  salir() {
+  async salir() {
+    this.router.navigate(['login'], { replaceUrl: true });
+    await this.pushNotService.silenciarNotificaciones();
     this.usuarioService.salir();
+
   }
 }

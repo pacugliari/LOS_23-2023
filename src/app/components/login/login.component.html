@@ -24,13 +24,14 @@
           </ion-item>
     
           <ion-button *ngIf="!mostrar"  style="width: 80%;margin-left: 10%;margin-top: 5%;--background:#D0A933" expand="block" (click)=onLogin() class=" btnLogin animate__animated  animate__backInLeft ">Iniciar Sesión</ion-button>
-          <ion-button  *ngIf="!mostrar" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="accesoAnonimo()" class=" btnLogin animate__animated  animate__backInLeft ">Inicio anonimo</ion-button>
+          <ion-button  *ngIf="!mostrar" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="accesoAnonimo()" class=" btnLogin animate__animated  animate__backInLeft ">Inicio rapido</ion-button>
           <ion-button  *ngIf="!mostrar" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="registroCliente()" class=" btnLogin animate__animated  animate__backInLeft ">Registrarse</ion-button>
 
 
           <ion-button *ngIf="mostrar"  style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="selecCuenta('duenio')" class=" btnLogin animate__animated  animate__backInLeft ">Dueño</ion-button>
           <ion-button  *ngIf="mostrar" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="selecCuenta('supervisor')" class=" btnLogin animate__animated  animate__backInLeft ">Supervisor</ion-button>
           <ion-button *ngIf="mostrar"  style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="selecCuenta('cocinero')" class=" btnLogin animate__animated  animate__backInLeft ">Cocinero</ion-button>
+          <ion-button *ngIf="mostrar"  style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="selecCuenta('metre')" class=" btnLogin animate__animated  animate__backInLeft ">Metre</ion-button>
           <ion-button *ngIf="mostrar"  style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%;--background:#D0A933" expand="block" (click)="selecCuenta('bartender')" class=" btnLogin animate__animated  animate__backInLeft ">Bartender</ion-button>
           <br>
         </div>

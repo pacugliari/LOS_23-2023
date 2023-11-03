@@ -4,6 +4,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { FormBuilder } from '@angular/forms';
 
@@ -17,12 +18,12 @@ export class HomeAnonimoComponent  implements OnInit {
   scannedBarCode: any;
 
 
-  constructor(private usuarioService: UsuarioService,  formBuilder:FormBuilder,private barcodeScanner: BarcodeScanner,
+  constructor(private usuarioService: UsuarioService,  formBuilder:FormBuilder,private barcodeScanner: BarcodeScanner,private pushNotService: PushNotificationService,
     private mensajesService:MensajeService,private storageService:StorageService,
     private firestoreService:FirestoreService,
     private router: Router){ }
 
-    leerDocumento() {
+    async leerDocumento() {
       this.barcodeScanner
         .scan({ formats: 'QR_CODE' })
         .then((res) => {
@@ -30,10 +31,10 @@ export class HomeAnonimoComponent  implements OnInit {
           let userQR = this.scannedBarCode['text'];
     
           if (userQR === 'Estasenlistadeespera') {
-            // Redirigir a la página 'anonimo-pendientes' después de leer con éxito el QR
-            this.router.navigate(['anonimo/pendientes']);
+           
+            this.mandarNotificacionPush();
           } else {
-            // Realizar alguna acción si el código QR no contiene 'Estasenlistadeespera'
+            this.mensajesService.mostrar('NO VALIDO', 'Primero debe estar en la lista de espera, escanee el qr del local', 'error');
           }
         })
         .catch((err) => {
@@ -41,6 +42,31 @@ export class HomeAnonimoComponent  implements OnInit {
         });
     }
   
+    async mandarNotificacionPush() {
+      let metres = await this.firestoreService.obtener("usuarios");
+      metres = metres.filter((element) => {
+        return element.data.tipo === "metre";
+      });
+    
+      if (metres.length > 0) {
+        this.pushNotService.sendPushNotification({
+          registration_ids: metres.map((element) => element.data.tokenPush),
+          notification: {
+            title: 'Registro de nuevo cliente anonimo',
+            body: 'El cliente anónimo está esperando una mesa en la lista de espera.',
+          },
+        })
+        .subscribe((data) => {
+          console.log(data);
+        });
+      } else {
+        console.log('No se encontraron metres para enviar notificaciones.');
+      }
+    }
+
+
+
+
   salir() {
     this.usuarioService.salir();
   }

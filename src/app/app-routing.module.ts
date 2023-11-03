@@ -16,10 +16,14 @@ import { AltaEmpleadosComponent } from './components/alta-empleados/alta-emplead
 import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
-import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
+import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
+import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
+import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
+import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 const routes: Routes = [
   {
     path: 'splash-animado',
@@ -37,27 +41,30 @@ const routes: Routes = [
   {
     path: 'alta/dueño',
     component: AltaDuenioComponent,
-    canActivate: [PerfilGuard],
+    //canActivate: [PerfilGuard],
   },
   
   {
     path: 'spinner',
     component: SpinnerComponent,
   },
-  
 
-  { path: 'anonimo/pendientes', component: AnonimoPendientesComponent },
   { path: 'home/anonimo', component: HomeAnonimoComponent },
+  { path: 'anonimo/pendientes', component: AnonimoPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'graficos/supervisor', component:   GraficosSupervisorComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
+  
+  { path: 'grafico/clientes', component: GraficoClientesComponent },
+  { path: 'encuestas/clientes', component: EncuestasClientesComponent },
   { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
   { path: 'alta/mesa', component: AltaMesaComponent },
   { path: 'registroCliente', component: RegistroClienteComponent },
   { path: 'lista/mesas', component: ListadoMesasComponent },
   { path: 'listado/productos', component: ListadoProductosComponent },
   { path: 'homeEmpleado', component: HomeEmpleadoComponent },
-  
+  { path: 'clientes-pendientes', component: ClientesPendientesComponent },
+  { path: 'homeCliente', component: HomeClienteComponent },
   {
     path: 'alta-empleados',component:AltaEmpleadosComponent
   },

@@ -23,10 +23,15 @@ import { AltaProductosComponent } from './components/alta-productos/alta-product
 import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
-import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
-import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
-import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
+import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
+import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
+import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
+import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
+import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 
 @NgModule({
   declarations: [
@@ -42,15 +47,20 @@ import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anon
     GraficosSupervisorComponent,
     ListadoProductosComponent,
     AltaClienteComponent,
+    EncuestasClientesComponent,
     AltaProductosComponent,
     AltaEmpleadosComponent,
+    GraficoClientesComponent,
     AltaClienteAnonimoComponent,
     RegistroClienteComponent,
     AltaMesaComponent,
     HomeEmpleadoComponent,
     ListadoMesasComponent,
+    ClientesPendientesComponent,
+    HomeClienteComponent
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,

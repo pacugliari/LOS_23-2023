@@ -11,6 +11,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 
 @Component({
   selector: 'app-alta-cliente',
@@ -26,9 +27,10 @@ export class AltaClienteComponent {
     private formBuilder: FormBuilder,
     private barcodeScanner: BarcodeScanner,
     private mensajesService: MensajeService,
-    private storageService: StorageService,
     private firestoreService: FirestoreService,
-    private router: Router
+    private pushNotService: PushNotificationService,
+    private storageService: StorageService,
+    private router:Router
   ) {}
 
   form = this.formBuilder.group({
@@ -37,11 +39,13 @@ export class AltaClienteComponent {
     nombre: ['', [Validators.required]],
     apellido: ['', [Validators.required]],
     dni: ['', [Validators.required]],
+    correo: ['', [Validators.required,Validators.email]],
   });
 
   ngOnInit() {}
 
   async registrar() {
+    //this.mandarNotificacionPush({nombre:this.form.value.nombre,apellido:this.form.value.apellido});
     this.cargando = true;
     let registroCorrecto = false;
 
@@ -53,18 +57,23 @@ export class AltaClienteComponent {
       let data = {
         usuario: this.form.value.usuario,
         clave: this.form.value.clave,
+        correo: this.form.value.correo,
         nombre: this.form.value.nombre,
         apellido: this.form.value.apellido,
         dni: this.form.value.dni,
         foto: fotoUrl,
+        clientePendiente: true,
+        clienteRechazado: false,
+        tipo: "cliente"
       };
 
-      await this.firestoreService.guardar(data, 'clientes');
+      await this.firestoreService.guardar(data, 'usuarios');
       await this.mensajesService.mostrar(
         '',
         'El cliente fue creado correctamente',
         'success'
       );
+      this.mandarNotificacionPush({nombre:this.form.value.nombre,apellido:this.form.value.apellido});
       registroCorrecto = true;
     } else if (!this.foto && this.form.valid) {
       await this.mensajesService.mostrar(
@@ -130,5 +139,25 @@ export class AltaClienteComponent {
       : validateField?.touched
       ? 'is-valid'
       : '';
+  }
+
+  async mandarNotificacionPush(data:any){
+    let supervisores = await this.firestoreService.obtener("usuarios");
+    supervisores = supervisores.filter((element)=> {
+      return element.data.tipo === "duenio" || element.data.tipo === "supervisor"
+    })
+    //console.log(JSON.stringify(supervisores))
+
+    this.pushNotService.sendPushNotification({
+      registration_ids: supervisores.map((element)=> element.data.tokenPush),
+      notification: {
+        title: 'Registro de nuevo cliente',
+        body: data.nombre+','+data.apellido+' esta esperando que lo apruebes',
+      },
+    })
+    .subscribe((data) => {
+      console.log(data)
+    });
+
   }
 }

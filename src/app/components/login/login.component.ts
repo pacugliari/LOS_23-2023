@@ -3,7 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { Usuario } from 'src/app/models/usuario';
+import { EmailService } from 'src/app/services/email.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -26,13 +28,18 @@ export class LoginComponent  implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private usuarioSrv: UsuarioService,
-    private mensajesService:MensajeService
+    private emailService:EmailService
   ) {
     
   }
 
   async ngOnInit() {
+
+    /*this.emailService.enviarMail("los23.email@gmail.com","PROBANDO SERVICIO","PROBANDO SERVICIO").subscribe((resultado)=>{
+      console.log(resultado);
+    })*/
   }
+
 
 
 async onLogin() {
@@ -44,13 +51,16 @@ async onLogin() {
   let esValido = await this.usuarioSrv.verificarUsuario(this.usuario);
   this.cargando = false;
 
-  if (!esValido) {
-    this.mensajesService.mostrar("ERROR", "Usuario no autorizado", "error");
-  } else {
-    if (this.usuario.usuario === "cocinero" || this.usuario.usuario === "bartender") {
+  if (esValido){
+    const usuarioLogueado = this.usuarioSrv.getUsuarioLogueado();
+    if (usuarioLogueado.tipo === "cocinero" || usuarioLogueado.tipo === "bartender") {
       this.router.navigate(['homeEmpleado'], { replaceUrl: true });
-    } else {
+    }else if (usuarioLogueado.tipo === "duenio" || usuarioLogueado.tipo === "supervisor"){
       this.router.navigate(['home'], { replaceUrl: true });
+    }else if (usuarioLogueado.tipo === "metre" ){
+      this.router.navigate(['anonimo/pendientes'], { replaceUrl: true });
+    }else if (usuarioLogueado.tipo === "cliente" ){
+      this.router.navigate(['homeCliente'], { replaceUrl: true });
     }
   }
 }
@@ -75,6 +85,10 @@ async onLogin() {
         this.userForm?.setValue({usuario:'bartender',clave: "bartender"});
         break;
       }
+      case "metre": {
+        this.userForm?.setValue({usuario:'metre',clave: "metre"});
+        break;
+      }
       case "supervisor": {
         this.userForm?.setValue({usuario:'supervisor',clave: "supervisor"});
         break;
@@ -87,6 +101,7 @@ async onLogin() {
   }
 
   registroCliente(){
+    //this.router.navigate(['alta/dueño'], { replaceUrl: true });
     this.router.navigate(['registroCliente'], { replaceUrl: true });
   }
 
