@@ -53,13 +53,13 @@ async onLogin() {
 
   if (esValido){
     const usuarioLogueado = this.usuarioSrv.getUsuarioLogueado();
-    if (usuarioLogueado.tipo === "cocinero" || usuarioLogueado.tipo === "bartender") {
+    if (usuarioLogueado.data.tipo === "cocinero" || usuarioLogueado.data.tipo === "bartender") {
       this.router.navigate(['homeEmpleado'], { replaceUrl: true });
-    }else if (usuarioLogueado.tipo === "duenio" || usuarioLogueado.tipo === "supervisor"){
+    }else if (usuarioLogueado.data.tipo === "duenio" || usuarioLogueado.data.tipo === "supervisor"){
       this.router.navigate(['home'], { replaceUrl: true });
-    }else if (usuarioLogueado.tipo === "metre" ){
+    }else if (usuarioLogueado.data.tipo === "metre" ){
       this.router.navigate(['homeEmpleado'], { replaceUrl: true });
-    }else if (usuarioLogueado.tipo === "cliente" ){
+    }else if (usuarioLogueado.data.tipo === "cliente" ){
       this.router.navigate(['homeCliente'], { replaceUrl: true });
     }
   }

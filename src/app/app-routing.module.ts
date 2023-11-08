@@ -19,11 +19,11 @@ import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.
 import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
-import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
+import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 
 const routes: Routes = [
   {
@@ -50,7 +50,7 @@ const routes: Routes = [
     component: SpinnerComponent,
   },
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
-  { path: 'home/anonimo', component: HomeAnonimoComponent },
+  { path: 'listadoEncuestas', component: ListaEncuestasComponent },
   { path: 'anonimo-pendientes', component: AnonimoPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'graficos/supervisor', component:   GraficosSupervisorComponent },

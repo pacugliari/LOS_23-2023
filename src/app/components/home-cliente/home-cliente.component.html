@@ -3,6 +3,11 @@
     <ion-title >Home Clientes</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-fab vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab-button (click)="leerDocumento()">
+    <ion-icon name="qr-code-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 <ion-content >
     <ion-grid>
@@ -12,7 +17,12 @@
           </div>
           <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
             <ion-card  class="auth-card ion-margin">
-              <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
+              <ion-button *ngIf="usuario?.data?.estadoMesa === 'Vinculada'" style="width: 80%;margin-top: 5%;"> Carta </ion-button>
+              <ion-button *ngIf="usuario?.data?.estadoMesa === 'Vinculada'" style="width: 80%;margin-top: 5%;"> Chat Mozo </ion-button>
+              <ion-button *ngIf="usuario?.data?.estadoMesa === 'Vinculada'" style="width: 80%;margin-top: 5%;"> Juegos </ion-button>
+              <ion-button  (click)="irEncuestas()" style="width: 80%;margin-top: 5%;"> Encuestas </ion-button>
+              <ion-button *ngIf="usuario?.data?.estadoMesa === 'Vinculada'" style="width: 80%;margin-top: 5%;"> Pedir cuenta </ion-button>
+              <ion-button  (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
               <br><br>
             </ion-card>
           </div>

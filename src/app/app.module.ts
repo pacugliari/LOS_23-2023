@@ -24,13 +24,13 @@ import { ListadoProductosComponent } from './components/listado-productos/listad
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
-import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
+import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import { GraficoClientesComponent } from './components/grafico-clientes/grafico-
     SpinnerComponent,
     HomeComponent,
     AnonimoPendientesComponent,
-    HomeAnonimoComponent,
+    ListaEncuestasComponent,
     EncuestaSupervisorComponent,
     GraficosSupervisorComponent,
     ListadoProductosComponent,

@@ -42,7 +42,7 @@ export class UsuarioService {
       }else{
         usuarioValido.data.tokenPush = await this.pushService.generarToken();
         await this.firestoreService.modificar({id:usuarioValido.id,data:usuarioValido.data},"usuarios")
-        localStorage.setItem("usuario",JSON.stringify(usuarioValido.data))
+        localStorage.setItem("usuario",JSON.stringify({id:usuarioValido.id,data:usuarioValido.data}))
         error = Errores.ok
         retorno = true;
       }
