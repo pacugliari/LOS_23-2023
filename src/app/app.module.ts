@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -31,6 +31,8 @@ import { HomeClienteComponent } from './components/home-cliente/home-cliente.com
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
+import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
+import { DateFormatPipe } from './pipes/date-format.pipe';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encu
     ListadoMesasComponent,
     ClientesPendientesComponent,
     HomeClienteComponent,
+    ChatMozoComponent,
+    DateFormatPipe,
   ],
   imports: [
     HttpClientModule,

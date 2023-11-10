@@ -53,6 +53,10 @@ export class HomeClienteComponent implements OnInit {
     this.router.navigate(['listado/productos'], { replaceUrl: true });
   }
 
+  chatMozo() {
+    this.router.navigate(['chatMozo'], { replaceUrl: true });
+  }
+
   async mandarNotificacionPush() {
     let metres = await this.firestoreService.obtener('usuarios');
     metres = metres.filter((element) => {

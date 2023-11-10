@@ -24,6 +24,7 @@ import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anon
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
+import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,7 @@ const routes: Routes = [
   { path: 'registroCliente', component: RegistroClienteComponent },
   { path: 'lista/mesas', component: ListadoMesasComponent },
   { path: 'listado/productos', component: ListadoProductosComponent },
+  { path: 'chatMozo', component: ChatMozoComponent },
   { path: 'homeEmpleado', component: HomeEmpleadoComponent },
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'homeCliente', component: HomeClienteComponent },
