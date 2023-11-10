@@ -14,18 +14,19 @@ export class ListadoProductosComponent implements OnInit {
   public cargando: boolean = false;
   qrCodes: string[] = []; // Declaración de la propiedad qrCodes
 
-
   constructor(
     private firestoreService: FirestoreService,
     private router: Router,
     private mensajesService: MensajeService
-  ) {}
-
-  
+  ) {}  
 
   ngOnInit() {
     this.cargando = true;
     this.cargarProductos(); // Cambia el nombre de la función cargar
+  }
+
+  seleccionarProducto(){
+   // asignacion de productos al pedido de la mesa PUNTO 7 JIRA
   }
 
   async cargarProductos() { // Cambia el nombre de la función cargar

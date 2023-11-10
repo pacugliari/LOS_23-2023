@@ -55,7 +55,7 @@ export class AltaClienteAnonimoComponent {
 
       let data = {
         usuario: 'anonimo',
-        clave: 'anonimo',
+        clave: new Date().getTime().toString(),
         nombre: this.form.value.nombre,
         tipo: 'anonimo',
         foto: fotoUrl,
