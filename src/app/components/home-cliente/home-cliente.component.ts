@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { QRs } from 'src/app/models/QR';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -29,16 +29,28 @@ export class HomeClienteComponent implements OnInit {
     private mensajesService: MensajeService,
     private storageService: StorageService,
     private router: Router,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private route: ActivatedRoute
   ) {}
 
   scannedBarCode: any;
   mesas: any;
   usuario: any;
+  cargando : boolean = false;
 
   async ngOnInit() {
-    this.mesas = await this.firestoreService.obtener('mesas');
-    await this.actualizarUsuario();
+
+    this.route.url.subscribe(async() => {
+      this.cargando=true;
+      this.mesas = await this.firestoreService.obtener('mesas');
+      await this.actualizarUsuario();
+
+      setTimeout(()=>{
+        this.cargando=false;
+      },500)
+
+
+    });
   }
 
   async salir() {

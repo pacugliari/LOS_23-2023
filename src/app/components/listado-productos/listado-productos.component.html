@@ -1,18 +1,89 @@
-<ion-content>
-  <ion-card *ngFor="let producto of productos">
-    <ng-container>
-      <qrcode
-        [qrdata]="producto.nombre"
-        [width]="256"
-        [errorCorrectionLevel]="'M'"
-      ></qrcode>
-    </ng-container>
-    <ion-card-content>
-      <h2>{{ producto.nombre}}</h2>
-      <p> descripcion: {{ producto.descripcion}}</p>
-      <p>precio: {{ producto.precio}}</p>
-      <p>tiempo: {{ producto.tiempo}} minutos</p>
-    </ion-card-content>
-    <!-- <ion-button  (click)="seleccionarProducto()" style="width: 80%;margin-top: 5%;"> seleccionar </ion-button> -->
-  </ion-card>
+<ion-header *ngIf="!cargando">
+  <ion-toolbar >
+    <ion-title style="text-align: center;" >{{titulo}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button color="dark" [routerLink]="rutaBack"  *ngIf="!verPedido">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-button color="dark" (click)="verPedidos()" *ngIf="verPedido">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div style="background-color: #fefae0;padding: 1px 0;" *ngIf="!verPedido">
+    <h2 style="margin-left: 3%;background-color: #fefae0">Total: ${{total}}</h2>
+    <h2 style="margin-left: 3%;background-color: #fefae0">Tiempo: {{demora}} min</h2>
+  </div>
+  <div class="botones-fijos" style="background-color: #fefae0;" *ngIf="!verPedido">
+    <ion-button (click)="filtrarPorCategoria('comidas')">Comidas</ion-button>
+    <ion-button (click)="filtrarPorCategoria('bebidas')">Bebidas</ion-button>
+    <ion-button (click)="filtrarPorCategoria('postres')">Postres</ion-button>
+  </div>
+</ion-header>
+<ion-fab vertical="top" horizontal="end" slot="fixed" *ngIf="!verPedido">
+  <ion-button style="margin-top: 10vh;" (click)="verPedidos()"><ion-icon slot="icon-only" name="eye"></ion-icon></ion-button>
+</ion-fab>
+
+<ion-content *ngIf="!cargando">
+    <div *ngIf="!verPedido">
+      <ion-card *ngFor="let producto of productos" style="max-width: 70%;margin-left: 15%;">
+        <!--<ng-container>
+          <qrcode
+            [qrdata]="producto.nombre"
+            [width]="256"
+            [errorCorrectionLevel]="'M'"
+          ></qrcode>
+        </ng-container>-->
+        <ion-card-content >
+          <div class="foto-scroll">
+            <!-- Aquí deberías colocar el código para mostrar las tres fotos del producto -->
+            <img *ngFor="let fotoUrl of producto.fotos" [src]="fotoUrl" >
+          </div>
+          <ion-row>
+            <ion-col size="6">
+              <h1>{{ producto.nombre }}</h1>
+              <h2>{{ producto.descripcion }}</h2>
+              <h2>{{ producto.tiempo }} min - ${{ producto.precio }}</h2>
+            </ion-col>
+            <ion-col size="6" class="ion-text-center ion-align-items-center">
+              <ion-button (click)="agregar(producto)">
+                <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+        <!-- <ion-button  (click)="seleccionarProducto()" style="width: 80%;margin-top: 5%;"> seleccionar </ion-button> -->
+  
+      </ion-card>
+    </div >
+    
+    <div  *ngIf="verPedido">
+      <ion-card *ngFor="let item of carrito" style="max-width: 70%;margin-left: 15%;">
+        <ion-card-content >
+          <ion-row>
+            <ion-col size="12">
+              <ion-label>
+                <h2>{{ item.cantidad }}x {{ item.producto.nombre }}</h2>
+                <p>Precio unitario: ${{ item.producto.precio }}</p>
+                <p>Subtotal: ${{ item.producto.precio * item.cantidad }}</p>
+                <ion-button (click)="eliminar(item)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+  
+      </ion-card>
+    </div>
+    
 </ion-content>
+
+<ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="!verPedido">
+  <ion-button style="font-size: 20px;" (click)="realizarPedido()">Realizar pedido</ion-button>
+</ion-fab>
+
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>

@@ -4,6 +4,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { StorageService } from 'src/app/services/storage.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Router } from '@angular/router';
+import { MensajeService } from 'src/app/services/mensaje.service';
 
 @Component({
   selector: 'app-alta-productos',
@@ -20,13 +21,15 @@ export class AltaProductosComponent {
     private formBuilder: FormBuilder,
     private storageService: StorageService,
     private firestoreService: FirestoreService,
-    private router: Router
+    private router: Router,
+    private mensajes : MensajeService
   ) {
     this.form = this.formBuilder.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       tiempo: ['', Validators.required],
       precio: ['', Validators.required],
+      tipo: ['', Validators.required],
     });
   }
 
@@ -39,31 +42,37 @@ export class AltaProductosComponent {
       webUseInput: true,
     });
     this.imageElements[index] = image.dataUrl; // Almacena la imagen en el array
+    this.mensajes.mostrar("OK",`Foto ${index+1} tomada`,"success")
   }
+
+
 
   async registrarProducto() {
     this.cargando = true;
-
+    let fotos : any[] = [];
     if (this.form.valid && this.imageElements.every(img => img !== '')) {
+
+      for (let element of this.imageElements) {
+        if(element)
+          fotos.push(await this.storageService.guardarFoto(element, "productos"));
+      }
+      
       const data = {
         nombre: this.form.value.nombre,
-        descripcion: 'De carne', // Agrega la descripción deseada
-        tiempo: 45, // Agrega el tiempo deseado
-        precio: 3000, // Agrega el precio deseado
-        fotos: this.imageElements, // Almacena las URLs de las fotos en un array
+        descripcion: this.form.value.descripcion, // Agrega la descripción deseada
+        tiempo: this.form.value.tiempo, // Agrega el tiempo deseado
+        precio: this.form.value.precio, // Agrega el precio deseado
+        tipo: this.form.value.tipo,
+        fotos: fotos, // Almacena las URLs de las fotos en un array
       };
-
-      try {
-        await this.firestoreService.guardar(data, 'productos');
-        this.cargando = false;
-        this.router.navigate(['inicio'], { replaceUrl: true });
-      } catch (error) {
-        console.error(error);
-        this.cargando = false;
-      }
-    } else {
+      
+      await this.firestoreService.guardar(data, 'productos');
+      this.mensajes.mostrar("OK","Producto registrado","success")
       this.cargando = false;
-      console.error('Verifique que todos los campos estén completos y que haya tomado las tres fotos.');
+    } else {
+      this.mensajes.mostrar("ERROR","Faltan datos para registrar el producto","error")
     }
+    this.form.reset();
+
   }
 }
