@@ -162,8 +162,12 @@ export class HomeClienteComponent implements OnInit {
         if(pedidoBuscado.data.estado === "NoConfirmado"){
           this.mensajesService.mostrar('OK',`Su pedido esta siendo confirmado por un mozo`,'success'
           );
-        }else if(pedidoBuscado.data.estado === "Confirmado"){
+        }else if(pedidoBuscado.data.estado === "Confirmado" || pedidoBuscado.data.estado === "EnPreparacion"){
           this.mensajesService.mostrar('OK',`Su pedido esta siendo preparado`,'success');
+        }else if(pedidoBuscado.data.estado === "ListoEntrega"){
+          this.mensajesService.mostrar('OK',`Su pedido esta listo,el mozo se lo llevara a la mesa en un momento`,'success');
+        }else if(pedidoBuscado.data.estado === "Entregado"){
+          this.mensajesService.mostrar('OK',`Su pedido fue entregado`,'success');
         }else{
           this.mensajesService.mostrar('OK',`Ya puede realizar su pedido`,'success');
         }
