@@ -35,7 +35,7 @@
 
 <div *ngIf="!cargando && this.usuario.data.tipo==='cocinero'">
   <ion-card *ngFor="let pedido of pedidos">
-    <ion-card-content>
+    <ion-card-content *ngIf="pedido.data.estadoComidas !== 'Entregado' && pedido.data.estado !== 'NoConfirmado'">
       <table class="tabla-pedidos"> 
         <!-- Cabecera de la tabla -->
         <thead>
@@ -47,7 +47,7 @@
         </thead>
         <tbody>
         <ng-container >
-          <ng-container *ngIf="pedido.data.estadoComidas !== 'Entregado' && pedido.data.estado !== 'NoConfirmado'" >
+          <ng-container>
             <ng-container *ngFor="let pedidoDetalle of pedido.data.pedido">
               <tr *ngIf="pedidoDetalle.producto.tipo === 'comida' || pedidoDetalle.producto.tipo === 'postre'">
                 <td>
@@ -76,39 +76,39 @@
 </div>
 
 <div *ngIf="!cargando && this.usuario.data.tipo==='bartender'">
-  <ion-card>
-    <ion-card-content>
+  <ion-card  *ngFor="let pedido of pedidos">
+    <ion-card-content *ngIf="pedido.data.estadoBebidas !== 'Entregado' && pedido.data.estado !== 'NoConfirmado'">
       <table class="tabla-pedidos"> 
         <!-- Cabecera de la tabla -->
         <thead>
           <tr>
             <th >Cantidad</th>
             <th >Comida</th>
-            <th >Acciones</th>
           </tr>
         </thead>
     
         <!-- Cuerpo de la tabla con datos de ejemplo -->
         <tbody>
-          <tr *ngFor="let pedido of pedidos">
-            <ng-container *ngIf="pedido.data.estadoBebidas !== 'Entregado' && pedido.data.estado !== 'NoConfirmado'">
+          <ng-container >
+            <ng-container>
               <ng-container *ngFor="let pedidoDetalle of pedido.data.pedido">
-                <ng-container *ngIf="pedidoDetalle.producto.tipo === 'bebida'" >
-                  <td >
+                <tr *ngIf="pedidoDetalle.producto.tipo === 'bebida'">
+                  <td>
                     {{ pedidoDetalle.cantidad }}
                   </td>
                   <td>
                     {{ pedidoDetalle.producto.nombre }}
                   </td>
-                  <td>
-                    <!-- Aquí puedes agregar botones u otras acciones para cada pedido -->
-                    <ion-button *ngIf="pedido.data.estadoBebidas !== 'Confirmado' && pedido.data.estadoBebidas !== 'Entregado'"  (click)="confirmarBebida(pedido)">Confirmar</ion-button>
-                    <ion-button *ngIf="pedido.data.estadoBebidas === 'Confirmado'"  (click)="entregarBebida(pedido)">Entregar</ion-button>
-                  </td>
-                </ng-container>
+                </tr>
               </ng-container>
+              <tr>
+                <td colspan="3">
+                  <ion-button expand="full" *ngIf="pedido.data.estadoBebidas !== 'Confirmado' && pedido.data.estadoBebidas !== 'Entregado'"  (click)="confirmarBebida(pedido)">Confirmar</ion-button>
+                  <ion-button expand="full" *ngIf="pedido.data.estadoBebidas === 'Confirmado'"  (click)="entregarBebida(pedido)">Entregar</ion-button>
+                </td>
+              </tr>
             </ng-container>
-          </tr>
+          </ng-container>
         </tbody>
       </table>
       
