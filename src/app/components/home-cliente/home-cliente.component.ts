@@ -37,6 +37,7 @@ export class HomeClienteComponent implements OnInit {
   mesas: any;
   usuario: any;
   cargando : boolean = false;
+  estado = "";
 
   async ngOnInit() {
 
@@ -44,6 +45,7 @@ export class HomeClienteComponent implements OnInit {
       this.cargando=true;
       this.mesas = await this.firestoreService.obtener('mesas');
       await this.actualizarUsuario();
+
 
       setTimeout(()=>{
         this.cargando=false;
@@ -123,13 +125,7 @@ export class HomeClienteComponent implements OnInit {
       (usuario: any) => usuario.id === usuarioLog.id
     )[0];
 
-    console.log(JSON.stringify(this.usuario));
-
-    console.log(1);
-    if (
-      userQR === QRs.IngresoLocal &&
-      this.usuario?.data?.enListaEspera !== 'Espera'
-    ) {
+    if (userQR === QRs.IngresoLocal && this.usuario?.data?.enListaEspera !== 'Espera') {
       this.mensajesService.mostrar(
         'OK',
         'Ingresaste a la mesa de espera, debes esperar que un metre te asigne una mesa',
@@ -139,36 +135,38 @@ export class HomeClienteComponent implements OnInit {
       this.usuario.data.enListaEspera = 'Espera';
       this.usuario.data.estadoMesa = EstadoMesa.NoVinculada;
       await this.firestoreService.modificar(this.usuario, 'usuarios');
-      console.log(2);
-    } else if (
-      parametros[0] === QRs.Mesa &&
-      this.usuario?.data?.enListaEspera === 'Asignada'
-    ) {
+
+    } else if (parametros[0] === QRs.Mesa && this.usuario?.data?.enListaEspera === 'Asignada') {
       let idMesa = parametros[1];
       this.mesas = await this.firestoreService.obtener('mesas');
-      let aux = this.mesas.filter(
-        (mesa: any) => mesa.data.cliente.id === this.usuario.id
-      )[0];
-      console.log(3);
-      if (
-        aux.id === idMesa &&
-        this.usuario.data.estadoMesa === EstadoMesa.NoVinculada
-      ) {
+      let aux = this.mesas.filter((mesa: any) => mesa.data.cliente.id === this.usuario.id)[0];
+
+      if (aux.id === idMesa && this.usuario.data.estadoMesa === EstadoMesa.NoVinculada) {
         this.usuario.data.estadoMesa = EstadoMesa.Vinculada;
         await this.firestoreService.modificar(this.usuario, 'usuarios');
 
-        console.log(4);
         this.mensajesService.mostrar(
           'OK',
           'Mesa vinculada de manera correcta',
           'success'
         );
-      } else if (this.usuario.data.estadoMesa === EstadoMesa.Vinculada) {
-        this.mensajesService.mostrar(
-          'ERROR',
-          'Usted ya vinculo la mesa',
-          'error'
-        );
+      } else if (aux.id === idMesa && this.usuario.data.estadoMesa === EstadoMesa.Vinculada) {
+        let pedidos = await this.firestoreService.obtener("pedidos");
+        let pedidoBuscado :any;
+        pedidos.forEach((pedido : any)=>{
+          if(pedido.data.cliente.id === this.usuario.id){
+            pedidoBuscado = pedido
+          }
+        }) 
+        console.log(pedidoBuscado.data.estado)
+        if(pedidoBuscado.data.estado === "NoConfirmado"){
+          this.mensajesService.mostrar('OK',`Su pedido esta siendo confirmado por un mozo`,'success'
+          );
+        }else if(pedidoBuscado.data.estado === "Confirmado"){
+          this.mensajesService.mostrar('OK',`Su pedido esta siendo preparado`,'success');
+        }else{
+          this.mensajesService.mostrar('OK',`Ya puede realizar su pedido`,'success');
+        }
       } else {
         this.mensajesService.mostrar(
           'ERROR',

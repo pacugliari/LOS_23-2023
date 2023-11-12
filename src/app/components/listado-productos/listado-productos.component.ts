@@ -37,7 +37,8 @@ export class ListadoProductosComponent implements OnInit {
     let pedidos = await this.firestoreService.obtener("pedidos");
     pedidos.forEach((pedido : any)=>{
       if(pedido.data.cliente.id === this.usuario.id){
-        this.mensajes.mostrar("OK","hay un pedido","success")
+        this.router.navigate(['homeCliente'], { replaceUrl: true });
+        this.mensajes.mostrar("OK","Ya realizo el pedido","success")
       }
     }) 
     await this.cargarProductos(); 

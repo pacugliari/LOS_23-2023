@@ -18,6 +18,7 @@ export class HomeEmpleadoComponent implements OnInit {
   salaEspera:any;
   clienteSeleccionado:any;
   cargando : boolean = false;
+  usuario:any;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -28,10 +29,13 @@ export class HomeEmpleadoComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const usuario = this.usuarioService.getUsuarioLogueado();
-    if (usuario.data.tipo == 'metre') {
+    this.usuario = this.usuarioService.getUsuarioLogueado();
+    if (this.usuario.data.tipo == 'metre') {
       console.log('el metre esta escuchando');
       await this.pushNotService.escucharNotificaciones('anonimo-pendientes');
+    }else if(this.usuario.data.tipo == 'Mozo'){
+      this.indice = 4;
+      this.titulo = "Menu mozo"
     }
   }
 
@@ -53,6 +57,11 @@ export class HomeEmpleadoComponent implements OnInit {
   atras(){
     this.titulo = "Home"
     this.indice = 0;
+    
+    if(this.usuario.data.tipo == 'Mozo'){
+      this.indice = 4;
+      this.titulo = "Menu mozo"
+    }
 
   }
 
@@ -103,5 +112,10 @@ export class HomeEmpleadoComponent implements OnInit {
     }
 
     this.indice = 0;
+  }
+
+  administrarPedidos(){
+    this.indice = 5;
+    this.titulo = "Lista de pedidos"
   }
 }

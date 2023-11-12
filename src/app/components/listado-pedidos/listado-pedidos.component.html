@@ -1,0 +1,37 @@
+
+<div *ngIf="!cargando">
+  <ion-card>
+    <ion-card-content>
+      <table class="tabla-pedidos"> 
+        <!-- Cabecera de la tabla -->
+        <thead>
+          <tr>
+            <th >N° Mesa</th>
+            <th >Estado</th>
+            <th >Acciones</th>
+          </tr>
+        </thead>
+    
+        <!-- Cuerpo de la tabla con datos de ejemplo -->
+        <tbody>
+          <tr *ngFor="let pedido of pedidos">
+            <td>{{ pedido.mesa.data.numeroMesa }}</td>
+            <td>{{ pedido.data.estado }}</td>
+            <td>
+              <!-- Aquí puedes agregar botones u otras acciones para cada pedido -->
+              <ion-button *ngIf="pedido.data.estado === 'NoConfirmado'" (click)="confirmar(pedido)">Confirmar</ion-button>
+              
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </ion-card-content>
+  </ion-card>
+</div>
+
+
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>

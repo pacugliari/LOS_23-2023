@@ -53,12 +53,10 @@ async onLogin() {
 
   if (esValido){
     const usuarioLogueado = this.usuarioSrv.getUsuarioLogueado();
-    if (usuarioLogueado.data.tipo === "cocinero" || usuarioLogueado.data.tipo === "bartender") {
+    if (usuarioLogueado.data.tipo === "cocinero" || usuarioLogueado.data.tipo === "bartender" || usuarioLogueado.data.tipo === "metre"  || usuarioLogueado.data.tipo === "Mozo") {
       this.router.navigate(['homeEmpleado'], { replaceUrl: true });
     }else if (usuarioLogueado.data.tipo === "duenio" || usuarioLogueado.data.tipo === "supervisor"){
       this.router.navigate(['home'], { replaceUrl: true });
-    }else if (usuarioLogueado.data.tipo === "metre" ){
-      this.router.navigate(['homeEmpleado'], { replaceUrl: true });
     }else if (usuarioLogueado.data.tipo === "cliente" ){
       this.router.navigate(['homeCliente'], { replaceUrl: true });
     }
@@ -91,6 +89,10 @@ async onLogin() {
       }
       case "supervisor": {
         this.userForm?.setValue({usuario:'supervisor',clave: "supervisor"});
+        break;
+      }
+      case "mozo": {
+        this.userForm?.setValue({usuario:'mozo',clave: "mozo"});
         break;
       }
       default: {

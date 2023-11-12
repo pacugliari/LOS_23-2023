@@ -13,9 +13,11 @@
     <ion-grid>
       <ion-row color="primary">
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div text-center>
-          </div>
           <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+            <!--<ion-card  class="auth-card ion-margin">
+              <h2>Estado del pedido:</h2>
+              <h3>{{estado}}</h3>
+            </ion-card>-->
             <ion-card  class="auth-card ion-margin">
               <ion-button (click)="verProductos()" *ngIf="usuario?.data?.estadoMesa === 'Vinculada'" style="width: 80%;margin-top: 5%;"> Carta </ion-button>
               <ion-button (click)="chatMozo()" *ngIf="usuario?.data?.estadoMesa === 'Vinculada'" style="width: 80%;margin-top: 5%;"> Chat Mozo </ion-button>

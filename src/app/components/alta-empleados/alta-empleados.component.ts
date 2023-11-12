@@ -36,6 +36,8 @@ export class AltaEmpleadosComponent implements OnInit {
       dni: ['', Validators.required],
       cuil: ['', Validators.required],
       tipo: ['', Validators.required],
+      usuario: ['', Validators.required],
+      clave: ['', Validators.required],
     });
   }
 
@@ -75,12 +77,14 @@ export class AltaEmpleadosComponent implements OnInit {
         dni: this.form.value.dni,
         cuil: this.form.value.cuil,
         tipo: this.form.value.tipo,
+        usuario: this.form.value.usuario,
+        clave: this.form.value.clave,
         foto: fotoUrl,
         tokenPush: token,
       };
 
       // Realizar el registro en la base de datos
-      await this.firestoreService.guardar(data, 'empleados');
+      await this.firestoreService.guardar(data, 'usuarios');
 
       // Mostrar un mensaje de éxito
       await this.mensajesService.mostrar(

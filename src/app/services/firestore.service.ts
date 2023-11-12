@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { doc, collection, addDoc, getDocs, updateDoc, DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { doc, collection, addDoc, getDocs, updateDoc, DocumentData, QueryDocumentSnapshot, onSnapshot, query } from 'firebase/firestore';
 import { firestore } from 'src/main';
 
 @Injectable({
@@ -23,11 +23,22 @@ export class FirestoreService {
     return encuestas;
   }
 
-  collection(arg0: string) {
-    throw new Error('Method not implemented.');
+  escucharCambios (ruta:string, callback: (data: any[]) => void) {
+    let datos :any[]=[];
+    const q = query(collection(firestore, ruta));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      datos = [];
+      querySnapshot.forEach((doc:any) => {
+        let data = {
+          id : doc.id,
+          data : doc.data()
+        }
+        datos.push(data);
+      });
+      callback(datos);
+    });
+    return datos;
   }
-  constructor() {}
-  
 
   guardar(data: any, ruta: string) {
     const colRef = collection(firestore, ruta);

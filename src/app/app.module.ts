@@ -33,6 +33,7 @@ import { GraficoClientesComponent } from './components/grafico-clientes/grafico-
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
+import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     HomeClienteComponent,
     ChatMozoComponent,
     DateFormatPipe,
+    ListadoPedidosComponent
   ],
   imports: [
     HttpClientModule,
