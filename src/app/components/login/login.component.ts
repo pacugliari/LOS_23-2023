@@ -64,9 +64,9 @@ async onLogin() {
 }
 
 
-    accesoAnonimo(){
-      this.mostrar = !this.mostrar;
-    }
+  accesoAnonimo(){
+    this.mostrar = !this.mostrar;
+  }
 
 
   selecCuenta(cuenta:any) {
@@ -103,7 +103,6 @@ async onLogin() {
   }
 
   registroCliente(){
-    //this.router.navigate(['alta/dueño'], { replaceUrl: true });
     this.router.navigate(['registroCliente'], { replaceUrl: true });
   }
 

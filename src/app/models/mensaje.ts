@@ -1,8 +1,8 @@
 export class Mensaje {
-  usuario: string = '';
+  nombre: string = '';
   mensaje: string = '';
   fecha: string = '';
-  perfil: string = '';
+  tipo: string = '';
   tipoUsuario: string = '';
   mesa: string = '';
 }

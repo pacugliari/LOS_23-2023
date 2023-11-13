@@ -14,19 +14,16 @@ import { pushConfig } from 'src/main';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PushNotificationService {
-
   constructor(
     private platform: Platform,
     private http: HttpClient,
-    private router:Router
-  ) {
-  }
+    private router: Router
+  ) {}
 
-
-  sendPushNotification(req:any): Observable<any> {
+  sendPushNotification(req: any): Observable<any> {
     return this.http.post<Observable<any>>(pushConfig.fcmUrl, req, {
       headers: {
         Authorization: `key=${pushConfig.fcmServerKey}`,
@@ -36,29 +33,27 @@ export class PushNotificationService {
   }
 
   async generarToken(): Promise<string> {
-    return new Promise<string>(async (resolve,reject) => {
-      
+    return new Promise<string>(async (resolve, reject) => {
       await PushNotifications.addListener(
         'registration',
         async (token: Token) => {
           //Acá deberiamos asociar el token a nuestro usario en nuestra bd
           console.log('Registration token: ', token.value);
-          resolve(token.value)
+          resolve(token.value);
         }
       );
-  
+
       //Ocurre cuando el registro de las push notifications finaliza con errores
       await PushNotifications.addListener('registrationError', (err) => {
         console.error('Registration error: ', err.error);
-        reject(err)
+        reject(err);
       });
 
       await PushNotifications.register();
     });
   }
-  
 
-  async escucharNotificaciones(ruta:any){
+  async escucharNotificaciones(ruta: any) {
     //Ocurre cuando el dispositivo recive una notificacion push
     await PushNotifications.addListener(
       'pushNotificationReceived',
@@ -82,7 +77,7 @@ export class PushNotificationService {
         });
       }
     );
-    
+
     //Ocurre cuando se realiza una accion sobre la notificacion push
     await PushNotifications.addListener(
       'pushNotificationActionPerformed',
@@ -94,6 +89,14 @@ export class PushNotificationService {
           notification.notification
         );
         console.log(ruta);
+        if (ruta == 'chatMozo') {
+          const chatId = notification.notification.data.chatId; // ID del chat
+          if (chatId) {
+            console.log(chatId);
+            this.router.navigate([ruta, chatId]);
+          }
+        }
+
         this.router.navigate([ruta]);
       }
     );
@@ -103,6 +106,15 @@ export class PushNotificationService {
       'localNotificationActionPerformed',
       (notificationAction) => {
         console.log('action local notification', notificationAction);
+        console.log(ruta);        
+        console.log(notificationAction.notification);        
+        if (ruta === 'chatMozo') {
+          const chatId = notificationAction.notification.extra.chatId; // ID del chat
+          if (chatId) {
+            console.log(chatId);
+            this.router.navigate([ruta, chatId]);
+          }
+        }
         this.router.navigate([ruta]);
       }
     );
@@ -115,9 +127,8 @@ export class PushNotificationService {
     }*/
   }
 
-  async silenciarNotificaciones(){
+  async silenciarNotificaciones() {
     await PushNotifications.removeAllListeners();
     await LocalNotifications.removeAllListeners();
   }
-
 }

@@ -1,3 +1,57 @@
-<p>
-  chat-mozo works!
-</p>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-icon
+        style="font-size: 300%"
+        d="iconBack"
+        name="arrow-back"
+        (click)="cambiarChat()"
+      >
+      </ion-icon> -->
+    </ion-buttons>
+    <h1 style="justify-content: center; text-align: center; padding-top: 4%">
+      CHAT
+    </h1>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="chat-messages">
+    <div
+      *ngFor="let mensaje of chatService.mensajes"
+      class="message"
+      [ngClass]="{
+        senderUno: mensaje.nombre === usuarioActual,
+        receiver: mensaje.nombre !== usuarioActual,
+        senderDos: mensaje.nombre === usuarioActual 
+      }"
+    >
+      <strong
+        >{{ mensaje.nombre === usuarioActual ? "Tú" : mensaje.nombre }}:</strong
+      >
+      <p>{{ mensaje.mensaje }}</p>
+      <span class="time">{{ mensaje.fecha | dateFormat }}</span>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer color="primary">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="width: 200%">
+      <ion-input
+        class="input-chat"
+        placeholder="Escribe un mensaje aqui"
+        (keyup)="onKey($event)"
+        [(ngModel)]="this.mensaje.mensaje"
+      ></ion-input>
+    </ion-buttons>
+    <ion-buttons slot="end" style="padding-right: 5%">
+      <ion-icon
+        type="submit"
+        (click)="EnviarMensaje()"
+        name="send"
+        id="sendButton"
+      ></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

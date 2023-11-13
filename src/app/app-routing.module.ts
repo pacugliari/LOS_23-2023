@@ -63,7 +63,7 @@ const routes: Routes = [
   { path: 'registroCliente', component: RegistroClienteComponent },
   { path: 'lista/mesas', component: ListadoMesasComponent },
   { path: 'listado/productos', component: ListadoProductosComponent },
-  { path: 'chatMozo', component: ChatMozoComponent },
+  { path: 'chatMozo/:chatID', component: ChatMozoComponent },
   { path: 'homeEmpleado', component: HomeEmpleadoComponent },
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'homeCliente', component: HomeClienteComponent },

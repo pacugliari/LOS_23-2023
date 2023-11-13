@@ -36,6 +36,7 @@ export class HomeEmpleadoComponent implements OnInit {
     }else if(this.usuario.data.tipo == 'Mozo'){
       this.indice = 4;
       this.titulo = "Menu mozo"
+      await this.pushNotService.escucharNotificaciones('chatMozo');
     }
   }
 
