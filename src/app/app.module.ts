@@ -26,7 +26,7 @@ import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
-import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
+
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
@@ -44,7 +44,7 @@ import { GraficoClientesComponent } from './components/grafico-clientes/grafico-
     AnonimoPendientesComponent,
     HomeAnonimoComponent,
     EncuestaSupervisorComponent,
-    GraficosSupervisorComponent,
+
     ListadoProductosComponent,
     AltaClienteComponent,
     EncuestasClientesComponent,
