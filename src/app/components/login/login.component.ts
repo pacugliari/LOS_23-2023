@@ -57,10 +57,6 @@ async onLogin() {
       this.router.navigate(['homeEmpleado'], { replaceUrl: true });
     }else if (usuarioLogueado.tipo === "duenio" || usuarioLogueado.tipo === "supervisor"){
       this.router.navigate(['home'], { replaceUrl: true });
-    }else if (usuarioLogueado.tipo === "metre" ){
-      this.router.navigate(['anonimo/pendientes'], { replaceUrl: true });
-    }else if (usuarioLogueado.tipo === "cliente" ){
-      this.router.navigate(['homeCliente'], { replaceUrl: true });
     }
   }
 }

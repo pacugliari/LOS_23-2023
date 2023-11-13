@@ -24,14 +24,15 @@ import { AltaEmpleadosComponent } from './components/alta-empleados/alta-emplead
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
-import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
-
-import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
+import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
-import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
+import { MemotestComponent } from './components/memotest/memotest.component';
+import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,8 @@ import { GraficoClientesComponent } from './components/grafico-clientes/grafico-
     AltaClienteComponent,
     EncuestasClientesComponent,
     AltaProductosComponent,
+    MemotestComponent,
+    AhorcadoComponent,
     AltaEmpleadosComponent,
     GraficoClientesComponent,
     AltaClienteAnonimoComponent,
