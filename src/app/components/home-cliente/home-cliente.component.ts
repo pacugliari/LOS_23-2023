@@ -68,7 +68,7 @@ export class HomeClienteComponent implements OnInit {
   }
 
   chatMozo() {
-    this.router.navigate(['chatMozo','chatId'], { replaceUrl: true });
+    this.router.navigate(['chatMozo','chatID'], { replaceUrl: true });
   }
 
   async mandarNotificacionPush() {

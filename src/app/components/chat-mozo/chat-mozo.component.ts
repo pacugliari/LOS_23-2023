@@ -37,7 +37,7 @@ export class ChatMozoComponent implements OnInit {
         if (parsed.data.tipo == 'Mozo'||parsed.data.tipo == 'mozo') {
 
           this.route.params.subscribe(params => {
-            const chatId = params['chatId']; 
+            const chatId = params['chatID']; 
             console.log(chatId);
             if (chatId) {
               this.chatService.listenToChatChanges(chatId);    

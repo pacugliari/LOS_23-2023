@@ -107,15 +107,16 @@ export class PushNotificationService {
       (notificationAction) => {
         console.log('action local notification', notificationAction);
         console.log(ruta);        
-        console.log(notificationAction.notification);        
+        //console.log(notificationAction.notification);        
         if (ruta === 'chatMozo') {
-          const chatId = notificationAction.notification.extra.chatId; // ID del chat
-          if (chatId) {
-            console.log(chatId);
-            this.router.navigate([ruta, chatId]);
+          const chatID = notificationAction.notification.extra.data.chatId; // ID del chat
+          if (chatID) {
+            console.log(chatID);
+            this.router.navigate([ruta, chatID]);
           }
+        }else{
+          this.router.navigate([ruta]);
         }
-        this.router.navigate([ruta]);
       }
     );
 
