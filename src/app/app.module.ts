@@ -33,6 +33,7 @@ import { HomeClienteComponent } from './components/home-cliente/home-cliente.com
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { MemotestComponent } from './components/memotest/memotest.component';
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
     ListadoProductosComponent,
     AltaClienteComponent,
     EncuestasClientesComponent,
+    MayormenorComponent,
     AltaProductosComponent,
     MemotestComponent,
     AhorcadoComponent,

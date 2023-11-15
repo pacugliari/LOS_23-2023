@@ -21,6 +21,7 @@ import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supe
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { MemotestComponent } from './components/memotest/memotest.component';
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 const routes: Routes = [
   {
     path: 'splash-animado',
@@ -49,6 +50,7 @@ const routes: Routes = [
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
   
+  { path: 'mayorMenor', component: MayormenorComponent },
   { path: 'ahorcado', component: AhorcadoComponent },
   { path: 'memotest', component: MemotestComponent },
   { path: 'grafico/clientes', component: GraficoClientesComponent },
