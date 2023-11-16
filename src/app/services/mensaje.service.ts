@@ -20,4 +20,16 @@ export class MensajeService {
       heightAuto: false
     })
   }
+
+  mostrarHtml(titulo:any,mensaje:any,icono:any){
+    if(icono === 'error'){
+      this.vibracion.vibrate(1000);
+    }
+    return Swal.fire({
+      icon: icono,
+      title: titulo,
+      html: mensaje,
+      heightAuto: false
+    })
+  }
 }

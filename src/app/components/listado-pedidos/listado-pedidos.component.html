@@ -1,13 +1,13 @@
 
 <div *ngIf="!cargando && this.usuario.data.tipo==='Mozo'">
   <ion-card>
-    <ion-card-content>
+    <ion-card-content class=" scroll-horizontal">
       <table class="tabla-pedidos"> 
         <!-- Cabecera de la tabla -->
         <thead>
           <tr>
             <th >N° Mesa</th>
-            <th >Estado</th>
+            <th >Estados</th>
             <th >Acciones</th>
           </tr>
         </thead>
@@ -17,7 +17,12 @@
           <tr *ngFor="let pedido of pedidos">
             <ng-container *ngIf="pedido.data.estado !== 'Entregado'">
               <td>{{ pedido.mesa.data.numeroMesa }}</td>
-              <td>{{ pedido.data.estado }}</td>
+              <!--<td>{{ pedido.data.estado }}</td>
+              <td>{{ pedido.data.estadoComidas }}</td>
+              <td>{{ pedido.data.estadoBebidas }}</td>-->
+              <td>
+                <ion-button (click)="verEstados(pedido)"><i style="margin-left: 3%;" class="material-icons">remove_red_eye</i></ion-button>
+              </td>
               <td>
                 <!-- Aquí puedes agregar botones u otras acciones para cada pedido -->
                 <ion-button *ngIf="pedido.data.estado === 'NoConfirmado'" (click)="confirmar(pedido)">Confirmar</ion-button>
@@ -33,9 +38,9 @@
   </ion-card>
 </div>
 
-<div *ngIf="!cargando && this.usuario.data.tipo==='cocinero'">
+<div *ngIf="!cargando && this.usuario?.data?.tipo==='cocinero'">
   <ion-card *ngFor="let pedido of pedidos">
-    <ion-card-content *ngIf="pedido.data.estadoComidas !== 'Entregado' && pedido.data.estado !== 'NoConfirmado'">
+    <ion-card-content *ngIf="pedido?.data?.estadoComidas !== 'Entregado' && pedido?.data?.estado !== 'NoConfirmado'">
       <table class="tabla-pedidos"> 
         <!-- Cabecera de la tabla -->
         <thead>

@@ -58,7 +58,7 @@ export class PushNotificationService {
   }
   
 
-  async escucharNotificaciones(ruta:any){
+  async escucharNotificaciones(ruta?:any){
     //Ocurre cuando el dispositivo recive una notificacion push
     await PushNotifications.addListener(
       'pushNotificationReceived',
@@ -94,7 +94,9 @@ export class PushNotificationService {
           notification.notification
         );
         console.log(ruta);
+
         this.router.navigate([ruta]);
+
       }
     );
 
@@ -103,7 +105,9 @@ export class PushNotificationService {
       'localNotificationActionPerformed',
       (notificationAction) => {
         console.log('action local notification', notificationAction);
+
         this.router.navigate([ruta]);
+
       }
     );
 

@@ -14,3 +14,19 @@ ion-input,ion-content,ion-item{
 ion-fab-button,ion-button{
     --background: #D0A933;
 }
+
+.tabla-pedidos {
+    width: 100%;
+    margin-top: 10px; /* Ajusta el margen superior según tus necesidades */
+  }
+  
+  .tabla-pedidos th,
+  .tabla-pedidos td {
+    text-align: center;
+    padding: 8px;
+  }
+  
+  .scroll-horizontal {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }

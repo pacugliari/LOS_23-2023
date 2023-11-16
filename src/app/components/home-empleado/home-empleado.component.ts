@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { PushNotificationService } from 'src/app/services/push-notification.service';
@@ -25,18 +25,64 @@ export class HomeEmpleadoComponent implements OnInit {
     private router: Router,
     private pushNotService: PushNotificationService,
     private firestore: FirestoreService,
-    private mensajes :MensajeService
+    private mensajes :MensajeService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
+
     this.usuario = this.usuarioService.getUsuarioLogueado();
+
     if (this.usuario.data.tipo == 'metre') {
       console.log('el metre esta escuchando');
       await this.pushNotService.escucharNotificaciones('anonimo-pendientes');
     }else if(this.usuario.data.tipo == 'Mozo'){
       this.indice = 4;
       this.titulo = "Menu mozo"
+      ///this.usuario.data.enListaEspera = this.usuario.data.estadoMesa = null; HACERLO CUANDO EL CLIENTE CONFIRME EL PAGO
+      this.firestore.escucharCambios("pagos", async (data) => {
+        for (let pago of data) {
+          if(pago.data.mozo.id === this.usuario.id && pago.data.confirmado === false){
+            await Swal.fire({
+              title: `Pago recibido`,
+              text: `El cliente de la mesa ${pago.data.mesa.data.numeroMesa} realizo el pago`,
+              icon: 'info',
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Confirmar',
+              heightAuto: false,
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                pago.data.confirmado = true
+                let cliente = pago.data.cliente
+                cliente.data.enListaEspera = cliente.data.estadoMesa = null;
+                await this.firestore.modificar(cliente,"usuarios")
+                await this.firestore.modificar(pago,"pagos")
+                await this.firestore.borrar(pago.data.pedido,"pedidos")
+                this.liberarMesa(pago.data.mesa)
+              }
+            });
+          }
+        }
+      });
+      await this.pushNotService.escucharNotificaciones();
+    }else if (this.usuario.data.tipo == 'cocinero' || this.usuario.data.tipo == 'bartender'){
+      this.indice = 0;
+      if(this.usuario.data.tipo == 'cocinero')
+        this.titulo = "Menu Cocinero"
+      else
+        this.titulo = "Menu Bartender"
+
+      await this.pushNotService.escucharNotificaciones();
+
     }
+
+  }
+
+  async liberarMesa(mesa:any){
+    mesa.data.cliente = null;
+    mesa.data.estado = "disponible"
+    await this.firestore.modificar(mesa,"mesas")
   }
 
   verProductos() {
