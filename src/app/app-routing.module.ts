@@ -18,6 +18,10 @@ import { ListadoProductosComponent } from './components/listado-productos/listad
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
+import { ReservaComponent } from './components/reserva/reserva.component';
+import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { MemotestComponent } from './components/memotest/memotest.component';
+import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 const routes: Routes = [
   {
     path: 'splash-animado',
@@ -42,6 +46,12 @@ const routes: Routes = [
     path: 'spinner',
     component: SpinnerComponent,
   },
+  
+  { path: 'mayormenor', component: MayormenorComponent },
+  { path: 'memotest', component: MemotestComponent },
+  { path: 'ahorcado', component: AhorcadoComponent },
+  
+  { path: 'reserva', component: ReservaComponent },
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },

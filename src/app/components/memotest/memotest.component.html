@@ -1,0 +1,20 @@
+<ion-content>
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+    
+     
+    </ion-toolbar>
+    <div class="timer">
+      Tiempo: {{ timer }} segundos
+    </div>
+  </ion-header>
+<div class="card-grid">
+  <div *ngFor="let row of cardRows" class="card-row">
+    <div *ngFor="let card of row" class="card" (click)="flipCard(card)">
+      <img [src]="card.flipped || card.matched ? card.image : 'assets/memotest/reverso.jpg'" alt="Card Image">
+    </div>
+  </div>
+</div>
+<!-- Agrega esto en tu plantilla HTML -->
+
+</ion-content>

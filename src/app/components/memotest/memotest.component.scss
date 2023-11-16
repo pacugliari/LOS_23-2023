@@ -1,0 +1,44 @@
+/* Estilo para la tarjeta */
+ion-card {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+    cursor: pointer;
+    transition: transform 0.3s;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  /* Estilo cuando la tarjeta está volteada */
+  ion-card.flipped {
+    transform: rotateY(180deg);
+  }
+  
+  /* Estilo para la tarjeta emparejada */
+  ion-card.matched {
+    pointer-events: none;
+    visibility: hidden;
+  }
+  
+  /* Estilo para la imagen en la tarjeta */
+  ion-card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Estilo para el tablero (la cuadrícula de tarjetas) */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  /* Estilo para los botones de reinicio y finalización */
+  ion-button {
+    margin: 10px 0;
+  }

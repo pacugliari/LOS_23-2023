@@ -26,6 +26,10 @@ import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.
 import { HttpClientModule } from '@angular/common/http';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
+import { ReservaComponent } from './components/reserva/reserva.component';
+import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { MemotestComponent } from './components/memotest/memotest.component';
+import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 
 @NgModule({
   declarations: [
@@ -34,9 +38,13 @@ import { HomeClienteComponent } from './components/home-cliente/home-cliente.com
     LoginComponent,
     AltaDuenioComponent,
     SpinnerComponent,
+    MayormenorComponent,
+    AhorcadoComponent,
+    MemotestComponent,
     HomeComponent,
     ListadoProductosComponent,
     AltaClienteComponent,
+    ReservaComponent,
     AltaProductosComponent,
     AltaEmpleadosComponent,
     AltaClienteAnonimoComponent,

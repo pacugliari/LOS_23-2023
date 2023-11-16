@@ -1,0 +1,64 @@
+.container-fluid {
+    text-align: center;
+    color: #fff;
+}
+
+.logo {
+    max-width: 200px;
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.row {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.puntaje {
+    background-color: #d2a84d;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+.col-4 {
+    text-align: center;
+}
+
+.titulo {
+    background-color: #d2a84d;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.carta {
+    max-width: 150px;
+    height: 250px;
+    display: inline-block;
+    margin-right: 20px;
+    border: 1px solid #d0a933;
+}
+
+.boton {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-success {
+    background-color: #d0a933;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #faedcd;
+    color: #fff;
+}
