@@ -3,6 +3,4 @@ export class Mensaje {
   mensaje: string = '';
   fecha: string = '';
   tipo: string = '';
-  tipoUsuario: string = '';
-  mesa: string = '';
 }

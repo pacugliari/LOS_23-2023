@@ -31,21 +31,39 @@ export class ChatMozoComponent implements OnInit {
     this.route.url.subscribe(async () => {
       let cliente: string | null = localStorage.getItem('usuario');
       if (cliente) {
-        let parsed = JSON.parse(cliente);        
-        if (parsed.data.tipo == 'Mozo'||parsed.data.tipo == 'mozo') {
-
-          this.route.params.subscribe(params => {
-            const chatId = params['chatID']; 
+        let parsed = JSON.parse(cliente);
+        if (parsed.data.tipo == 'Mozo' || parsed.data.tipo == 'mozo') {
+          this.route.params.subscribe(async (params) => {
+            const chatId = params['chatID'];
             console.log(chatId);
             if (chatId) {
-              this.chatService.listenToChatChanges(chatId);    
+              const chatExists = await this.chatService.docExists(
+                'chat',
+                chatId
+              );
+              if (!chatExists) {
+                await this.chatService.crearChat(chatId, chatId); // Puedes pasar el clienteId si es necesario
+              }
+              this.chatService.listenToChatChanges(chatId);
               this.cliente = chatId;
+              this.mensaje.nombre = parsed.data.nombre;
+              this.mensaje.tipo = parsed.data.tipo;
+              this.usuarioActual = parsed.data.nombre;
+              let mozoBD: any = await this.firestoreService.obtenrUno(
+                'usuarios',
+                parsed.id
+              );
+              if (!mozoBD.chatIds) {
+                mozoBD.chatIds = [];
+              }
+              mozoBD.chatIds.push(chatId);
+              await this.firestoreService.modificar(mozoBD, 'usuarios');
             }
           });
           this.esMozo = true;
-
         } else {
-          this.chatService.listenToChatChanges(parsed.id);          
+          this.esMozo = false;
+          this.chatService.listenToChatChanges(parsed.id);
           this.cliente = parsed.id;
           this.mensaje.nombre = parsed.data.nombre;
           this.mensaje.tipo = parsed.data.tipo;
@@ -53,20 +71,22 @@ export class ChatMozoComponent implements OnInit {
         }
       }
     });
+    this.chatService.mensajes.sort((a, b) => {
+      return parseInt(b.fecha) - parseInt(a.fecha);
+    });
   }
 
-  volver(){
-    this.router.navigate(['homeCliente'], { replaceUrl: true });    
+  volver() {
+    this.router.navigate(['homeCliente'], { replaceUrl: true });
   }
 
-  async EnviarMensaje() {  
-    if(this.esMozo==false){
-      this.primerMensaje = true;
+  async EnviarMensaje() {
+    if (this.esMozo == false) {
       if (this.primerMensaje) {
         this.primerMensaje = false;
-        await this.mandarNotificacionPush();        
+        await this.mandarNotificacionPush();
       }
-    }   
+    }
     this.mensaje.fecha = new Date().getTime().toString();
     await this.chatService.enviarMensaje(this.cliente, this.mensaje);
     this.mensaje.mensaje = '';
@@ -86,9 +106,9 @@ export class ChatMozoComponent implements OnInit {
             title: 'Consulta de cliente',
             body: 'Hay un cliente con una consulta atiende de inmediato.',
           },
-          data:{
-            chatId:this.cliente,
-          }
+          data: {
+            chatId: this.cliente,
+          },
         })
         .subscribe((data) => {
           console.log(data);

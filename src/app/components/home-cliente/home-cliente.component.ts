@@ -105,7 +105,9 @@ export class HomeClienteComponent implements OnInit {
     this.router.navigate(['listado/productos'], { replaceUrl: true });
   }
   chatMozo() {
-    this.router.navigate(['chatMozo', 'chatID'], { replaceUrl: true });
+    let usuarioLog = this.usuarioService.getUsuarioLogueado();
+    
+    this.router.navigate(['chatMozo', usuarioLog.id], { replaceUrl: true });
   }
   async mandarNotificacionPush() {
     let metres = await this.firestoreService.obtener('usuarios');

@@ -68,6 +68,7 @@ export class HomeEmpleadoComponent implements OnInit {
         }
       });
       await this.pushNotService.escucharNotificaciones();
+      await this.pushNotService.escucharNotificaciones('chatMozo');
     } else if (
       this.usuario.data.tipo == 'cocinero' ||
       this.usuario.data.tipo == 'bartender'
