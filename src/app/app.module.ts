@@ -24,12 +24,14 @@ import { ListadoProductosComponent } from './components/listado-productos/listad
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
-import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
+import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
-import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
+import { MemotestComponent } from './components/memotest/memotest.component';
+import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
@@ -46,11 +48,13 @@ import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pe
     AnonimoPendientesComponent,
     ListaEncuestasComponent,
     EncuestaSupervisorComponent,
-    GraficosSupervisorComponent,
     ListadoProductosComponent,
     AltaClienteComponent,
     EncuestasClientesComponent,
+    MayormenorComponent,
     AltaProductosComponent,
+    MemotestComponent,
+    AhorcadoComponent,
     AltaEmpleadosComponent,
     GraficoClientesComponent,
     AltaClienteAnonimoComponent,

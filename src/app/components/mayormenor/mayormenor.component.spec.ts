@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { GraficosSupervisorComponent } from './graficos-supervisor.component';
+import { MayormenorComponent } from './mayormenor.component';
 
-describe('GraficosSupervisorComponent', () => {
-  let component: GraficosSupervisorComponent;
-  let fixture: ComponentFixture<GraficosSupervisorComponent>;
+describe('MayormenorComponent', () => {
+  let component: MayormenorComponent;
+  let fixture: ComponentFixture<MayormenorComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GraficosSupervisorComponent ],
+      declarations: [ MayormenorComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(GraficosSupervisorComponent);
+    fixture = TestBed.createComponent(MayormenorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

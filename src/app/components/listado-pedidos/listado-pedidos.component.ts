@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { MensajeService } from 'src/app/services/mensaje.service';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listado-pedidos',
@@ -9,14 +12,18 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ListadoPedidosComponent  implements OnInit {
 
-  constructor(private firestore:FirestoreService,private usuarioService:UsuarioService) { }
 
-  pedidos:any;
-  mesas:any;
+  constructor(private firestore:FirestoreService,private usuarioService:UsuarioService,private pushService : PushNotificationService,
+    private mensajes:MensajeService) { }
+
+  pedidos: any[] = [];
+  mesas: any[] = [];
   cargando : boolean = false;
   comidas : any[] = [];
   usuario:any;
+
   async ngOnInit() {
+    this.cargando = true;
     this.mesas = await this.firestore.obtener("mesas");
     this.usuario = this.usuarioService.getUsuarioLogueado();
 
@@ -24,7 +31,6 @@ export class ListadoPedidosComponent  implements OnInit {
       this.pedidos = data;
       for (let pedido of this.pedidos) {
         pedido.mesa = await this.buscarMesa(pedido)
-
         /*pedido.data.pedido.forEach((pedido:any) => {
           if(pedido.producto.tipo === "comida"){
             this.comidas.push(pedido);
@@ -33,7 +39,19 @@ export class ListadoPedidosComponent  implements OnInit {
       }
     });
     //console.log(JSON.stringify(this.comidas))
-    
+    this.cargando = false;
+  }
+
+  verEstados(pedido:any){
+    const html = `
+    <h3>ESTADO PEDIDO:</h3>
+    <h3>${ pedido.data.estado}</h3>
+    <h3>ESTADO COMIDAS:</h3>
+    <h3>${pedido.data.estadoComidas ? pedido.data.estadoComidas : "No definido"}</h3>
+    <h3>ESTADO BEBIDAS:</h3>
+    <h3>${pedido.data.estadoBebidas ? pedido.data.estadoBebidas : "No definido"}</h3>
+    `
+    this.mensajes.mostrarHtml("ESTADOS DEL PEDIDO",html,"info")
   }
 
   async buscarMesa(pedido:any){
@@ -45,9 +63,49 @@ export class ListadoPedidosComponent  implements OnInit {
     }
   }
 
+  async enviarPushCocina(){
+    let usuarios = await this.firestore.obtener('usuarios');
+    let genteCocina  = usuarios.filter((element) => {
+      return element.data.tipo === 'cocinero' || element.data.tipo === 'bartender';
+    });
+
+    if (genteCocina.length > 0) {
+      this.pushService
+        .sendPushNotification({
+          registration_ids: genteCocina.map((element:any) => element.data.tokenPush),
+          notification: {
+            title: 'Hay un nuevo pedido',
+            body: 'Click para acceder a la lista de pedidos',
+          },
+        })
+        .subscribe((data) => {
+          console.log(data);
+        });
+    } else {
+      console.log('No se encontraron cocineros para enviar notificaciones.');
+    }
+  }
+
+  async enviarPushMozo(notification:any,usuario:any){
+
+    return new Promise<any>((resolve,reject)=>{
+      this.pushService
+      .sendPushNotification({
+        registration_ids: [usuario.data.tokenPush],
+        notification
+      })
+      .subscribe((data) => {
+        console.log(data);
+        resolve(data)
+      });
+    })
+  }
+
   async confirmar(pedido:any){
     this.cargando = true;
+    pedido.data.mozo = this.usuario
     pedido.data.estado = "Confirmado";
+    await this.enviarPushCocina()
     await this.firestore.modificar(pedido,"pedidos");
     this.cargando = false;
   }
@@ -66,6 +124,12 @@ export class ListadoPedidosComponent  implements OnInit {
     if(pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "Entregado"){
       pedido.data.estado = "ListoEntrega";
     }
+    let mesa = await this.buscarMesa(pedido)
+    let notification =  {
+      title: `Cocina tiene un pedido listo para entregar`,
+      body: `El pedido de la mesa ${mesa.data.numeroMesa} por parte de la cocina esta listo`,
+    }
+    await this.enviarPushMozo(notification,pedido.data.mozo)
     await this.firestore.modificar(pedido,"pedidos");
     this.cargando = false;
   }
@@ -84,6 +148,12 @@ export class ListadoPedidosComponent  implements OnInit {
     if(pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "Entregado"){
       pedido.data.estado = "ListoEntrega";
     }
+    let mesa = await this.buscarMesa(pedido)
+    let notification =  {
+      title: `Barra tiene un pedido listo para entregar`,
+      body: `El pedido de la mesa ${mesa.data.numeroMesa} por parte de la barra esta listo`,
+    }
+    await this.enviarPushMozo(notification,pedido.data.mozo)
     await this.firestore.modificar(pedido,"pedidos");
     this.cargando = false;
   }

@@ -52,4 +52,5 @@ export class HomeComponent implements OnInit {
     this.usuarioService.salir();
 
   }
+
 }

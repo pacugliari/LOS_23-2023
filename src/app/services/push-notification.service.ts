@@ -12,7 +12,6 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { pushConfig } from 'src/main';
 import { Router } from '@angular/router';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -53,7 +52,7 @@ export class PushNotificationService {
     });
   }
 
-  async escucharNotificaciones(ruta: any) {
+  async escucharNotificaciones(ruta?: any) {
     //Ocurre cuando el dispositivo recive una notificacion push
     await PushNotifications.addListener(
       'pushNotificationReceived',
@@ -106,15 +105,15 @@ export class PushNotificationService {
       'localNotificationActionPerformed',
       (notificationAction) => {
         console.log('action local notification', notificationAction);
-        console.log(ruta);        
-        //console.log(notificationAction.notification);        
+        console.log(ruta);
+        //console.log(notificationAction.notification);
         if (ruta === 'chatMozo') {
           const chatID = notificationAction.notification.extra.data.chatId; // ID del chat
           if (chatID) {
             console.log(chatID);
             this.router.navigate([ruta, chatID]);
           }
-        }else{
+        } else {
           this.router.navigate([ruta]);
         }
       }

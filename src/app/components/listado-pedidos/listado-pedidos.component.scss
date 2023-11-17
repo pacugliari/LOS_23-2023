@@ -9,5 +9,8 @@
     padding: 8px;
   }
   
-  /* Estilos adicionales según tus necesidades */
+  .scroll-horizontal {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
   

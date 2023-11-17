@@ -16,33 +16,24 @@ import { AltaEmpleadosComponent } from './components/alta-empleados/alta-emplead
 import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
-import { GraficosSupervisorComponent } from './graficos-supervisor/graficos-supervisor.component';
+import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
+import { MemotestComponent } from './components/memotest/memotest.component';
+import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
-import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
-import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
+import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
 
 const routes: Routes = [
-  {
-    path: 'splash-animado',
-    component: SplashComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'alta/dueño',
-    component: AltaDuenioComponent,
+  {path: 'splash-animado',component: SplashComponent},
+  {path: 'login',component: LoginComponent},
+  {path: 'home',component: HomeComponent,canActivate: [AuthGuard],},
+  {path: 'alta/dueño',component: AltaDuenioComponent,
     //canActivate: [PerfilGuard],
   },
   
@@ -50,12 +41,17 @@ const routes: Routes = [
     path: 'spinner',
     component: SpinnerComponent,
   },
+
+  {path: 'spinner',component: SpinnerComponent,},
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'listadoEncuestas', component: ListaEncuestasComponent },
   { path: 'anonimo-pendientes', component: AnonimoPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
-  { path: 'graficos/supervisor', component:   GraficosSupervisorComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
+  
+  { path: 'mayorMenor', component: MayormenorComponent },
+  { path: 'ahorcado', component: AhorcadoComponent },
+  { path: 'memotest', component: MemotestComponent },
   { path: 'grafico/clientes', component: GraficoClientesComponent },
   { path: 'encuestas/clientes', component: EncuestasClientesComponent },
   { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
@@ -65,14 +61,17 @@ const routes: Routes = [
   { path: 'listado/productos', component: ListadoProductosComponent },
   { path: 'chatMozo/:chatID', component: ChatMozoComponent },
   { path: 'homeEmpleado', component: HomeEmpleadoComponent },
-  { path: 'clientes-pendientes', component: ClientesPendientesComponent },
-  { path: 'homeCliente', component: HomeClienteComponent },
+  
   {
     path: 'alta-empleados',component:AltaEmpleadosComponent
   },
   {
     path: 'alta-productos',component:AltaProductosComponent
   },
+  { path: 'clientes-pendientes', component: ClientesPendientesComponent },
+  { path: 'homeCliente', component: HomeClienteComponent },
+  {path: 'alta-empleados',component:AltaEmpleadosComponent},
+  {path: 'alta-productos',component:AltaProductosComponent},
   {
     path: '',
     redirectTo: 'splash-animado',

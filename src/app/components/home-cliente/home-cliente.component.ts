@@ -38,6 +38,15 @@ export class HomeClienteComponent implements OnInit {
   usuario: any;
   cargando : boolean = false;
   estado = "";
+  habilitarJuegosEncuesta : boolean = false;
+  pedidos:any;
+  miPedido:any;
+  indice = 0 ;
+  titulo = "Home Clientes"
+  detalles:any[]=[];
+  descuento = 0;
+  propina = 0;
+  total = 0;
 
   async ngOnInit() {
 
@@ -46,6 +55,29 @@ export class HomeClienteComponent implements OnInit {
       this.mesas = await this.firestoreService.obtener('mesas');
       await this.actualizarUsuario();
 
+      this.pedidos = this.firestoreService.escucharCambios("pedidos", async (data) => {
+        this.pedidos = data;
+        for (let pedido of this.pedidos) {
+          if(pedido.data.cliente.id === this.usuario.id && pedido.data.estado === "Entregado"){
+            this.miPedido = pedido;
+            if(!pedido.data.entregado){
+              Swal.fire({
+                title: 'Su pedido ya esta listo',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                heightAuto: false,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  pedido.data.entregado = true
+                  await this.firestoreService.modificar(pedido,"pedidos")
+                }
+              });
+            }
+          }
+        }
+      });
 
       setTimeout(()=>{
         this.cargando=false;
@@ -103,6 +135,67 @@ export class HomeClienteComponent implements OnInit {
     console.log(JSON.stringify(this.usuario));
   }
 
+  pedirCuenta(){
+    this.detalles = []
+    this.indice = 1;
+    this.titulo = "Pedir cuenta"
+    this.total = 0;
+    this.miPedido.data.pedido.forEach((detalle:any) => {
+      let nuevoDetalle = {
+        cantidad: detalle.cantidad,
+        producto: detalle.producto.descripcion,
+        precio: detalle.producto.precio,
+        subtotal: detalle.cantidad*detalle.producto.precio
+      }
+      this.detalles.push(nuevoDetalle);
+      this.total += detalle.cantidad*detalle.producto.precio;
+    });
+  }
+
+  actualizarTotal(){
+    this.total = this.total + this.propina -this.descuento;
+  }
+
+  atras(){
+    this.indice = 0;
+    this.titulo = "Home Clientes"
+  }
+
+  cargarPropina(){
+    this.actualizarTotal()
+  }
+
+  private buscarMesa(pedido:any){
+
+    for (let mesa of this.mesas) {
+      if(pedido.data.cliente.id === mesa.data.cliente.id){
+        return mesa;
+      }
+    }
+  }
+
+  async pagar(){
+    
+    this.cargando = true;
+    let pago = {
+      detalle : this.detalles,
+      descuento : this.descuento,
+      propina: this.propina,
+      total : this.total,
+      cliente: this.usuario,
+      confirmado : false,
+      mozo : this.miPedido.data.mozo,
+      pedido: this.miPedido,
+      mesa: this.buscarMesa(this.miPedido)
+    }
+    this.miPedido.data.pagado = true
+    await this.firestoreService.modificar(this.miPedido,"pedidos")
+    await this.firestoreService.guardar(pago,"pagos")
+    this.cargando = false;
+    this.mensajesService.mostrar("OK","Su pago se realizo de manera correcta","success")
+    this.atras();
+  }
+
   async leerDocumento() {
     await this.barcodeScanner
       .scan({ formats: 'QR_CODE' })
@@ -128,7 +221,7 @@ export class HomeClienteComponent implements OnInit {
     if (userQR === QRs.IngresoLocal && this.usuario?.data?.enListaEspera !== 'Espera') {
       this.mensajesService.mostrar(
         'OK',
-        'Ingresaste a la mesa de espera, debes esperar que un metre te asigne una mesa',
+        'Ingresaste a la lista de espera, debes esperar que un metre te asigne una mesa',
         'success'
       );
       await this.mandarNotificacionPush();
@@ -144,24 +237,25 @@ export class HomeClienteComponent implements OnInit {
       if (aux.id === idMesa && this.usuario.data.estadoMesa === EstadoMesa.NoVinculada) {
         this.usuario.data.estadoMesa = EstadoMesa.Vinculada;
         await this.firestoreService.modificar(this.usuario, 'usuarios');
+        this.mensajesService.mostrar('OK','Mesa vinculada de manera correcta','success');
 
-        this.mensajesService.mostrar(
-          'OK',
-          'Mesa vinculada de manera correcta',
-          'success'
-        );
       } else if (aux.id === idMesa && this.usuario.data.estadoMesa === EstadoMesa.Vinculada) {
+        
         let pedidos = await this.firestoreService.obtener("pedidos");
-        let pedidoBuscado :any;
+        let pedidoBuscado :any = null;
         pedidos.forEach((pedido : any)=>{
           if(pedido.data.cliente.id === this.usuario.id){
             pedidoBuscado = pedido
           }
         }) 
-        console.log(pedidoBuscado.data.estado)
+
+        if(pedidoBuscado !== null){
+          this.usuario.data.habilitarCarta = false;
+          await this.firestoreService.modificar(this.usuario, 'usuarios');
+        }
+
         if(pedidoBuscado.data.estado === "NoConfirmado"){
-          this.mensajesService.mostrar('OK',`Su pedido esta siendo confirmado por un mozo`,'success'
-          );
+          this.mensajesService.mostrar('OK',`Su pedido esta siendo confirmado por un mozo`,'success');
         }else if(pedidoBuscado.data.estado === "Confirmado" || pedidoBuscado.data.estado === "EnPreparacion"){
           this.mensajesService.mostrar('OK',`Su pedido esta siendo preparado`,'success');
         }else if(pedidoBuscado.data.estado === "ListoEntrega"){
@@ -169,6 +263,8 @@ export class HomeClienteComponent implements OnInit {
         }else if(pedidoBuscado.data.estado === "Entregado"){
           this.mensajesService.mostrar('OK',`Su pedido fue entregado`,'success');
         }else{
+          this.usuario.data.habilitarCarta = true;
+          await this.firestoreService.modificar(this.usuario, 'usuarios');
           this.mensajesService.mostrar('OK',`Ya puede realizar su pedido`,'success');
         }
       } else {
