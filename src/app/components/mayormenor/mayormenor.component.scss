@@ -18,7 +18,7 @@
 }
 
 .puntaje {
-    background-color: #343a40;
+    background-color: #d2a84d;
     color: #fff;
     border-radius: 10px;
     padding: 10px 20px;
@@ -30,7 +30,7 @@
 }
 
 .titulo {
-    background-color: #343a40;
+    background-color: #d2a84d;
     color: #fff;
     border-radius: 10px;
     padding: 10px;
@@ -38,11 +38,11 @@
 }
 
 .carta {
-    max-width: 200px;
-    height: 300px;
+    max-width: 150px;
+    height: 250px;
     display: inline-block;
     margin-right: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #d0a933;
 }
 
 .boton {
@@ -54,11 +54,11 @@
 }
 
 .btn-success {
-    background-color: #28a745;
+    background-color: #d0a933;
     color: #fff;
 }
 
 .btn-danger {
-    background-color: #dc3545;
+    background-color: #faedcd;
     color: #fff;
 }

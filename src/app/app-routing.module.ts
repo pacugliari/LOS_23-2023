@@ -16,11 +16,15 @@ import { AltaEmpleadosComponent } from './components/alta-empleados/alta-emplead
 import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
-import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
+import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
+import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
-import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
-import { MemotestComponent } from './components/memotest/memotest.component';
+
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { MemotestComponent } from './components/memotest/memotest.component';
+import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
+import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
+import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 const routes: Routes = [
   {
@@ -46,11 +50,14 @@ const routes: Routes = [
     path: 'spinner',
     component: SpinnerComponent,
   },
-
+  { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
   
-  { path: 'mayorMenor', component: MayormenorComponent },
+  
+  { path: 'mayormenor', component: MayormenorComponent },
+  
+  { path: 'homeanonimo', component: HomeAnonimoComponent },
   { path: 'ahorcado', component: AhorcadoComponent },
   { path: 'memotest', component: MemotestComponent },
   { path: 'grafico/clientes', component: GraficoClientesComponent },

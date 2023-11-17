@@ -7,7 +7,11 @@ import { MensajeService } from './mensaje.service';
 @Injectable({
   providedIn: 'root'
 })
+
+// usuario.service.ts
+
 export class UsuarioService {
+  
 
 
   constructor(private firestoreService:FirestoreService,private router:Router,private mensaje: MensajeService) { }
@@ -74,3 +78,5 @@ export class UsuarioService {
 
 
 }
+
+export { Usuario };

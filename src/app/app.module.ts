@@ -30,10 +30,11 @@ import { GraficoClientesComponent } from './components/grafico-clientes/grafico-
 import { HttpClientModule } from '@angular/common/http';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
-import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { MemotestComponent } from './components/memotest/memotest.component';
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +43,10 @@ import { MayormenorComponent } from './components/mayormenor/mayormenor.componen
     LoginComponent,
     AltaDuenioComponent,
     SpinnerComponent,
+    EncuestasClientesComponent,
+    AhorcadoComponent,
+    MemotestComponent,
+    MayormenorComponent,
     HomeComponent,
     AnonimoPendientesComponent,
     HomeAnonimoComponent,
@@ -49,8 +54,6 @@ import { MayormenorComponent } from './components/mayormenor/mayormenor.componen
 
     ListadoProductosComponent,
     AltaClienteComponent,
-    EncuestasClientesComponent,
-    MayormenorComponent,
     AltaProductosComponent,
     MemotestComponent,
     AhorcadoComponent,

@@ -1,10 +1,9 @@
 .container-ahorcado {
     display: flex;
-    width: 98vw;
-    height: 90vh;
+    width: 100vw; /* Cambiado a 100% del ancho de la ventana */
+    height: 100vh; /* Cambiado a 100% de la altura de la ventana */
     overflow: hidden;
   }
-  
   .aside {
     width: 40vw;
     height: 90vh;
@@ -18,14 +17,28 @@
   
   h3.badge {
     margin-top: 5px;
-    font-size: 2em;
+    font-size:  1.5em;
     padding: 15px;
+    background-color: #d0a933; /* Cambia el color según tu preferencia */
+  }
+  /* Ajuste del tamaño del texto en las alertas de Swal */
+.swal2-title {
+    font-size: 1.5rem; /* Ajusta el tamaño según sea necesario */
+  }
+  
+  .swal2-content {
+    font-size: 1.2rem; /* Ajusta el tamaño según sea necesario */
+  }
+  
+  .swal2-confirm {
+    font-size: 1.2rem; /* Ajusta el tamaño según sea necesario */
   }
   
   button.letra {
     padding: 20px;
     margin: 5px 5px;
-    font-size: 4rem;
+    font-size:  1.5rem;
+    background-color: #d0a933; /* Cambia el color según tu preferencia */
   }
   
   button.tamaño {
@@ -38,9 +51,9 @@
   }
   
   h1.palabra {
-    color: white;
+    color: rgb(7, 6, 6);
     display: inline-block;
-    background-color: gray;
+    background-color: #fefae0; /* Cambia el color según tu preferencia */
     border-radius: 10px;
     padding: 10px;
     margin-top: 15px;
@@ -48,7 +61,7 @@
   
   .right {
     width: 60vw;
-    height: 90vh;
+    height: 100vh; /* Cambiado a 100% de la altura de la ventana */
     display: flex;
     flex-direction: column;
   }
@@ -71,9 +84,9 @@
   }
   
   /* Estilo para el título del juego */
-h1.title {
-    font-size: 2.5rem;
-    color: #0275d8; /* Cambia el color según tu preferencia */
+  h1.title {
+    font-size: 2rem;
+    color: #7bd802; /* Cambia el color según tu preferencia */
   }
   
   /* Estilo para los botones de letras */
@@ -83,14 +96,14 @@ h1.title {
     font-size: 2rem;
     border: none;
     color: white;
-    background-color: #292b2c;
+    background-color: #d2a84d; /* Cambia el color según tu preferencia */
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
   }
   
   button.letra:hover {
-    background-color: #0275d8; /* Cambia el color de fondo al pasar el mouse */
+    background-color: #d2a84d; /* Cambia el color de fondo al pasar el mouse */
   }
   
   /* Estilo para el botón "REINICIAR" */
@@ -98,7 +111,7 @@ h1.title {
     padding: 15px 20px;
     margin-top: 15px;
     font-size: 2rem;
-    background-color: #0275d8; /* Cambia el color según tu preferencia */
+    background-color: #d0a933; /* Cambia el color según tu preferencia */
     border: none;
     color: white;
     border-radius: 10px;
@@ -107,6 +120,6 @@ h1.title {
   }
   
   button.reiniciar:hover {
-    background-color: #E33939; /* Cambia el color al pasar el mouse */
+    background-color: #d2a84d; /* Cambia el color al pasar el mouse */
   }
   
