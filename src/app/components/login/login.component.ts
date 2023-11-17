@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Vibration } from '@ionic-native/vibration/ngx';
 import { Usuario } from 'src/app/models/usuario';
 import { EmailService } from 'src/app/services/email.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PushNotificationService } from 'src/app/services/push-notification.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -28,7 +26,8 @@ export class LoginComponent  implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private usuarioSrv: UsuarioService,
-    private emailService:EmailService
+    private emailService:EmailService,
+    private firestore:FirestoreService
   ) {
     
   }
@@ -38,6 +37,7 @@ export class LoginComponent  implements OnInit {
     /*this.emailService.enviarMail("los23.email@gmail.com","PROBANDO SERVICIO","PROBANDO SERVICIO").subscribe((resultado)=>{
       console.log(resultado);
     })*/
+
   }
 
 
@@ -53,10 +53,12 @@ async onLogin() {
 
   if (esValido){
     const usuarioLogueado = this.usuarioSrv.getUsuarioLogueado();
-    if (usuarioLogueado.tipo === "cocinero" || usuarioLogueado.tipo === "bartender") {
+    if (usuarioLogueado.data.tipo === "cocinero" || usuarioLogueado.data.tipo === "bartender" || usuarioLogueado.data.tipo === "metre"  || usuarioLogueado.data.tipo === "Mozo") {
       this.router.navigate(['homeEmpleado'], { replaceUrl: true });
-    }else if (usuarioLogueado.tipo === "duenio" || usuarioLogueado.tipo === "supervisor"){
+    }else if (usuarioLogueado.data.tipo === "duenio" || usuarioLogueado.data.tipo === "supervisor"){
       this.router.navigate(['home'], { replaceUrl: true });
+    }else if (usuarioLogueado.data.tipo === "cliente" ){
+      this.router.navigate(['homeCliente'], { replaceUrl: true });
     }
   }
 }
@@ -87,6 +89,10 @@ async onLogin() {
       }
       case "supervisor": {
         this.userForm?.setValue({usuario:'supervisor',clave: "supervisor"});
+        break;
+      }
+      case "mozo": {
+        this.userForm?.setValue({usuario:'mozo',clave: "mozo"});
         break;
       }
       default: {

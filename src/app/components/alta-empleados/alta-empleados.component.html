@@ -20,6 +20,14 @@
                 <img [src]="imageElement" class="m-1" style="border-radius: 50%; width: 120px; height: 120px;">
               </div>
             </div>
+            <ion-item style="width: 80%;margin-left: 10%;margin-top: 5%;">
+              <ion-label position="fixed" >Usuario</ion-label>
+              <ion-input type="text" formControlName="usuario" name="usuario" [class]="isValidField('usuario')" ></ion-input> 
+            </ion-item>
+            <ion-item style="width: 80%;margin-left: 10%;margin-top: 5%;">
+              <ion-label position="fixed" >Clave</ion-label>
+              <ion-input type="password" formControlName="clave" name="clave" [class]="isValidField('clave')" ></ion-input> 
+            </ion-item>
             <ion-item style="width: 80%; margin-left: 10%; margin-top: 5%;">
               <ion-label position="fixed">Nombre</ion-label>
               <ion-input type="text" formControlName="nombre" name="nombre" [class]="isValidField('nombre')"></ion-input>

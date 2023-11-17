@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, QueryDocumentSnapshot, addDoc, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { DocumentData, QueryDocumentSnapshot, addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { firestore } from 'src/main';
 
 @Injectable({
@@ -23,11 +23,22 @@ export class FirestoreService {
     return encuestas;
   }
 
-  collection(arg0: string) {
-    throw new Error('Method not implemented.');
+  escucharCambios (ruta:string, callback: (data: any[]) => void) {
+    let datos :any[]=[];
+    const q = query(collection(firestore, ruta));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      datos = [];
+      querySnapshot.forEach((doc:any) => {
+        let data = {
+          id : doc.id,
+          data : doc.data()
+        }
+        datos.push(data);
+      });
+      callback(datos);
+    });
+    return datos;
   }
-  constructor() {}
-  
 
   guardar(data: any, ruta: string) {
     const colRef = collection(firestore, ruta);
@@ -52,6 +63,19 @@ export class FirestoreService {
     const usuarioRef = collection(firestore,ruta);
       const documento = doc(usuarioRef,data.id)
       await updateDoc(documento,data.data)
+        .then((respuesta)=>{
+          retorno = true;
+        })
+        .catch((error) => {
+      });
+      return retorno;
+  }
+
+  async borrar(data: any,ruta:string){
+    let retorno = false;
+    const usuarioRef = collection(firestore,ruta);
+      const documento = doc(usuarioRef,data.id)
+      await deleteDoc(documento)
         .then((respuesta)=>{
           retorno = true;
         })

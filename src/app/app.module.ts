@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,23 +17,25 @@ import { AltaClienteAnonimoComponent } from './components/alta-cliente-anonimo/a
 import { RegistroClienteComponent } from './components/registro-cliente/registro-cliente.component';
 import { AltaMesaComponent } from './components/alta-mesa/alta-mesa.component';
 import { ListadoMesasComponent } from './components/listado-mesas/listado-mesas.component';
-
 import { QRCodeModule } from 'angularx-qrcode';
 import { AltaProductosComponent } from './components/alta-productos/alta-productos.component';
 import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
-import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
-import { HttpClientModule } from '@angular/common/http';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
+import { HttpClientModule } from '@angular/common/http';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { MemotestComponent } from './components/memotest/memotest.component';
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
 import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
+import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
+import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
+import { DateFormatPipe } from './pipes/date-format.pipe';
+import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
 
 @NgModule({
   declarations: [
@@ -44,9 +46,8 @@ import { MayormenorComponent } from './components/mayormenor/mayormenor.componen
     SpinnerComponent,
     HomeComponent,
     AnonimoPendientesComponent,
-    HomeAnonimoComponent,
+    ListaEncuestasComponent,
     EncuestaSupervisorComponent,
-
     ListadoProductosComponent,
     AltaClienteComponent,
     EncuestasClientesComponent,
@@ -62,7 +63,10 @@ import { MayormenorComponent } from './components/mayormenor/mayormenor.componen
     HomeEmpleadoComponent,
     ListadoMesasComponent,
     ClientesPendientesComponent,
-    HomeClienteComponent
+    HomeClienteComponent,
+    ChatMozoComponent,
+    DateFormatPipe,
+    ListadoPedidosComponent
   ],
   imports: [
     HttpClientModule,

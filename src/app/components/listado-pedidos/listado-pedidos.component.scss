@@ -1,20 +1,3 @@
-ion-toolbar{
-    text-align: center;
-}
-
-
-ion-toolbar,ion-card{
-    --background: #FEFAE0;
-}
-
-ion-input,ion-content,ion-item{
-    --background: #FAEDCD;
-}
-
-ion-fab-button,ion-button{
-    --background: #D0A933;
-}
-
 .tabla-pedidos {
     width: 100%;
     margin-top: 10px; /* Ajusta el margen superior según tus necesidades */
@@ -30,3 +13,4 @@ ion-fab-button,ion-button{
     flex-wrap: nowrap;
     overflow-x: auto;
   }
+  
