@@ -11,6 +11,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 
 @Component({
   selector: 'app-alta-cliente-anonimo',
@@ -28,6 +29,7 @@ export class AltaClienteAnonimoComponent {
     private barcodeScanner: BarcodeScanner,
     private mensajesService: MensajeService,
     private storageService: StorageService,
+    private pushNotService: PushNotificationService,
     private firestoreService: FirestoreService,
     private router: Router
   ) {}
@@ -49,14 +51,17 @@ export class AltaClienteAnonimoComponent {
         this.imageElement,
         'usuarios'
       );
+      //const token = await this.pushNotService.generarToken();
+
       let data = {
         usuario: 'anonimo',
-        clave: 'anonimo',
+        clave: new Date().getTime().toString(),
         nombre: this.form.value.nombre,
         tipo: 'anonimo',
         foto: fotoUrl,
         clientePendiente: true,
         clienteRechazado: false,
+        //tokenPush: token,
       };
       await this.firestoreService.guardar(data, 'usuarios');
       await this.mensajesService.mostrar(
@@ -65,8 +70,10 @@ export class AltaClienteAnonimoComponent {
         'success'
       );
       registroCorrecto = true;
-      localStorage.setItem('usuario', JSON.stringify(data));
 
+      let usuarios = await this.firestoreService.obtener("usuarios")
+      let usuario = usuarios.filter((usuario:any)=> usuario.data.usuario === data.usuario && usuario.data.clave === data.clave)[0]
+      localStorage.setItem('usuario', JSON.stringify(usuario));
     } else if (!this.foto && this.form.get('nombre')?.valid) {
       await this.mensajesService.mostrar(
         'ERROR',
@@ -82,8 +89,8 @@ export class AltaClienteAnonimoComponent {
     }
 
     this.cargando = false;
-    if (registroCorrecto) {      
-      this.router.navigate(['home/anonimo'], { replaceUrl: true }); 
+    if (registroCorrecto) {
+      this.router.navigate(['homeCliente'], { replaceUrl: true });
       // CAMBIAR POR LUGAR DONDE HACE PEDIDOS
     }
   }
@@ -130,4 +137,6 @@ export class AltaClienteAnonimoComponent {
       ? 'is-valid'
       : '';
   }
+
+ 
 }

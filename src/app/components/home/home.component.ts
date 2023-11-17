@@ -47,8 +47,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['lista/mesas'], { replaceUrl: true });
   }
 
-  salir() {
+  async salir() {
+    await this.pushNotService.silenciarNotificaciones();
     this.usuarioService.salir();
 
   }
+
 }

@@ -1,8 +1,16 @@
-<ion-content>
+<ion-toolbar *ngIf="!mostrarSeleccionar">
+  <ion-title >Listado mesas</ion-title>
+  <ion-buttons slot="start">
+    <ion-button color="dark" routerLink="/home">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-content *ngIf="!mostrarSeleccionar">
   <ion-card *ngFor="let mesa of mesas">
     <ng-container>
       <qrcode
-        [qrdata]="mesa.numeroMesa.toString()"
+        [qrdata]="mesa.qr.toString()"
         [width]="256"
         [errorCorrectionLevel]="'M'"
       ></qrcode>
@@ -14,6 +22,29 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<div *ngIf="mostrarSeleccionar">
+  <ion-card *ngFor="let mesa of mesas">
+    <ng-container>
+      <qrcode
+        [qrdata]="mesa.qr.toString()"
+        [width]="256"
+        [errorCorrectionLevel]="'M'"
+      ></qrcode>
+    </ng-container>
+    <ion-card-content>
+      <h2>{{ mesa.tipoMesa }}</h2>
+      <p>Número de Mesa: {{ mesa.numeroMesa }}</p>
+      <p>Cantidad de Comensales: {{ mesa.comensalesMesa }}</p>
+    </ion-card-content>
+    <ion-button   style="width: 40%;margin: 5%;float: left;" (click)="seleccionarMesa(mesa)" >
+      Seleccionar
+    </ion-button>
+    <ion-button   style="width: 40%;margin: 5%;float: right;" (click)="cancelar()" >
+      Cancelar
+    </ion-button>
+  </ion-card>
+</div>
 
 <ng-template [ngIf]="cargando">
   <app-spinner></app-spinner>

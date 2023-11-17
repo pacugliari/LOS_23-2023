@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title >Clientes pendientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding *ngIf="!cargando ">
+    <ion-grid>
+      <ion-row color="primary">
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
+          </div>
+          <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+            <ion-card  class="auth-card ion-margin">
+              <ion-button (click)="atras()" style="width: 80%;margin-top: 5%;"> Atras </ion-button>
+              <br><br>
+            </ion-card>
+          </div>
+          <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+            <ion-card  class="auth-card ion-margin">
+                <ion-button  *ngFor="let cliente of clientesPendientes" style="width: 80%;margin: 5%;" (click)="verCliente(cliente)">
+                  {{cliente.data.nombre}}<i style="margin-left: 3%;" class="material-icons">remove_red_eye</i>
+                </ion-button>
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+<!--
+    <ion-title>Clientes pendientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding *ngIf="!cargando">
+  <ion-card *ngFor="let cliente of clientesPendientes" (click)="verCliente(cliente)">
+    <ion-card-header>
+      <ion-card-title>{{ cliente.data.nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ cliente.data.apellido }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-avatar slot="start">
+        <img [src]="cliente.data.foto" />
+      </ion-avatar>
+      <ion-label>Información adicional del cliente, si es necesaria</ion-label>
+    </ion-card-content>
+  </ion-card>
+>>>>>>> gamma-->
+</ion-content>
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>
+
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>

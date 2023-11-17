@@ -18,8 +18,25 @@ ion-toolbar {
     --background: #d0a933;
   }
   
-  ion-img {
-    border-radius: 15px;
-    object-fit: cover;
+  .botones-fijos {
+    position: sticky;
+    top: 56px; /* Altura de la barra de herramientas (ajusta según sea necesario) */
+    background-color: white; /* Fondo blanco para los botones (ajusta según sea necesario) */
+    z-index: 1; /* Asegura que los botones estén encima del contenido desplazable */
+    display: flex;
+    justify-content: space-around; /* Espaciado uniforme entre los botones */
+    border-bottom: 1px solid #ccc; /* Línea divisoria opcional */
+  }
+  
+  .foto-scroll {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .foto-scroll img {
+    max-width: 100%;
+    height: auto;
+    margin-right: 10px; /* Espacio entre las imágenes (ajústalo según sea necesario) */
   }
   

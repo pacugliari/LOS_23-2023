@@ -141,12 +141,11 @@ export class AltaClienteComponent {
       : '';
   }
 
-  async mandarNotificacionPush(data:any){
+  async mandarNotificacionPush(data:any){ 
     let supervisores = await this.firestoreService.obtener("usuarios");
     supervisores = supervisores.filter((element)=> {
       return element.data.tipo === "duenio" || element.data.tipo === "supervisor"
     })
-    //console.log(JSON.stringify(supervisores))
 
     this.pushNotService.sendPushNotification({
       registration_ids: supervisores.map((element)=> element.data.tokenPush),
@@ -158,6 +157,5 @@ export class AltaClienteComponent {
     .subscribe((data) => {
       console.log(data)
     });
-
   }
 }

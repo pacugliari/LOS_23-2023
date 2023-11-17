@@ -24,25 +24,17 @@ import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
 import { MemotestComponent } from './components/memotest/memotest.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
-import { HomeAnonimoComponent } from './components/home-anonimo/home-anonimo.component';
 import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
+import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
+import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
+import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
+import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
+
 const routes: Routes = [
-  {
-    path: 'splash-animado',
-    component: SplashComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'alta/dueño',
-    component: AltaDuenioComponent,
+  {path: 'splash-animado',component: SplashComponent},
+  {path: 'login',component: LoginComponent},
+  {path: 'home',component: HomeComponent,canActivate: [AuthGuard],},
+  {path: 'alta/dueño',component: AltaDuenioComponent,
     //canActivate: [PerfilGuard],
   },
   
@@ -50,14 +42,17 @@ const routes: Routes = [
     path: 'spinner',
     component: SpinnerComponent,
   },
+
+  {path: 'spinner',component: SpinnerComponent,},
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
+  { path: 'listadoEncuestas', component: ListaEncuestasComponent },
+  { path: 'anonimo-pendientes', component: AnonimoPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
   
   
   { path: 'mayormenor', component: MayormenorComponent },
   
-  { path: 'homeanonimo', component: HomeAnonimoComponent },
   { path: 'ahorcado', component: AhorcadoComponent },
   { path: 'memotest', component: MemotestComponent },
   { path: 'grafico/clientes', component: GraficoClientesComponent },
@@ -67,6 +62,7 @@ const routes: Routes = [
   { path: 'registroCliente', component: RegistroClienteComponent },
   { path: 'lista/mesas', component: ListadoMesasComponent },
   { path: 'listado/productos', component: ListadoProductosComponent },
+  { path: 'chatMozo', component: ChatMozoComponent },
   { path: 'homeEmpleado', component: HomeEmpleadoComponent },
   
   {
@@ -75,6 +71,10 @@ const routes: Routes = [
   {
     path: 'alta-productos',component:AltaProductosComponent
   },
+  { path: 'clientes-pendientes', component: ClientesPendientesComponent },
+  { path: 'homeCliente', component: HomeClienteComponent },
+  {path: 'alta-empleados',component:AltaEmpleadosComponent},
+  {path: 'alta-productos',component:AltaProductosComponent},
   {
     path: '',
     redirectTo: 'splash-animado',

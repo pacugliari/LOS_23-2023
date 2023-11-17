@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
@@ -11,33 +11,49 @@ import { MensajeService } from 'src/app/services/mensaje.service';
 export class ListadoMesasComponent implements OnInit {
   mesas: any[] = [];
   public cargando: boolean = false;
-
+  @Input() mostrarSeleccionar = false;
+  @Output() mesaSeleccionada = new EventEmitter<any>();
+  
   constructor(
     private firestoreService: FirestoreService,
     private router: Router,private mensajesService:MensajeService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cargando = true;
-    this.cargar();
+    await this.cargar();
   }
   async cargar() {
     try {
-      console.log('aaaaaaaaaa');
-      this.mesas = await this.firestoreService.traerActoresBd();
-      console.log(this.mesas);
+      let mesasBase  : any[];
+      if(this.mostrarSeleccionar){
+        mesasBase = (await this.firestoreService.obtener("mesas")).filter((mesa:any)=> mesa.data.estado === "disponible");
+        if(mesasBase.length === 0){
+          this.mensajesService.mostrar("ERROR","No hay mesas disponbiles","error")
+          this.cancelar();
+        } 
+      }else{
+        mesasBase= await this.firestoreService.obtener("mesas");
+      }
+      mesasBase.forEach((mesa:any) => {
+        let aux = mesa.data
+        aux.id = mesa.id;
+        aux.qr = "MESA:"+mesa.id;
+        this.mesas.push(aux);
+      });
 
-      await this.mensajesService.mostrar(
-        '',
-        this.mesas,
-        'success'
-      );
-
-      console.log('bbbbbb');
     } catch (error) {
       console.error('Error fetching data from Firestore:', error);
     } finally {
       this.cargando = false;
     }
+  }
+
+  seleccionarMesa(mesa:any){
+    this.mesaSeleccionada.emit(mesa)
+  }
+
+  cancelar(){
+    this.mesaSeleccionada.emit(null)
   }
 }

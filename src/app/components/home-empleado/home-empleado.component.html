@@ -1,27 +1,94 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title >Home</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content >
-    <ion-grid>
-      <ion-row color="primary">
-        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div text-center>
-          </div>
-          <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
-            <ion-card  class="auth-card ion-margin">
-              <ion-button (click)="altaProductos()" style="width: 80%;margin-top: 5%;"> Alta Productos</ion-button>
-              <ion-button (click)="verProductos()" style="width: 80%;margin-top: 5%;"> Listado Productos</ion-button>
-              <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
-              <br><br>
-            </ion-card>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title >{{titulo}}</ion-title>
+      <ion-buttons slot="start" *ngIf="indice !==0 && indice !==4">
+        <ion-button color="dark" (click)="atras()">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content *ngIf="!cargando" ><!--MENU COCINERO/BARTENDER-->
+    <div *ngIf="indice === 0">
+      <ion-grid>
+        <ion-row color="primary">
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <div text-center>
+            </div>
+            <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+              <ion-card  class="auth-card ion-margin">
+                <ion-button (click)="administrarPedidos()" style="width: 80%;margin-top: 5%;"> Administrar pedidos</ion-button>
+                <ion-button (click)="altaProductos()" style="width: 80%;margin-top: 5%;"> Alta Productos</ion-button>
+                <ion-button (click)="verProductos()" style="width: 80%;margin-top: 5%;"> Listado Productos</ion-button>
+                <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
+                <br><br>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="indice === 1">
+      <ion-grid>
+        <ion-row color="primary">
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <div text-center>
+            </div>
+            <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+              <ion-card  class="auth-card ion-margin">
+                <ion-button (click)="atras()" style="width: 80%;margin-top: 5%;"> Atras </ion-button>
+              </ion-card>
+              <ion-row color="primary">
+                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+                  <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+                    <ion-card  class="auth-card ion-margin">
+                        <ion-button  *ngFor="let cliente of salaEspera" style="width: 80%;margin: 5%;" (click)="asignarMesa(cliente)">
+                          {{cliente.data.nombre}}<i style="margin-left: 3%;" class="material-icons">remove_red_eye</i>
+                        </ion-button>
+                    </ion-card>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="indice === 3">
+      <ion-toolbar>
+        <ion-title >Mesas disponibles:</ion-title>
+      </ion-toolbar>
+      <app-listado-mesas [mostrarSeleccionar]="true" (mesaSeleccionada)="mesaSeleccionada($event)"></app-listado-mesas>
+    </div>
+    <div *ngIf="indice === 4"><!--MENU MOZO-->
+      <ion-grid>
+        <ion-row color="primary">
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <div text-center>
+            </div>
+            <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+              <ion-card  class="auth-card ion-margin">
+                <ion-button (click)="administrarPedidos()" style="width: 80%;margin-top: 5%;"> Administrar pedidos</ion-button>
+                <ion-button (click)="verListaEspera()" style="width: 80%;margin-top: 5%;"> Lista de espera</ion-button>
+                <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
+                <br><br>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="indice === 5">
+      <app-listado-pedidos  ></app-listado-pedidos>
+    </div>
 </ion-content>
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>
+
 
 
 
