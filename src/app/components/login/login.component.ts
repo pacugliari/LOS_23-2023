@@ -11,11 +11,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent  implements OnInit {
-  
-  public usuario : Usuario =new Usuario();
-  cargando : boolean = false;
-  mostrar : boolean = false;
+export class LoginComponent implements OnInit {
+  public usuario: Usuario = new Usuario();
+  cargando: boolean = false;
+  mostrar: boolean = false;
 
   userForm = this.fb.group({
     usuario: ['', [Validators.required]],
@@ -26,73 +25,77 @@ export class LoginComponent  implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private usuarioSrv: UsuarioService,
-    private emailService:EmailService,
-    private firestore:FirestoreService
-  ) {
-    
-  }
+    private emailService: EmailService,
+    private firestore: FirestoreService
+  ) {}
 
   async ngOnInit() {
-
     /*this.emailService.enviarMail("los23.email@gmail.com","PROBANDO SERVICIO","PROBANDO SERVICIO").subscribe((resultado)=>{
       console.log(resultado);
     })*/
-
   }
 
+  async onLogin() {
+    this.cargando = true;
+    this.usuario.usuario = this.userForm.value.usuario
+      ? this.userForm.value.usuario
+      : '';
+    this.usuario.clave = this.userForm.value.clave
+      ? this.userForm.value.clave
+      : '';
+    this.userForm.reset();
 
+    let esValido = await this.usuarioSrv.verificarUsuario(this.usuario);
+    this.cargando = false;
 
-async onLogin() {
-  this.cargando = true;
-  this.usuario.usuario = this.userForm.value.usuario ? this.userForm.value.usuario : "";
-  this.usuario.clave = this.userForm.value.clave ? this.userForm.value.clave : "";
-  this.userForm.reset();
-
-  let esValido = await this.usuarioSrv.verificarUsuario(this.usuario);
-  this.cargando = false;
-
-  if (esValido){
-    const usuarioLogueado = this.usuarioSrv.getUsuarioLogueado();
-    if (usuarioLogueado.data.tipo === "cocinero" || usuarioLogueado.data.tipo === "bartender" || usuarioLogueado.data.tipo === "metre"  || usuarioLogueado.data.tipo === "Mozo") {
-      this.router.navigate(['homeEmpleado'], { replaceUrl: true });
-    }else if (usuarioLogueado.data.tipo === "duenio" || usuarioLogueado.data.tipo === "supervisor"){
-      this.router.navigate(['home'], { replaceUrl: true });
-    }else if (usuarioLogueado.data.tipo === "cliente" ){
-      this.router.navigate(['homeCliente'], { replaceUrl: true });
+    if (esValido) {
+      const usuarioLogueado = this.usuarioSrv.getUsuarioLogueado();
+      if (
+        usuarioLogueado.data.tipo === 'cocinero' ||
+        usuarioLogueado.data.tipo === 'bartender' ||
+        usuarioLogueado.data.tipo === 'metre' ||
+        usuarioLogueado.data.tipo === 'Mozo'
+      ) {
+        this.router.navigate(['homeEmpleado'], { replaceUrl: true });
+      } else if (
+        usuarioLogueado.data.tipo === 'duenio' ||
+        usuarioLogueado.data.tipo === 'supervisor'
+      ) {
+        this.router.navigate(['home'], { replaceUrl: true });
+      } else if (usuarioLogueado.data.tipo === 'cliente') {
+        this.router.navigate(['homeCliente'], { replaceUrl: true });
+      }
     }
   }
-}
 
-
-  accesoAnonimo(){
+  accesoAnonimo() {
     this.mostrar = !this.mostrar;
   }
 
-
-  selecCuenta(cuenta:any) {
+  selecCuenta(cuenta: any) {
     switch (cuenta) {
-      case "duenio": {
-        this.userForm?.setValue({usuario:'dueño',clave: "dueño"});
+      case 'duenio': {
+        this.userForm?.setValue({ usuario: 'dueño', clave: 'dueño' });
         break;
       }
-      case "cocinero": {
-        this.userForm?.setValue({usuario:'cocinero',clave: "cocinero"});
+      case 'cocinero': {
+        this.userForm?.setValue({ usuario: 'cocinero', clave: 'cocinero' });
         break;
       }
-      case "bartender": {
-        this.userForm?.setValue({usuario:'bartender',clave: "bartender"});
+      case 'bartender': {
+        this.userForm?.setValue({ usuario: 'bartender', clave: 'bartender' });
         break;
       }
-      case "metre": {
-        this.userForm?.setValue({usuario:'metre',clave: "metre"});
+      case 'metre': {
+        this.userForm?.setValue({ usuario: 'metre', clave: 'metre' });
         break;
       }
-      case "supervisor": {
-        this.userForm?.setValue({usuario:'supervisor',clave: "supervisor"});
+      case 'supervisor': {
+        this.userForm?.setValue({ usuario: 'supervisor', clave: 'supervisor' });
         break;
       }
-      case "mozo": {
-        this.userForm?.setValue({usuario:'mozo',clave: "mozo"});
+      case 'mozo': {
+        this.userForm?.setValue({ usuario: 'mozo', clave: 'mozo' });
         break;
       }
       default: {
@@ -102,10 +105,9 @@ async onLogin() {
     this.accesoAnonimo();
   }
 
-  registroCliente(){
+  registroCliente() {
     this.router.navigate(['registroCliente'], { replaceUrl: true });
   }
-
 
   isValidField(field: string): string {
     const validateField = this.userForm?.get(field);
@@ -115,5 +117,4 @@ async onLogin() {
       ? 'is-valid'
       : '';
   }
-
 }

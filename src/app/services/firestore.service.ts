@@ -1,5 +1,17 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, QueryDocumentSnapshot, addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc } from 'firebase/firestore';
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+} from 'firebase/firestore';
 import { firestore } from 'src/main';
 
 @Injectable({
@@ -8,7 +20,6 @@ import { firestore } from 'src/main';
 export class FirestoreService {
   encuestasCollection = collection(firestore, 'encuestas');
 
-  
   async obtenerEncuestas(): Promise<any[]> {
     const querySnapshot = await getDocs(this.encuestasCollection);
     const encuestas: any[] = [];
@@ -23,16 +34,16 @@ export class FirestoreService {
     return encuestas;
   }
 
-  escucharCambios (ruta:string, callback: (data: any[]) => void) {
-    let datos :any[]=[];
+  escucharCambios(ruta: string, callback: (data: any[]) => void) {
+    let datos: any[] = [];
     const q = query(collection(firestore, ruta));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       datos = [];
-      querySnapshot.forEach((doc:any) => {
+      querySnapshot.forEach((doc: any) => {
         let data = {
-          id : doc.id,
-          data : doc.data()
-        }
+          id: doc.id,
+          data: doc.data(),
+        };
         datos.push(data);
       });
       callback(datos);
@@ -43,6 +54,18 @@ export class FirestoreService {
   guardar(data: any, ruta: string) {
     const colRef = collection(firestore, ruta);
     return addDoc(colRef, data);
+  }
+
+  async obtenrUno(ruta: string, uid: string) {
+    const docSnap = await getDoc(doc(firestore, ruta, uid));
+    if (docSnap.exists()) {
+      return {
+        id: docSnap.id,
+        data: docSnap.data(),
+      };
+    }else{
+      return null;
+    }
   }
 
   async obtener(ruta: string) {
@@ -58,30 +81,28 @@ export class FirestoreService {
     return array;
   }
 
-  async modificar (data: any,ruta:string){
+  async modificar(data: any, ruta: string) {
     let retorno = false;
-    const usuarioRef = collection(firestore,ruta);
-      const documento = doc(usuarioRef,data.id)
-      await updateDoc(documento,data.data)
-        .then((respuesta)=>{
-          retorno = true;
-        })
-        .catch((error) => {
-      });
-      return retorno;
+    const usuarioRef = collection(firestore, ruta);
+    const documento = doc(usuarioRef, data.id);
+    await updateDoc(documento, data.data)
+      .then((respuesta) => {
+        retorno = true;
+      })
+      .catch((error) => {});
+    return retorno;
   }
 
-  async borrar(data: any,ruta:string){
+  async borrar(data: any, ruta: string) {
     let retorno = false;
-    const usuarioRef = collection(firestore,ruta);
-      const documento = doc(usuarioRef,data.id)
-      await deleteDoc(documento)
-        .then((respuesta)=>{
-          retorno = true;
-        })
-        .catch((error) => {
-      });
-      return retorno;
+    const usuarioRef = collection(firestore, ruta);
+    const documento = doc(usuarioRef, data.id);
+    await deleteDoc(documento)
+      .then((respuesta) => {
+        retorno = true;
+      })
+      .catch((error) => {});
+    return retorno;
   }
 
   public async traerActoresBd() {
@@ -89,8 +110,8 @@ export class FirestoreService {
     const query = await getDocs(actoresCollection);
     const actores = query.docs.map((doc) => {
       return {
-        id: doc.id, 
-        ...doc.data(), 
+        id: doc.id,
+        ...doc.data(),
       };
     });
     return actores;
@@ -106,5 +127,4 @@ export class FirestoreService {
     });
     return productos; // Cambia el nombre del arreglo a 'producto'
   }
-  
 }

@@ -51,8 +51,7 @@ export class AltaClienteAnonimoComponent {
         this.imageElement,
         'usuarios'
       );
-      //const token = await this.pushNotService.generarToken();
-
+      const token = await this.pushNotService.generarToken();
       let data = {
         usuario: 'anonimo',
         clave: new Date().getTime().toString(),
@@ -61,7 +60,7 @@ export class AltaClienteAnonimoComponent {
         foto: fotoUrl,
         clientePendiente: true,
         clienteRechazado: false,
-        //tokenPush: token,
+        tokenPush: token,
       };
       await this.firestoreService.guardar(data, 'usuarios');
       await this.mensajesService.mostrar(
@@ -70,10 +69,11 @@ export class AltaClienteAnonimoComponent {
         'success'
       );
       registroCorrecto = true;
-
       let usuarios = await this.firestoreService.obtener("usuarios")
       let usuario = usuarios.filter((usuario:any)=> usuario.data.usuario === data.usuario && usuario.data.clave === data.clave)[0]
-      localStorage.setItem('usuario', JSON.stringify(usuario));
+  
+      localStorage.setItem('usuario', JSON.stringify({id:usuario.id,data:usuario.data}));     
+  
     } else if (!this.foto && this.form.get('nombre')?.valid) {
       await this.mensajesService.mostrar(
         'ERROR',
@@ -91,7 +91,6 @@ export class AltaClienteAnonimoComponent {
     this.cargando = false;
     if (registroCorrecto) {
       this.router.navigate(['homeCliente'], { replaceUrl: true });
-      // CAMBIAR POR LUGAR DONDE HACE PEDIDOS
     }
   }
 

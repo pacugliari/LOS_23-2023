@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
 import { Mensaje } from 'src/app/models/mensaje';
 import { ChatService } from 'src/app/services/chat.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -55,6 +53,10 @@ export class ChatMozoComponent implements OnInit {
         }
       }
     });
+  }
+
+  volver(){
+    this.router.navigate(['homeCliente'], { replaceUrl: true });    
   }
 
   async EnviarMensaje() {  
