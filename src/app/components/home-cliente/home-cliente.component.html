@@ -27,7 +27,7 @@
             <ion-card  class="auth-card ion-margin">
               <ion-button (click)="verProductos()" *ngIf="usuario.data.habilitarCarta" style="width: 80%;margin-top: 5%;"> Carta </ion-button>
               <ion-button (click)="chatMozo()" *ngIf="usuario.data.estadoMesa === 'Vinculada'" style="width: 80%;margin-top: 5%;"> Chat Mozo </ion-button>
-              <ion-button *ngIf="miPedido.data.estado !== 'NoConfirmado'" style="width: 80%;margin-top: 5%;"> Juegos </ion-button>
+              <ion-button *ngIf="miPedido.data.estado !== 'NoConfirmado'"  (click)="juegos()"style="width: 80%;margin-top: 5%;"> Juegos </ion-button>
               <ion-button *ngIf="miPedido.data.estado !== 'NoConfirmado'" (click)="irEncuestas()" style="width: 80%;margin-top: 5%;"> Encuestas </ion-button>
               <ion-button *ngIf="miPedido.data.entregado && !miPedido.data.pagado" style="width: 80%;margin-top: 5%;" (click)="pedirCuenta()"> Pedir cuenta </ion-button>
               <!--<ion-button  (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>-->

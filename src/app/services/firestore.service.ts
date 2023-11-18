@@ -7,7 +7,21 @@ import { firestore } from 'src/main';
 })
 export class FirestoreService {
   encuestasCollection = collection(firestore, 'encuestas');
+  encuestasempleadosCollection = collection(firestore, 'encuestasEmpleados');
 
+  async obtenerEncuestasempleados(): Promise<any[]> {
+    const querySnapshot = await getDocs(this.encuestasCollection);
+    const encuestas: any[] = [];
+
+    querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+      encuestas.push({
+        id: doc.id,
+        data: doc.data(),
+      });
+    });
+
+    return encuestas;
+  }
   
   async obtenerEncuestas(): Promise<any[]> {
     const querySnapshot = await getDocs(this.encuestasCollection);

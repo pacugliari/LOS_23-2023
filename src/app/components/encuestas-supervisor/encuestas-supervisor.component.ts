@@ -7,43 +7,52 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { GraficoClientesService } from 'src/app/services/grafico-clientes.service';
 
 
 @Component({
-  selector: 'app-encuestas-clientes',
-  templateUrl: './encuestas-clientes.component.html',
-  styleUrls: ['./encuestas-clientes.component.scss'],
+  selector: 'app-encuestas-supervisor',
+  templateUrl: './encuestas-supervisor.component.html',
+  styleUrls: ['./encuestas-supervisor.component.scss'],
 })
-export class EncuestasClientesComponent {
-  encuesta: any = {
+export class EncuestasSupervisorComponent  implements OnInit {
+encuesta: any = {
     nombre: '',
-    opinion: '',
-    valoracion: 5, // Valoración por defecto
-    fotos: [], // Para almacenar las fotos seleccionadas
+    clienteoempleado: '',
+    valoracion: 0, // Valoración por defecto
     nivelSatisfaccion: 5, // Nivel de satisfacción por defecto
-    ofertasCorreo: false,
-    primeraVisita: 'si'
+    recomendar: false,
+
   };
 
   constructor( private formBuilder: FormBuilder,
     private barcodeScanner: BarcodeScanner,
     private mensajesService: MensajeService,
     private storageService: StorageService,
-    private graficoClientesService: GraficoClientesService,
     private firestoreService: FirestoreService,
     private router: Router) {}
+  ngOnInit(){
+
+  }
+  
 
     async enviarEncuesta() {
       try {
         // Usar el servicio Firestore para guardar la encuesta
-        await this.firestoreService.guardar(this.encuesta, 'encuestas');
+        await this.firestoreService.guardar(this.encuesta, 'encuestasSuper');
         console.log('Encuesta enviada correctamente a Firestore a través de FirestoreService');
-        
+        this.mostrarMensaje();
+        this.encuesta = {
+          nombre: '',
+          clienteoempleado: '',
+          valoracion: 5,
+          nivelSatisfaccion: 5,
+          recomendar: false,
+        };
         // Aquí puedes realizar acciones adicionales después de enviar la encuesta
       } catch (error) {
         console.error('Error al enviar la encuesta a Firestore:', error);
@@ -51,26 +60,13 @@ export class EncuestasClientesComponent {
       }
     }
   
-    async tomarFoto() {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Base64,
-        source: CameraSource.Camera
-      });
-  
-      // Agregar la foto a la lista de fotos en la encuesta
-      this.encuesta.fotos.push(`data:image/jpeg;base64,${image.base64String}`);
-    }
-  
-    agregarFoto(event: Event) {
-      const input = event.target as HTMLInputElement;
-      if (input.files) {
-        for (let i = 0; i < input.files.length; i++) {
-          const foto = input.files[i];
-          this.encuesta.fotos.push(foto); // Agregar la foto a la lista de fotos en la encuesta
-          console.log('Foto seleccionada:', foto);
-        }
-      }
-    }
+    
+  async mostrarMensaje() {
+    await this.mensajesService.mostrar(
+      'Perfecto!',
+      '¡Enviaste correctamente!',
+      'success'
+    );
+  }
+   
 }

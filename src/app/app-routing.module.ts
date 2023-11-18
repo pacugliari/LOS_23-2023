@@ -18,7 +18,7 @@ import { ListadoProductosComponent } from './components/listado-productos/listad
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
-import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { EncuestaSupervisorComponent } from './components/encuesta-supervisor/encuesta-supervisor.component';
 
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
 import { MemotestComponent } from './components/memotest/memotest.component';
@@ -29,6 +29,10 @@ import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anon
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
 import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
+import { EncuestasSupervisorComponent } from './components/encuestas-supervisor/encuestas-supervisor.component';
+import { JuegosComponent } from './components/juegos/juegos.component';
+import { EncuestaEmpleadosComponent } from './components/encuesta-empleados/encuesta-empleados.component';
+import { GraficoEmpleadosComponent } from './components/grafico-empleados/grafico-empleados.component';
 
 const routes: Routes = [
   {path: 'splash-animado',component: SplashComponent},
@@ -48,13 +52,17 @@ const routes: Routes = [
   { path: 'listadoEncuestas', component: ListaEncuestasComponent },
   { path: 'anonimo-pendientes', component: AnonimoPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
-  { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
   
+  { path: 'encuenstaS', component: EncuestasSupervisorComponent },
+  
+  { path: 'juegos', component: JuegosComponent },
   
   { path: 'mayormenor', component: MayormenorComponent },
   
   { path: 'ahorcado', component: AhorcadoComponent },
   { path: 'memotest', component: MemotestComponent },
+  
+  { path: 'graficoEmpleados', component: GraficoEmpleadosComponent },
   { path: 'grafico/clientes', component: GraficoClientesComponent },
   { path: 'encuestas/clientes', component: EncuestasClientesComponent },
   { path: 'alta/clienteAnonimo', component: AltaClienteAnonimoComponent },
@@ -64,7 +72,8 @@ const routes: Routes = [
   { path: 'listado/productos', component: ListadoProductosComponent },
   { path: 'chatMozo', component: ChatMozoComponent },
   { path: 'homeEmpleado', component: HomeEmpleadoComponent },
-  
+  { path: 'encuestaEmpleado', component:   EncuestaEmpleadosComponent },
+
   {
     path: 'alta-empleados',component:AltaEmpleadosComponent
   },

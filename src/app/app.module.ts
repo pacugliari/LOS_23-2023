@@ -23,7 +23,7 @@ import { AltaEmpleadosComponent } from './components/alta-empleados/alta-emplead
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
 import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
-import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
+import { EncuestaSupervisorComponent } from './components/encuesta-supervisor/encuesta-supervisor.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -36,6 +36,10 @@ import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encu
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
 import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
+import { EncuestasSupervisorComponent } from './components/encuestas-supervisor/encuestas-supervisor.component';
+import { JuegosComponent } from './components/juegos/juegos.component';
+import { EncuestaEmpleadosComponent } from './components/encuesta-empleados/encuesta-empleados.component';
+import { GraficoEmpleadosComponent } from './components/grafico-empleados/grafico-empleados.component';
 
 
 @NgModule({
@@ -43,11 +47,15 @@ import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pe
     AppComponent,
     SplashComponent,
     LoginComponent,
+    JuegosComponent,
     AltaDuenioComponent,
     SpinnerComponent,
+    GraficoEmpleadosComponent,
+    EncuestaEmpleadosComponent,
     EncuestasClientesComponent,
     AhorcadoComponent,
     MemotestComponent,
+    EncuestasSupervisorComponent,
     MayormenorComponent,
     HomeComponent,
     AnonimoPendientesComponent,

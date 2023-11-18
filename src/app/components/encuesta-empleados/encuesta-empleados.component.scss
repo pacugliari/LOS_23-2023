@@ -20,12 +20,12 @@ ion-toolbar {
   
   /* Estilos para los elementos específicos del formulario */
   ion-segment, ion-segment-button, ion-label {
-    color: #000; /* Cambia el color del texto a negro */
+    color: #719719; /* Cambia el color del texto a negro */
   }
   
   ion-range {
     --bar-background-active: #D0A933; /* Cambia el color activo de la barra */
-    --bar-background-inactive: #ccc; /* Cambia el color inactivo de la barra */
+    --bar-background-inactive: #7a2222; /* Cambia el color inactivo de la barra */
   }
   
   ion-radio {
@@ -38,7 +38,7 @@ ion-toolbar {
   
   /* Estilos para la foto y la carga de imágenes */
   .photo-upload-container {
-    background-color: #FEFAE0;
+    background-color: #463f11;
     margin-top: 5vh;
     display: flex;
     flex-direction: column;
