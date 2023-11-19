@@ -5,7 +5,6 @@ import { LoginComponent } from './components/login/login.component';
 import { AltaDuenioComponent } from './components/alta-duenio/alta-duenio.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { HomeComponent } from './components/home/home.component';
-import { PerfilGuard } from './guards/perfil.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { AltaClienteComponent } from './components/alta-cliente/alta-cliente.component';
 import { RegistroClienteComponent } from './components/registro-cliente/registro-cliente.component';
@@ -24,10 +23,8 @@ import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
 import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
-import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
-import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
 
 const routes: Routes = [
   {path: 'splash-animado',component: SplashComponent},
@@ -45,7 +42,6 @@ const routes: Routes = [
   {path: 'spinner',component: SpinnerComponent,},
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'listadoEncuestas', component: ListaEncuestasComponent },
-  { path: 'anonimo-pendientes', component: AnonimoPendientesComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
   
@@ -60,8 +56,7 @@ const routes: Routes = [
   { path: 'lista/mesas', component: ListadoMesasComponent },
   { path: 'listado/productos', component: ListadoProductosComponent },
   { path: 'chatMozo/:chatID', component: ChatMozoComponent },
-  { path: 'homeEmpleado', component: HomeEmpleadoComponent },
-  
+  { path: 'homeEmpleado/:indice', component: HomeEmpleadoComponent },
   {
     path: 'alta-empleados',component:AltaEmpleadosComponent
   },

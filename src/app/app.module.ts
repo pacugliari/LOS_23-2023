@@ -22,7 +22,6 @@ import { AltaProductosComponent } from './components/alta-productos/alta-product
 import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
-import { AnonimoPendientesComponent } from './components/anonimo-pendientes/anonimo-pendientes.component';
 import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
@@ -45,7 +44,6 @@ import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pe
     AltaDuenioComponent,
     SpinnerComponent,
     HomeComponent,
-    AnonimoPendientesComponent,
     ListaEncuestasComponent,
     EncuestaSupervisorComponent,
     ListadoProductosComponent,

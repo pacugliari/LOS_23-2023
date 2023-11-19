@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { pushConfig } from 'src/main';
 import { Router } from '@angular/router';
+import { callback } from 'chart.js/dist/helpers/helpers.core';
 @Injectable({
   providedIn: 'root',
 })
@@ -52,7 +53,7 @@ export class PushNotificationService {
     });
   }
 
-  async escucharNotificaciones(ruta?: any) {
+  async escucharNotificaciones(callback: (respuesta: any) => any) {
     //Ocurre cuando el dispositivo recive una notificacion push
     await PushNotifications.addListener(
       'pushNotificationReceived',
@@ -87,16 +88,24 @@ export class PushNotificationService {
           notification.actionId,
           notification.notification
         );
+        console.log(JSON.stringify(notification))
+        let ruta = notification.notification.data.ruta
         console.log(ruta);
         if (ruta == 'chatMozo') {
           const chatId = notification.notification.data.chatId; // ID del chat
           if (chatId) {
             console.log(chatId);
-            this.router.navigate([ruta, chatId]);
+            this.router.navigate([ruta, chatId], { replaceUrl: true });
           }
+        } else if (ruta === 'homeEmpleado'){//metre
+          callback(5)
+        } else if (ruta === 'metre'){//metre
+          callback(1)
+        }else{
+          this.router.navigate([ruta], { replaceUrl: true });
         }
 
-        this.router.navigate([ruta]);
+  
       }
     );
 
@@ -105,16 +114,24 @@ export class PushNotificationService {
       'localNotificationActionPerformed',
       (notificationAction) => {
         console.log('action local notification', notificationAction);
-        console.log(ruta);
+
         //console.log(notificationAction.notification);
+
+        let ruta = notificationAction.notification.extra.data.ruta
+        console.log(JSON.stringify(notificationAction))
+        console.log(ruta);
         if (ruta === 'chatMozo') {
           const chatID = notificationAction.notification.extra.data.chatId; // ID del chat
           if (chatID) {
             console.log(chatID);
-            this.router.navigate([ruta, chatID]);
+            this.router.navigate([ruta, chatID], { replaceUrl: true });
           }
-        } else {
-          this.router.navigate([ruta]);
+        } else if (ruta === 'homeEmpleado'){
+          callback(5)
+        } else if (ruta === 'metre'){//metre
+          callback(1)
+        }else {
+          this.router.navigate([ruta], { replaceUrl: true });
         }
       }
     );

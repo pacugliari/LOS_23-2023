@@ -2,7 +2,7 @@
   <ion-toolbar >
     <ion-title style="text-align: center;" >{{titulo}}</ion-title>
     <ion-buttons slot="start">
-      <ion-button color="dark" [routerLink]="rutaBack"  *ngIf="!verPedido">
+      <ion-button color="dark" (click)="atras()"  *ngIf="!verPedido">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
       <ion-button color="dark" (click)="verPedidos()" *ngIf="verPedido">
@@ -10,7 +10,7 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <div style="background-color: #fefae0;padding: 1px 0;" *ngIf="!verPedido">
+  <div style="background-color: #fefae0;padding: 1px 0;" *ngIf="!verPedido && usuario.data.tipo !== 'cocinero'">
     <h2 style="margin-left: 3%;background-color: #fefae0">Total: ${{total}}</h2>
     <h2 style="margin-left: 3%;background-color: #fefae0">Tiempo: {{demora}} min</h2>
   </div>
@@ -20,7 +20,7 @@
     <ion-button (click)="filtrarPorCategoria('postres')">Postres</ion-button>
   </div>
 </ion-header>
-<ion-fab vertical="top" horizontal="end" slot="fixed" *ngIf="!verPedido">
+<ion-fab vertical="top" horizontal="end" slot="fixed" *ngIf="!verPedido && usuario.data.tipo !== 'cocinero'">
   <ion-button style="margin-top: 10vh;" (click)="verPedidos()"><ion-icon slot="icon-only" name="eye"></ion-icon></ion-button>
 </ion-fab>
 
@@ -46,7 +46,7 @@
               <h2>{{ producto.tiempo }} min - ${{ producto.precio }}</h2>
             </ion-col>
             <ion-col size="6" class="ion-text-center ion-align-items-center">
-              <ion-button (click)="agregar(producto)">
+              <ion-button (click)="agregar(producto)" *ngIf="usuario.data.tipo !== 'cocinero'">
                 <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
               </ion-button>
             </ion-col>
@@ -79,7 +79,7 @@
     
 </ion-content>
 
-<ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="!verPedido">
+<ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="!verPedido && usuario.data.tipo !== 'cocinero'">
   <ion-button style="font-size: 20px;" (click)="realizarPedido()">Realizar pedido</ion-button>
 </ion-fab>
 

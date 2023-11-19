@@ -2,21 +2,19 @@
   <ion-header>
     <ion-toolbar>
       <ion-title >{{titulo}}</ion-title>
-      <ion-buttons slot="start" *ngIf="indice !==0 && indice !==4">
+      <ion-buttons slot="start" *ngIf="indice !==0 && indice !==4 && indice !==6">
         <ion-button color="dark" (click)="atras()">
           <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  
   <ion-content *ngIf="!cargando" ><!--MENU COCINERO/BARTENDER-->
     <div *ngIf="indice === 0">
       <ion-grid>
         <ion-row color="primary">
           <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-            <div text-center>
-            </div>
+            <img src="../../../assets/splash/icono.png" alt="" height="auto" width="90%" style="margin-left: 5%;">
             <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
               <ion-card  class="auth-card ion-margin">
                 <ion-button (click)="administrarPedidos()" style="width: 80%;margin-top: 5%;"> Administrar pedidos</ion-button>
@@ -30,23 +28,30 @@
         </ion-row>
       </ion-grid>
     </div>
-    <div *ngIf="indice === 1">
+    <div *ngIf="indice === 1"><!--LISTA ESPERA-->
       <ion-grid>
         <ion-row color="primary">
           <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-            <div text-center>
-            </div>
             <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
-              <ion-card  class="auth-card ion-margin">
-                <ion-button (click)="atras()" style="width: 80%;margin-top: 5%;"> Atras </ion-button>
-              </ion-card>
               <ion-row color="primary">
                 <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
                   <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
-                    <ion-card  class="auth-card ion-margin">
+                    <!--<ion-card  class="auth-card ion-margin">
                         <ion-button  *ngFor="let cliente of salaEspera" style="width: 80%;margin: 5%;" (click)="asignarMesa(cliente)">
                           {{cliente.data.nombre}}<i style="margin-left: 3%;" class="material-icons">remove_red_eye</i>
                         </ion-button>
+                    </ion-card>-->
+                    <ion-card *ngFor="let cliente of salaEspera">
+                      <ion-card-content>
+                        <img [src]="cliente.data.foto" alt="" style="width: 100%;height: auto;">
+                        <p>Usuario: {{ cliente.data.usuario }}</p>
+                        <p>Nombre: {{ cliente.data.nombre }}</p>
+                        <p>Apellido: {{ cliente.data.tipo !== "anonimo" ? cliente.data.apellido : "No definido" }}</p>
+                        <p>DNI: {{ cliente.data.tipo !== "anonimo" ? cliente.data.dni : "No definido" }}</p>
+                        <ion-button style="width: 80%;margin: 5%;" (click)="asignarMesa(cliente)">
+                          Asignar mesa
+                        </ion-button>
+                      </ion-card-content>
                     </ion-card>
                   </div>
                 </ion-col>
@@ -56,7 +61,7 @@
         </ion-row>
       </ion-grid>
     </div>
-    <div *ngIf="indice === 3">
+    <div *ngIf="indice === 3"><!--MESAS DISPONIBLES-->
       <ion-toolbar>
         <ion-title >Mesas disponibles:</ion-title>
       </ion-toolbar>
@@ -66,12 +71,10 @@
       <ion-grid>
         <ion-row color="primary">
           <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-            <div text-center>
-            </div>
+            <img src="../../../assets/splash/icono.png" alt="" height="auto" width="90%" style="margin-left: 5%;">
             <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
               <ion-card  class="auth-card ion-margin">
                 <ion-button (click)="administrarPedidos()" style="width: 80%;margin-top: 5%;"> Administrar pedidos</ion-button>
-                <ion-button (click)="verListaEspera()" style="width: 80%;margin-top: 5%;"> Lista de espera</ion-button>
                 <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
                 <br><br>
               </ion-card>
@@ -82,6 +85,23 @@
     </div>
     <div *ngIf="indice === 5">
       <app-listado-pedidos  ></app-listado-pedidos>
+    </div>
+    <div *ngIf="indice === 6"><!--METRE-->
+      <ion-grid>
+        <ion-row color="primary">
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <img src="../../../assets/splash/icono.png" alt="" height="auto" width="90%" style="margin-left: 5%;">
+            <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+              <ion-card  class="auth-card ion-margin">
+                <ion-button (click)="verMesas()" style="width: 80%;margin-top: 5%;"> Lista de mesas</ion-button>
+                <ion-button (click)="verListaEspera()" style="width: 80%;margin-top: 5%;"> Lista de espera</ion-button>
+                <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
+                <br><br>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
 </ion-content>
 

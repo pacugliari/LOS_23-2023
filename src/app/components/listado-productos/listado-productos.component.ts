@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { PushNotificationService } from 'src/app/services/push-notification.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
 
@@ -25,36 +26,40 @@ export class ListadoProductosComponent implements OnInit {
   public cargando: boolean = false;
   titulo = "Listado productos"
   verPedido : boolean = false;
+  seCargoCocina : boolean = false;
+  seCargoBebida : boolean = false;
 
   constructor(
     private firestoreService: FirestoreService,private usuarioService: UsuarioService,
-    private mensajes: MensajeService,private router:Router
+    private mensajes: MensajeService,private router:Router,private route:ActivatedRoute
+    ,private pushService:PushNotificationService
   ) {}  
 
   async ngOnInit() {
-    this.cargando = true;
-    this.usuario = this.usuarioService.getUsuarioLogueado();
-    let pedidos = await this.firestoreService.obtener("pedidos");
-    pedidos.forEach((pedido : any)=>{
-      if(pedido.data.cliente.id === this.usuario.id && pedido.data.estado !== "Entregado"){
-        this.router.navigate(['homeCliente'], { replaceUrl: true });
-        this.mensajes.mostrar("OK","Ya realizo el pedido","success")
+    this.route.url.subscribe(async () => {
+      this.cargando = true;
+      this.usuario = this.usuarioService.getUsuarioLogueado();
+      let pedidos = await this.firestoreService.obtener("pedidos");
+      pedidos.forEach((pedido : any)=>{
+        if(pedido.data.cliente.id === this.usuario.id && pedido.data.estado !== "Entregado"){
+          this.router.navigate(['homeCliente'], { replaceUrl: true });
+          this.mensajes.mostrar("OK","Ya realizo el pedido","success")
+        }
+      }) 
+      await this.cargarProductos(); 
+  
+      if(this.usuario.data.tipo === "cocinero" || this.usuario.data.tipo === "bartender"){
+        this.rutaBack = "/homeEmpleado"
+        this.titulo = "Listado productos"
+      }else if (this.usuario.data.tipo === "cliente" || this.usuario.data.tipo === "anonimo" ){
+        this.rutaBack = "/homeCliente"
+        this.titulo = "Carta"
       }
-    }) 
-    await this.cargarProductos(); 
-
-    if(this.usuario.data.tipo === "cocinero" || this.usuario.data.tipo === "bartender"){
-      this.rutaBack = "/homeEmpleado"
-      this.titulo = "Listado productos"
-    }else if (this.usuario.data.tipo === "cliente"){
-      this.rutaBack = "/homeCliente"
-      this.titulo = "Carta"
-    }
-
+    })
   }
 
-  seleccionarProducto(){
-   // asignacion de productos al pedido de la mesa PUNTO 7 JIRA
+  atras(){
+    this.router.navigate([this.rutaBack,1], { replaceUrl: true });
   }
 
   private calcularTotales(){
@@ -63,7 +68,9 @@ export class ListadoProductosComponent implements OnInit {
     this.carrito.forEach((item:any) => {
       if(item){
         this.total += item.cantidad*item.producto.precio
-        this.demora += item.cantidad*item.producto.tiempo
+        if(this.demora < item.cantidad*item.producto.tiempo){
+          this.demora = item.cantidad*item.producto.tiempo
+        }
       }
     });
   }
@@ -85,9 +92,29 @@ export class ListadoProductosComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     });
 
-    this.carrito.push ({producto:producto,cantidad:cantidad})
+    if(cantidad){
+      if(producto.tipo === "comida" || producto.tipo === "postre"){
+        this.seCargoCocina = true;
+      }
+      if(producto.tipo === "bebida"){
+        this.seCargoBebida = true;
+      }
+      
+      let existe = false;
+      this.carrito.forEach((element:any) => {
+        if(element.producto.nombre === producto.nombre){
+          element.cantidad = Number(element.cantidad)+Number(cantidad);
+          existe = true;
+        }
+      });
 
-    this.calcularTotales();
+      if(!existe){
+        this.carrito.push ({producto:producto,cantidad:cantidad})
+      }
+      
+      this.calcularTotales();
+    }
+
   }
 
   filtrarPorCategoria(tipo:string){
@@ -139,15 +166,55 @@ export class ListadoProductosComponent implements OnInit {
     this.calcularTotales();
   }
 
-  async realizarPedido(){
-    let data = {
-      pedido: this.carrito,
-      cliente: this.usuario,
-      estado: "NoConfirmado"
+  private async buscarMesa(pedido: any) {
+    let mesas = await this.firestoreService.obtener("mesas")
+    for (let mesa of mesas) {
+      if (pedido.cliente.id === mesa.data.cliente.id) {
+        return mesa;
+      }
     }
-    await this.firestoreService.guardar(data,"pedidos")
-    this.mensajes.mostrar("OK","Pedido realizado,esta siendo confirmado por un mozo","success")
-    this.router.navigate(["homeCliente"], { replaceUrl: true })
+  }
+
+  async realizarPedido(){
+    this.cargando = true;
+    if(this.carrito.length > 0){
+      let data = {
+        pedido: this.carrito,
+        cliente: this.usuario,
+        estado: "NoConfirmado",
+        estadoBebidas : this.seCargoBebida ? null : "Entregado",
+        estadoComidas : this.seCargoCocina ? null : "Entregado",
+      }
+
+      let mozos = await this.firestoreService.obtener('usuarios');
+      mozos = mozos.filter((element) => {
+        return element.data.tipo === 'Mozo';
+      });
+
+      let mesa = await this.buscarMesa(data);
+
+      this.pushService
+      .sendPushNotification({
+        registration_ids: mozos.map((mozo)=> mozo.data.tokenPush),
+        notification: {
+          title: `Pedido nuevo`,
+          body: `Hay un pedido de la mesa ${mesa.data.numeroMesa} a ser confirmado`,
+        },
+        data: {
+          ruta: "homeEmpleado"
+        }
+      })
+      .subscribe((data) => {
+        console.log(JSON.stringify(data));
+      });
+
+      await this.firestoreService.guardar(data,"pedidos")
+      this.mensajes.mostrar("OK","Pedido realizado,esta siendo confirmado por un mozo","success")
+      this.router.navigate(["homeCliente"], { replaceUrl: true })
+    }else{
+      this.mensajes.mostrar("ERROR","Debe seleccionar al menos una cosa","error")
+    }
+    this.cargando = false;
   }
 
 }

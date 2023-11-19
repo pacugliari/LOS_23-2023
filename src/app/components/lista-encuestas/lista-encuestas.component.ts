@@ -13,6 +13,8 @@ export class ListaEncuestasComponent  implements OnInit {
   navController: any;
   scannedBarCode: any;
   encuestas: any[] = [];
+  cargando : boolean = false;
+
   constructor(
     private usuarioService: UsuarioService,
     private firestoreService: FirestoreService,
@@ -23,9 +25,11 @@ export class ListaEncuestasComponent  implements OnInit {
   }
   
   async cargarEncuestas() {
+    this.cargando = true;
     this.encuestas = await this.firestoreService.obtener('encuestas');
     console.log(this.encuestas);
     console.log(this.encuestas);
+    this.cargando = false;
   }
 
 

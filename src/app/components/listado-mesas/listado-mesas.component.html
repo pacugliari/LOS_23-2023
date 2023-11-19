@@ -1,13 +1,13 @@
 <ion-toolbar *ngIf="!mostrarSeleccionar">
   <ion-title >Listado mesas</ion-title>
   <ion-buttons slot="start">
-    <ion-button color="dark" routerLink="/home">
+    <ion-button color="dark" (click)="atras()">
       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
   </ion-buttons>
 </ion-toolbar>
 <ion-content *ngIf="!mostrarSeleccionar">
-  <ion-card *ngFor="let mesa of mesas">
+  <ion-card *ngFor="let mesa of listaMesas">
     <ng-container>
       <qrcode
         [qrdata]="mesa.qr.toString()"
@@ -16,7 +16,7 @@
       ></qrcode>
     </ng-container>
     <ion-card-content>
-      <h2>{{ mesa.tipoMesa }}</h2>
+      <h2>Tipo:{{ mesa.tipoMesa }}</h2>
       <p>Número de Mesa: {{ mesa.numeroMesa }}</p>
       <p>Cantidad de Comensales: {{ mesa.comensalesMesa }}</p>
     </ion-card-content>
@@ -24,7 +24,7 @@
 </ion-content>
 
 <div *ngIf="mostrarSeleccionar">
-  <ion-card *ngFor="let mesa of mesas">
+  <ion-card *ngFor="let mesa of listaMesas">
     <ng-container>
       <qrcode
         [qrdata]="mesa.qr.toString()"
@@ -33,16 +33,16 @@
       ></qrcode>
     </ng-container>
     <ion-card-content>
-      <h2>{{ mesa.tipoMesa }}</h2>
+      <h2>Tipo:{{ mesa.tipoMesa }}</h2>
       <p>Número de Mesa: {{ mesa.numeroMesa }}</p>
       <p>Cantidad de Comensales: {{ mesa.comensalesMesa }}</p>
     </ion-card-content>
-    <ion-button   style="width: 40%;margin: 5%;float: left;" (click)="seleccionarMesa(mesa)" >
+    <ion-button   style="width: 80%;margin-left: 10%;margin-bottom: 3%;float: left;" (click)="seleccionarMesa(mesa)" >
       Seleccionar
     </ion-button>
-    <ion-button   style="width: 40%;margin: 5%;float: right;" (click)="cancelar()" >
+    <!--<ion-button   style="width: 40%;margin: 5%;float: right;" (click)="cancelar()" >
       Cancelar
-    </ion-button>
+    </ion-button>-->
   </ion-card>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
@@ -14,11 +14,12 @@ import Swal from 'sweetalert2';
 export class HomeEmpleadoComponent implements OnInit {
   private tipo: string = '';
   indice = 0;
-  titulo = 'Home';
+  titulo = 'Inicio';
   salaEspera: any;
   clienteSeleccionado: any;
   cargando: boolean = false;
   usuario: any;
+  escuchando : boolean = false;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -26,59 +27,88 @@ export class HomeEmpleadoComponent implements OnInit {
     private pushNotService: PushNotificationService,
     private firestore: FirestoreService,
     private mensajes: MensajeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private ngZone: NgZone
   ) {}
 
   async ngOnInit() {
-    this.usuario = this.usuarioService.getUsuarioLogueado();
+    this.route.url.subscribe(async () => {
+      this.usuario = this.usuarioService.getUsuarioLogueado();
 
-    if (this.usuario.data.tipo == 'metre') {
-      console.log('el metre esta escuchando');
-      await this.pushNotService.escucharNotificaciones('anonimo-pendientes');
-    } else if (this.usuario.data.tipo == 'Mozo') {
-      this.indice = 4;
-      this.titulo = 'Menu mozo';
-      ///this.usuario.data.enListaEspera = this.usuario.data.estadoMesa = null; HACERLO CUANDO EL CLIENTE CONFIRME EL PAGO
-      this.firestore.escucharCambios('pagos', async (data) => {
-        for (let pago of data) {
-          if (
-            pago.data.mozo.id === this.usuario.id &&
-            pago.data.confirmado === false
-          ) {
-            await Swal.fire({
-              title: `Pago recibido`,
-              text: `El cliente de la mesa ${pago.data.mesa.data.numeroMesa} realizo el pago`,
-              icon: 'info',
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Confirmar',
-              heightAuto: false,
-            }).then(async (result) => {
-              if (result.isConfirmed) {
-                pago.data.confirmado = true;
-                let cliente = pago.data.cliente;
-                cliente.data.enListaEspera = cliente.data.estadoMesa = null;
-                await this.firestore.modificar(cliente, 'usuarios');
-                await this.firestore.modificar(pago, 'pagos');
-                await this.firestore.borrar(pago.data.pedido, 'pedidos');
-                this.liberarMesa(pago.data.mesa);
-              }
-            });
+      if (this.usuario.data.tipo == 'metre') {
+        this.titulo = 'Inicio Metre';
+        this.indice = 6;
+
+          await this.pushNotService.escucharNotificaciones((respuesta)=>{
+            if(respuesta === 1){
+              this.ngZone.run(() => {
+                this.verListaEspera();
+              });
+            }
+        });
+      } else if (this.usuario.data.tipo == 'Mozo') {
+        this.indice = 4;
+        this.titulo = 'Inicio Mozo';
+        ///this.usuario.data.enListaEspera = this.usuario.data.estadoMesa = null; HACERLO CUANDO EL CLIENTE CONFIRME EL PAGO
+        this.firestore.escucharCambios('pagos', async (data) => {
+          for (let pago of data) {
+            if (
+              pago.data.mozo.id === this.usuario.id &&
+              pago.data.confirmado === false
+            ) {
+              await Swal.fire({
+                title: `Pago recibido`,
+                text: `El cliente de la mesa ${pago.data.mesa.data.numeroMesa} realizo el pago`,
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                heightAuto: false,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  pago.data.confirmado = true;
+                  let cliente = pago.data.cliente;
+                  cliente.data.habilitarPedirCuenta = false;
+                  cliente.data.enListaEspera = cliente.data.estadoMesa = null;
+                  await this.firestore.modificar(cliente, 'usuarios');
+                  await this.firestore.modificar(pago, 'pagos');
+                  await this.firestore.borrar(pago.data.pedido, 'pedidos');
+                  await this.firestore.borrar(pago.data.cliente, 'chat');
+                  this.liberarMesa(pago.data.mesa);
+                }
+              });
+            }
           }
-        }
-      });
-      await this.pushNotService.escucharNotificaciones();
-      await this.pushNotService.escucharNotificaciones('chatMozo');
-    } else if (
-      this.usuario.data.tipo == 'cocinero' ||
-      this.usuario.data.tipo == 'bartender'
-    ) {
-      this.indice = 0;
-      if (this.usuario.data.tipo == 'cocinero') this.titulo = 'Menu Cocinero';
-      else this.titulo = 'Menu Bartender';
+        });
 
-      await this.pushNotService.escucharNotificaciones();
-    }
+          await this.pushNotService.escucharNotificaciones((respuesta)=>{
+            if(respuesta === 5){
+              this.ngZone.run(() => {
+                this.administrarPedidos();
+              });
+            }
+        });
+
+      } else if (
+        this.usuario.data.tipo == 'cocinero' ||
+        this.usuario.data.tipo == 'bartender'
+      ) {
+        this.indice = 0;
+        if (this.usuario.data.tipo == 'cocinero') this.titulo = 'Inicio Cocinero';
+        else this.titulo = 'Inicio Bartender';
+
+          await this.pushNotService.escucharNotificaciones((respuesta)=>{
+            if(respuesta === 5){
+              this.ngZone.run(() => {
+                this.administrarPedidos();
+              });
+            }
+        });
+      }
+      
+      this.escuchando = true;
+    })
+    console.log(this.indice)
   }
 
   async liberarMesa(mesa: any) {
@@ -105,12 +135,15 @@ export class HomeEmpleadoComponent implements OnInit {
   }
 
   atras() {
-    this.titulo = 'Home';
+    this.titulo = 'Inicio';
     this.indice = 0;
 
     if (this.usuario.data.tipo == 'Mozo') {
       this.indice = 4;
-      this.titulo = 'Menu mozo';
+      this.titulo = 'Inicio Mozo';
+    }else if (this.usuario.data.tipo == 'metre') {
+      this.titulo = 'Inicio Metre';
+      this.indice = 6;
     }
   }
 
@@ -119,37 +152,13 @@ export class HomeEmpleadoComponent implements OnInit {
   }
 
   async asignarMesa(cliente: any) {
-    Swal.fire({
-      title: 'Asignar mesa al cliente ? ',
-      html:
-        'Usuario:' +
-        cliente.data.usuario +
-        '<br>Nombre:' +
-        cliente.data.nombre +
-        '<br>Apellido:' +
-        cliente.data.apellido +
-        '<br>DNI:' +
-        cliente.data.dni,
-      icon: 'warning',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      imageUrl: cliente.data.foto,
-      imageWidth: 300,
-      imageHeight: 200,
-      showDenyButton: true,
-      denyButtonText: `Atras`,
-      confirmButtonText: 'Asignar',
-      heightAuto: false,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        this.indice = 3;
-        this.clienteSeleccionado = cliente;
-      }
-    });
+    this.indice = 3;
+    this.clienteSeleccionado = cliente;
   }
 
   async mesaSeleccionada(mesa: any) {
     if (mesa !== null) {
+      this.cargando = true;
       //console.log(JSON.stringify(mesa))
       this.clienteSeleccionado.data.enListaEspera = 'Asignada';
       await this.firestore.modificar(this.clienteSeleccionado, 'usuarios');
@@ -161,9 +170,14 @@ export class HomeEmpleadoComponent implements OnInit {
         'Mesa asignada al cliente de manera exitosa',
         'success'
       );
+      this.cargando = false;
     }
 
-    this.indice = 0;
+    this.indice = 6;
+  }
+
+  verMesas(){
+    this.router.navigate(['lista/mesas'], { replaceUrl: true });
   }
 
   administrarPedidos() {

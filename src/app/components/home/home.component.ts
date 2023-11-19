@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
         break;
     }
     
-    await this.pushNotService.escucharNotificaciones('clientes-pendientes');
+    await this.pushNotService.escucharNotificaciones((respuesta)=>{console.log(respuesta)});
   }
 
   clientesPendientes() {

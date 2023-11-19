@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/models/usuario';
-import { EmailService } from 'src/app/services/email.service';
-import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -24,16 +22,10 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private usuarioSrv: UsuarioService,
-    private emailService: EmailService,
-    private firestore: FirestoreService
+    private usuarioSrv: UsuarioService
   ) {}
 
-  async ngOnInit() {
-    /*this.emailService.enviarMail("los23.email@gmail.com","PROBANDO SERVICIO","PROBANDO SERVICIO").subscribe((resultado)=>{
-      console.log(resultado);
-    })*/
-  }
+  async ngOnInit() {}
 
   async onLogin() {
     this.cargando = true;
@@ -56,7 +48,7 @@ export class LoginComponent implements OnInit {
         usuarioLogueado.data.tipo === 'metre' ||
         usuarioLogueado.data.tipo === 'Mozo'
       ) {
-        this.router.navigate(['homeEmpleado'], { replaceUrl: true });
+        this.router.navigate(['homeEmpleado',1], { replaceUrl: true });
       } else if (
         usuarioLogueado.data.tipo === 'duenio' ||
         usuarioLogueado.data.tipo === 'supervisor'

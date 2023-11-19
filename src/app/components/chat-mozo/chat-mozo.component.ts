@@ -4,6 +4,7 @@ import { Mensaje } from 'src/app/models/mensaje';
 import { ChatService } from 'src/app/services/chat.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PushNotificationService } from 'src/app/services/push-notification.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,7 +25,8 @@ export class ChatMozoComponent implements OnInit {
     public chatService: ChatService,
     private route: ActivatedRoute,
     private pushNotService: PushNotificationService,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private usuarioService:UsuarioService
   ) {}
 
   async ngOnInit() {
@@ -77,7 +79,11 @@ export class ChatMozoComponent implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['homeCliente'], { replaceUrl: true });
+    let usuario = this.usuarioService.getUsuarioLogueado();
+    if(usuario.data.tipo === "cliente" || usuario.data.tipo === "anonimo")
+      this.router.navigate(['homeCliente'], { replaceUrl: true });
+    else
+    this.router.navigate(['homeEmpleado',1], { replaceUrl: true });
   }
 
   async EnviarMensaje() {
@@ -108,6 +114,7 @@ export class ChatMozoComponent implements OnInit {
           },
           data: {
             chatId: this.cliente,
+            ruta: "chatMozo"
           },
         })
         .subscribe((data) => {

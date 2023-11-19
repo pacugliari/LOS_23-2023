@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-listado-mesas',
@@ -10,13 +11,15 @@ import { MensajeService } from 'src/app/services/mensaje.service';
 })
 export class ListadoMesasComponent implements OnInit {
   mesas: any[] = [];
+  listaMesas: any[] = [];
   public cargando: boolean = false;
   @Input() mostrarSeleccionar = false;
   @Output() mesaSeleccionada = new EventEmitter<any>();
   
   constructor(
     private firestoreService: FirestoreService,
-    private router: Router,private mensajesService:MensajeService
+    private router: Router,private mensajesService:MensajeService,
+    private usuarioService:UsuarioService
   ) {}
 
   async ngOnInit() {
@@ -25,21 +28,22 @@ export class ListadoMesasComponent implements OnInit {
   }
   async cargar() {
     try {
-      let mesasBase  : any[];
+
+      this.mesas = await this.firestoreService.obtener("mesas");
+
       if(this.mostrarSeleccionar){
-        mesasBase = (await this.firestoreService.obtener("mesas")).filter((mesa:any)=> mesa.data.estado === "disponible");
-        if(mesasBase.length === 0){
+        this.mesas  = this.mesas.filter((mesa:any)=> mesa.data.estado === "disponible");
+        if(this.mesas.length === 0){
           this.mensajesService.mostrar("ERROR","No hay mesas disponbiles","error")
           this.cancelar();
         } 
-      }else{
-        mesasBase= await this.firestoreService.obtener("mesas");
       }
-      mesasBase.forEach((mesa:any) => {
+
+      this.mesas.forEach((mesa:any) => {
         let aux = mesa.data
         aux.id = mesa.id;
         aux.qr = "MESA:"+mesa.id;
-        this.mesas.push(aux);
+        this.listaMesas.push(aux);
       });
 
     } catch (error) {
@@ -55,5 +59,14 @@ export class ListadoMesasComponent implements OnInit {
 
   cancelar(){
     this.mesaSeleccionada.emit(null)
+  }
+
+  atras(){
+    let usuario = this.usuarioService.getUsuarioLogueado();
+    if(usuario.data.tipo === "metre"){
+      this.router.navigate(['homeEmpleado',1], { replaceUrl: true });
+    }else{
+      this.router.navigate(['/home'], { replaceUrl: true });
+    }
   }
 }

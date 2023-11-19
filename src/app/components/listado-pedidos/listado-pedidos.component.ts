@@ -21,6 +21,7 @@ export class ListadoPedidosComponent  implements OnInit {
   cargando : boolean = false;
   comidas : any[] = [];
   usuario:any;
+  indice = -1;
 
   async ngOnInit() {
     this.cargando = true;
@@ -31,14 +32,8 @@ export class ListadoPedidosComponent  implements OnInit {
       this.pedidos = data;
       for (let pedido of this.pedidos) {
         pedido.mesa = await this.buscarMesa(pedido)
-        /*pedido.data.pedido.forEach((pedido:any) => {
-          if(pedido.producto.tipo === "comida"){
-            this.comidas.push(pedido);
-          }
-        });*/
       }
     });
-    //console.log(JSON.stringify(this.comidas))
     this.cargando = false;
   }
 
@@ -164,5 +159,9 @@ export class ListadoPedidosComponent  implements OnInit {
     pedido.data.estado = "Entregado";
     await this.firestore.modificar(pedido,"pedidos");
     this.cargando = false;
+  }
+
+  pendientes(){
+    this.indice = 0;
   }
 }

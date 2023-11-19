@@ -45,7 +45,9 @@ export class AltaProductosComponent {
     this.mensajes.mostrar("OK",`Foto ${index+1} tomada`,"success")
   }
 
-
+  atras(){
+    this.router.navigate(['homeEmpleado',1], { replaceUrl: true });
+  }
 
   async registrarProducto() {
     this.cargando = true;
