@@ -19,10 +19,12 @@
             <ion-card class="auth-card ion-margin">
               <div *ngFor="let chatId of chatIds">
                 <ion-button
-                  (click)="navegarAChat(chatId.chatId)"
+                  (click)="navegarAChat(chatId.id)"
                   style="width: 80%; margin-top: 5%"
                 >
-                  Chat Mesa n° {{ chatId.mesa }}</ion-button
+                  Chat Mesa n° {{ chatId.mesa }},,,
+                  {{chatId.id}}
+                  </ion-button
                 >
               </div>
               <br />
