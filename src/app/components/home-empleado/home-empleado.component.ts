@@ -81,6 +81,10 @@ export class HomeEmpleadoComponent implements OnInit {
     }
   }
 
+  irChats(){
+    this.router.navigate(['chats'], { replaceUrl: true });
+  }
+
   async liberarMesa(mesa: any) {
     mesa.data.cliente = null;
     mesa.data.estado = 'disponible';

@@ -53,11 +53,18 @@ export class ChatMozoComponent implements OnInit {
                 'usuarios',
                 parsed.id
               );
-              if (!mozoBD.chatIds) {
-                mozoBD.chatIds = [];
+              console.log(mozoBD);
+              if (!mozoBD.data.chatIds) {
+                mozoBD.data.chatIds = [];
               }
-              mozoBD.chatIds.push(chatId);
-              await this.firestoreService.modificar(mozoBD, 'usuarios');
+              if (!mozoBD.data.chatIds.includes(chatId)) {
+                mozoBD.data.chatIds.push(chatId);
+              }
+              let algo = await this.firestoreService.modificar(
+                mozoBD,
+                'usuarios'
+              );
+              console.log(algo);
             }
           });
           this.esMozo = true;
@@ -77,7 +84,11 @@ export class ChatMozoComponent implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['homeCliente'], { replaceUrl: true });
+    if (this.esMozo) {
+      this.router.navigate(['homeEmpleado'], { replaceUrl: true });
+    } else {
+      this.router.navigate(['homeCliente'], { replaceUrl: true });
+    }
   }
 
   async EnviarMensaje() {

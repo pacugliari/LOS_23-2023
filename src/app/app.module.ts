@@ -36,6 +36,7 @@ import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encu
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
 import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
+import { ListadoChatsComponent } from './components/listado-chats/listado-chats.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pe
     HomeClienteComponent,
     ChatMozoComponent,
     DateFormatPipe,
-    ListadoPedidosComponent
+    ListadoPedidosComponent,
+    ListadoChatsComponent
   ],
   imports: [
     HttpClientModule,
