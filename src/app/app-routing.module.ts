@@ -33,6 +33,7 @@ import { EncuestasSupervisorComponent } from './components/encuestas-supervisor/
 import { JuegosComponent } from './components/juegos/juegos.component';
 import { EncuestaEmpleadosComponent } from './components/encuesta-empleados/encuesta-empleados.component';
 import { GraficoEmpleadosComponent } from './components/grafico-empleados/grafico-empleados.component';
+import { GraficoSupervisorComponent } from './components/grafico-supervisor/grafico-supervisor.component';
 
 const routes: Routes = [
   {path: 'splash-animado',component: SplashComponent},
@@ -62,6 +63,7 @@ const routes: Routes = [
   { path: 'ahorcado', component: AhorcadoComponent },
   { path: 'memotest', component: MemotestComponent },
   
+  { path: 'graficoSupervisor', component: GraficoSupervisorComponent },
   { path: 'graficoEmpleados', component: GraficoEmpleadosComponent },
   { path: 'grafico/clientes', component: GraficoClientesComponent },
   { path: 'encuestas/clientes', component: EncuestasClientesComponent },

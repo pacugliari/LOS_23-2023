@@ -40,6 +40,7 @@ import { EncuestasSupervisorComponent } from './components/encuestas-supervisor/
 import { JuegosComponent } from './components/juegos/juegos.component';
 import { EncuestaEmpleadosComponent } from './components/encuesta-empleados/encuesta-empleados.component';
 import { GraficoEmpleadosComponent } from './components/grafico-empleados/grafico-empleados.component';
+import { GraficoSupervisorComponent } from './components/grafico-supervisor/grafico-supervisor.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { GraficoEmpleadosComponent } from './components/grafico-empleados/grafic
     AltaDuenioComponent,
     SpinnerComponent,
     GraficoEmpleadosComponent,
+    GraficoSupervisorComponent,
     EncuestaEmpleadosComponent,
     EncuestasClientesComponent,
     AhorcadoComponent,

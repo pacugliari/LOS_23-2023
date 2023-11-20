@@ -2,12 +2,15 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { FirestoreService } from 'src/app/services/firestore.service';
 
+
+
 @Component({
-  selector: 'app-grafico-empleados',
-  templateUrl: './grafico-empleados.component.html',
-  styleUrls: ['./grafico-empleados.component.scss'],
+  selector: 'app-grafico-supervisor',
+  templateUrl: './grafico-supervisor.component.html',
+  styleUrls: ['./grafico-supervisor.component.scss'],
 })
-export class GraficoEmpleadosComponent  implements OnInit {
+export class GraficoSupervisorComponent  implements OnInit {
+
   @ViewChild('graficoCanvas') graficoCanvas!: ElementRef;
   @ViewChild('nivelSatisfaccion') graficoCanvasLineal!: ElementRef;
   @ViewChild('graficoCanvasBurbujas') graficoCanvasBurbujas!: ElementRef;
@@ -20,65 +23,22 @@ export class GraficoEmpleadosComponent  implements OnInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.obtenerDatosEncuestasYDibujarGraficoBarras();
+    this.obtenerDatosEncuestasYDibujarGraficoBarrass();
     this.obtenerDatosEncuestasYDibujarGraficoTorta();
     this.obtenerDatosEncuestasYDibujarGraficoBurbujas();
     this.obtenerDatosEncuestasYDibujarGraficoLineal();
   
-  
    
   }
 
-
-  private async obtenerDatosEncuestasYDibujarGraficoTorta() {
-    try {
-      // Obtén los datos de las encuestas desde Firestore
-      const encuestas = await this.firestoreService.obtenerEncuestasEmpleados();
-  
-      // Extrae los datos relevantes para construir el gráfico de torta
-      const respuestasTorta = encuestas.map((encuesta: any) => encuesta.data.clienteoempleado);
-      const conteoRespuestasTorta = this.contarRespuestas(respuestasTorta);
-  
-      // Obtén el contexto del lienzo del elemento ElementRef para el gráfico de torta
-      const ctxTorta = (this.graficoCanvasTorta.nativeElement as HTMLCanvasElement).getContext('2d');
-  
-      // Comprueba si el contexto no es nulo antes de crear el gráfico de torta
-      if (ctxTorta) {
-        // Destruye el gráfico de torta existente si ya existe
-        Chart.getChart(ctxTorta.canvas.id)?.destroy();
-  
-        // Crea el gráfico de torta
-       const tortaChart = new Chart(ctxTorta, {
-  type: 'doughnut',
-  data: {
-    labels: Object.keys(conteoRespuestasTorta),
-    datasets: [
-      {
-        data: Object.values(conteoRespuestasTorta),
-        backgroundColor: this.generarColores(Object.keys(conteoRespuestasTorta).length),
-        label: 'Ingresaste o Exgresaste', // Puedes ajustar el texto del label según tus necesidades
-      },
-    ],
-  },
-          options: {
-            // Configuración de opciones del gráfico de torta
-          },
-        });
-      } else {
-        console.error('No se pudo obtener el contexto del lienzo para el gráfico de torta.');
-      }
-    } catch (error) {
-      console.error('Error al obtener datos de encuestas:', error);
-    }
-  }
   private async obtenerDatosEncuestasYDibujarGraficoLineal() {
     try {
       // Obtén los datos de las encuestas desde Firestore
-      const encuestas = await this.firestoreService.obtenerEncuestasEmpleados();
+      const encuestas = await this.firestoreService.obtenerEncuestasSupervisor();
   
       // Extrae los datos relevantes para construir el gráfico lineal
       const labelsLineal = encuestas.map((encuesta: any) => encuesta.data.nombre);
-      const dataLineal = encuestas.map((encuesta: any) => encuesta.data.nivelSatisfaccion);
+      const dataLineal = encuestas.map((encuesta: any) => encuesta.data.valoracion);
   
       // Obtén el contexto del lienzo del elemento ElementRef para el gráfico lineal
       const ctxLineal = (this.graficoCanvasLineal.nativeElement as HTMLCanvasElement).getContext('2d');
@@ -115,14 +75,56 @@ export class GraficoEmpleadosComponent  implements OnInit {
     }
   }
 
-  private async obtenerDatosEncuestasYDibujarGraficoBarras() {
+  private async obtenerDatosEncuestasYDibujarGraficoTorta() {
     try {
       // Obtén los datos de las encuestas desde Firestore
-      const encuestas = await this.firestoreService.obtenerEncuestasEmpleados();
+      const encuestas = await this.firestoreService.obtenerEncuestasSupervisor();
+  
+      // Extrae los datos relevantes para construir el gráfico de torta
+      const respuestasTorta = encuestas.map((encuesta: any) => encuesta.data.
+      clienteoempleado);
+      const conteoRespuestasTorta = this.contarRespuestas(respuestasTorta);
+  
+      // Obtén el contexto del lienzo del elemento ElementRef para el gráfico de torta
+      const ctxTorta = (this.graficoCanvasTorta.nativeElement as HTMLCanvasElement).getContext('2d');
+  
+      // Comprueba si el contexto no es nulo antes de crear el gráfico de torta
+      if (ctxTorta) {
+        // Destruye el gráfico de torta existente si ya existe
+        Chart.getChart(ctxTorta.canvas.id)?.destroy();
+  
+        // Crea el gráfico de torta
+       const tortaChart = new Chart(ctxTorta, {
+  type: 'doughnut',
+  data: {
+    labels: Object.keys(conteoRespuestasTorta),
+    datasets: [
+      {
+        data: Object.values(conteoRespuestasTorta),
+        backgroundColor: this.generarColores(Object.keys(conteoRespuestasTorta).length),
+        label: 'Cliente o empleado', // Puedes ajustar el texto del label según tus necesidades
+      },
+    ],
+  },
+          options: {
+            // Configuración de opciones del gráfico de torta
+          },
+        });
+      } else {
+        console.error('No se pudo obtener el contexto del lienzo para el gráfico de torta.');
+      }
+    } catch (error) {
+      console.error('Error al obtener datos de encuestas:', error);
+    }
+  }
+  private async obtenerDatosEncuestasYDibujarGraficoBarrass() {
+    try {
+      // Obtén los datos de las encuestas desde Firestore
+      const encuestass = await this.firestoreService.obtenerEncuestasSupervisor();
   
       // Extrae los datos relevantes para construir el gráfico de barras
-      const labelsBarra = encuestas.map((encuesta: any) => encuesta.data.nombre);
-      const dataBarra = encuestas.map((encuesta: any) => encuesta.data.valoracion);
+      const labelsBarra = encuestass.map((encuesta: any) => encuesta.data.nombre);
+      const dataBarra = encuestass.map((encuesta: any) => encuesta.data.recomendar);
   
       // Obtén el contexto del lienzo del elemento ElementRef
       const ctx = (this.graficoCanvas.nativeElement as HTMLCanvasElement).getContext('2d');
@@ -161,7 +163,7 @@ export class GraficoEmpleadosComponent  implements OnInit {
   private async obtenerDatosEncuestasYDibujarGraficoBurbujas() {
     try {
       // Obtén los datos de las encuestas desde Firestore
-      const encuestass = await this.firestoreService.obtenerEncuestasEmpleados();
+      const encuestass = await this.firestoreService.obtenerEncuestasSupervisor();
       // Extrae los datos relevantes para construir el gráfico de burbujas
       const dataBurbujas = encuestass.map((encuesta: any) => encuesta.data.recomendar);
   
@@ -179,7 +181,7 @@ export class GraficoEmpleadosComponent  implements OnInit {
           data: {
             datasets: [
               {
-                label: 'Recomendar',
+                label: 'Burbujas',
                 data: dataBurbujas,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
