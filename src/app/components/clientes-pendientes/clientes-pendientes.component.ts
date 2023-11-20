@@ -103,7 +103,7 @@ export class ClientesPendientesComponent implements OnInit {
         </head>
         <body class="content">
           <div class="header">
-            <img src="https://raw.githubusercontent.com/pacugliari/LOS_23-2023/main/imagenesGit/icono-app.png?token=GHSAT0AAAAAACGFN2RGFNQPKZ23ZDZNUP74ZKX3GWA" alt="Logo" width="100">  
+            <img src="https://firebasestorage.googleapis.com/v0/b/los-23-2023.appspot.com/o/assets%2Flogo.png?alt=media&token=9181d878-15d4-4010-b202-260b3f562d30" alt="Logo" width="100">  
             <h1>${result.isConfirmed ? 'Felicitaciones ' : 'Disculpe '} ${cliente.data.nombre}</h1>
           </div>
           <div class="content">
