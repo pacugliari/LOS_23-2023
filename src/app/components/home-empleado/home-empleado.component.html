@@ -84,7 +84,7 @@
       </ion-grid>
     </div>
     <div *ngIf="indice === 5">
-      <app-listado-pedidos  ></app-listado-pedidos>
+      <app-listado-pedidos [pagoRecibido]="pagoRecibido" [indice]="indicePedidos" ></app-listado-pedidos>
     </div>
     <div *ngIf="indice === 6"><!--METRE-->
       <ion-grid>

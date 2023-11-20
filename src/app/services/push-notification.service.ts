@@ -88,7 +88,7 @@ export class PushNotificationService {
           notification.actionId,
           notification.notification
         );
-        console.log(JSON.stringify(notification))
+
         let ruta = notification.notification.data.ruta
         console.log(ruta);
         if (ruta == 'chatMozo') {

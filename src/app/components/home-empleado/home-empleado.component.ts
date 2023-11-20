@@ -20,6 +20,8 @@ export class HomeEmpleadoComponent implements OnInit {
   cargando: boolean = false;
   usuario: any;
   escuchando : boolean = false;
+  pagoRecibido : any = null;
+  indicePedidos = -1;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -56,6 +58,7 @@ export class HomeEmpleadoComponent implements OnInit {
               pago.data.mozo.id === this.usuario.id &&
               pago.data.confirmado === false
             ) {
+              this.pagoRecibido = pago;
               await Swal.fire({
                 title: `Pago recibido`,
                 text: `El cliente de la mesa ${pago.data.mesa.data.numeroMesa} realizo el pago`,
@@ -85,6 +88,7 @@ export class HomeEmpleadoComponent implements OnInit {
             if(respuesta === 5){
               this.ngZone.run(() => {
                 this.administrarPedidos();
+                this.indicePedidos = 0;
               });
             }
         });

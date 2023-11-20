@@ -5,6 +5,7 @@ import { StorageService } from 'src/app/services/storage.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Router } from '@angular/router';
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-alta-productos',
@@ -15,13 +16,17 @@ export class AltaProductosComponent {
   form: FormGroup;
   public cargando: boolean = false;
   imageElements: (string | undefined)[] = [undefined, undefined, undefined];
-
+  usuario:any;
+  ngOnInit(){
+    this.usuario = this.usuarioService.getUsuarioLogueado(); 
+  }
 
   constructor(
     private formBuilder: FormBuilder,
     private storageService: StorageService,
     private firestoreService: FirestoreService,
     private router: Router,
+    private usuarioService:UsuarioService,
     private mensajes : MensajeService
   ) {
     this.form = this.formBuilder.group({

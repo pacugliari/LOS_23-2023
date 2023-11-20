@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { PushNotificationService } from 'src/app/services/push-notification.service';
@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 })
 export class ListadoPedidosComponent  implements OnInit {
 
+  @Input() pagoRecibido : any = null;
+  @Input() indice : any  = -1;
 
   constructor(private firestore:FirestoreService,private usuarioService:UsuarioService,private pushService : PushNotificationService,
     private mensajes:MensajeService) { }
@@ -21,7 +23,7 @@ export class ListadoPedidosComponent  implements OnInit {
   cargando : boolean = false;
   comidas : any[] = [];
   usuario:any;
-  indice = -1;
+  
 
   async ngOnInit() {
     this.cargando = true;
@@ -58,24 +60,43 @@ export class ListadoPedidosComponent  implements OnInit {
     }
   }
 
-  async enviarPushCocina(){
+  async enviarPushCocina(pedido:any){
     let usuarios = await this.firestore.obtener('usuarios');
-    let genteCocina  = usuarios.filter((element) => {
-      return element.data.tipo === 'cocinero' || element.data.tipo === 'bartender';
-    });
+    let genteCocina :any[] = [];
+    
+    if(pedido.data.estadoBebidas !== "No hubo pedido" && pedido.data.estadoComidas !== "No hubo pedido"){
+      genteCocina  = usuarios.filter((element) => {
+        return element.data.tipo === 'cocinero' || element.data.tipo === 'bartender';
+      });
+    }else if (pedido.data.estadoBebidas !== "No hubo pedido"){
+      genteCocina  = usuarios.filter((element) => {
+        return element.data.tipo === 'bartender';
+      });
+    }else if (pedido.data.estadoComidas !== "No hubo pedido"){
+      genteCocina  = usuarios.filter((element) => {
+        return element.data.tipo === 'cocinero';
+      });
+    }
 
     if (genteCocina.length > 0) {
-      this.pushService
+      genteCocina.forEach(element => {
+        let titulo = element.data.tipo === 'cocinero' ? `Hay un nuevo pedido en la cocina` : `Hay un nuevo pedido en el bar`;
+        let tipo =  element.data.tipo === 'cocinero' ? "cocinero" :  "bartender" 
+        this.pushService
         .sendPushNotification({
-          registration_ids: genteCocina.map((element:any) => element.data.tokenPush),
+          registration_ids: [element.data.tokenPush],
           notification: {
-            title: 'Hay un nuevo pedido',
+            title:  titulo ,
             body: 'Click para acceder a la lista de pedidos',
+          },
+          data: {
+            ruta: "homeEmpleado",
           },
         })
         .subscribe((data) => {
           console.log(data);
         });
+      });
     } else {
       console.log('No se encontraron cocineros para enviar notificaciones.');
     }
@@ -87,7 +108,10 @@ export class ListadoPedidosComponent  implements OnInit {
       this.pushService
       .sendPushNotification({
         registration_ids: [usuario.data.tokenPush],
-        notification
+        notification,
+        data: {
+          ruta: "homeEmpleado",
+        },
       })
       .subscribe((data) => {
         console.log(data);
@@ -100,7 +124,7 @@ export class ListadoPedidosComponent  implements OnInit {
     this.cargando = true;
     pedido.data.mozo = this.usuario
     pedido.data.estado = "Confirmado";
-    await this.enviarPushCocina()
+    await this.enviarPushCocina(pedido)
     await this.firestore.modificar(pedido,"pedidos");
     this.cargando = false;
   }
@@ -116,7 +140,10 @@ export class ListadoPedidosComponent  implements OnInit {
   async entregarComida(pedido:any){
     this.cargando = true;
     pedido.data.estadoComidas = "Entregado";
-    if(pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "Entregado"){
+    if(pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "Entregado" ||
+      pedido.data.estadoBebidas === "No hubo pedido" && pedido.data.estadoComidas === "Entregado" || 
+      pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "No hubo pedido" 
+    ){
       pedido.data.estado = "ListoEntrega";
     }
     let mesa = await this.buscarMesa(pedido)
@@ -140,7 +167,10 @@ export class ListadoPedidosComponent  implements OnInit {
   async entregarBebida(pedido:any){
     this.cargando = true;
     pedido.data.estadoBebidas = "Entregado";
-    if(pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "Entregado"){
+    if(pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "Entregado" ||
+      pedido.data.estadoBebidas === "No hubo pedido" && pedido.data.estadoComidas === "Entregado" || 
+      pedido.data.estadoBebidas === "Entregado" && pedido.data.estadoComidas === "No hubo pedido" 
+    ){
       pedido.data.estado = "ListoEntrega";
     }
     let mesa = await this.buscarMesa(pedido)
@@ -164,4 +194,36 @@ export class ListadoPedidosComponent  implements OnInit {
   pendientes(){
     this.indice = 0;
   }
+
+  async aceptarPago(pedido:any){
+    let pago = this.pagoRecibido;
+    await Swal.fire({
+      title: `Pago recibido`,
+      text: `El cliente de la mesa ${pago.data.mesa.data.numeroMesa} realizo el pago`,
+      icon: 'info',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      heightAuto: false,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        pago.data.confirmado = true;
+        let cliente = pago.data.cliente;
+        cliente.data.habilitarPedirCuenta = false;
+        cliente.data.enListaEspera = cliente.data.estadoMesa = null;
+        await this.firestore.modificar(cliente, 'usuarios');
+        await this.firestore.modificar(pago, 'pagos');
+        await this.firestore.borrar(pago.data.pedido, 'pedidos');
+        await this.firestore.borrar(pago.data.cliente, 'chat');
+        this.liberarMesa(pago.data.mesa);
+      }
+    });
+  }
+
+  async liberarMesa(mesa: any) {
+    mesa.data.cliente = null;
+    mesa.data.estado = 'disponible';
+    await this.firestore.modificar(mesa, 'mesas');
+  }
+
 }

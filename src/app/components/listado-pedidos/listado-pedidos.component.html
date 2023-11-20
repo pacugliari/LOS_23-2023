@@ -9,6 +9,7 @@
             <ion-button (click)="indice = 0" style="width: 80%;margin-top: 5%;">Pendientes</ion-button>
             <ion-button (click)="indice = 1" style="width: 80%;margin-top: 5%;">En preparacion</ion-button>
             <ion-button (click)="indice = 2" style="width: 80%;margin-top: 5%;">A entregar</ion-button>
+            <ion-button (click)="indice = 3" style="width: 80%;margin-top: 5%;">Confirmar pago</ion-button>
           </div>
         </ion-col>
       </ion-row>
@@ -38,7 +39,6 @@
               <td>
                 <!-- Aquí puedes agregar botones u otras acciones para cada pedido -->
                 <ion-button *ngIf="pedido.data.estado === 'NoConfirmado'" (click)="confirmar(pedido)">Confirmar</ion-button>
-                <ion-button *ngIf="pedido.data.estadoComidas === 'Entregado' && pedido.data.estadoBebidas === 'Entregado'" (click)="entregarPedido(pedido)">Entregar</ion-button>
               </td>
             </ng-container>
 
@@ -68,8 +68,7 @@
               </td>-->
               <td>
                 <!-- Aquí puedes agregar botones u otras acciones para cada pedido -->
-                <ion-button *ngIf="pedido.data.estado === 'NoConfirmado'" (click)="confirmar(pedido)">Confirmar</ion-button>
-                <ion-button *ngIf="pedido.data.estadoComidas === 'Entregado' && pedido.data.estadoBebidas === 'Entregado'" (click)="entregarPedido(pedido)">Entregar</ion-button>
+                <ion-button (click)="verEstados(pedido)">Ver</ion-button>
               </td>
             </ng-container>
 
@@ -100,8 +99,40 @@
               </td>-->
               <td>
                 <!-- Aquí puedes agregar botones u otras acciones para cada pedido -->
-                <ion-button *ngIf="pedido.data.estado === 'NoConfirmado'" (click)="confirmar(pedido)">Confirmar</ion-button>
-                <ion-button *ngIf="pedido.data.estadoComidas === 'Entregado' && pedido.data.estadoBebidas === 'Entregado'" (click)="entregarPedido(pedido)">Entregar</ion-button>
+                <ion-button *ngIf="pedido.data.estadoComidas === 'Entregado' && pedido.data.estadoBebidas === 'Entregado' || 
+                                    pedido.data.estadoComidas === 'No hubo pedido' && pedido.data.estadoBebidas === 'Entregado' || 
+                                    pedido.data.estadoComidas === 'Entregado' && pedido.data.estadoBebidas === 'No hubo pedido'
+                " (click)="entregarPedido(pedido)">Entregar</ion-button>
+              </td>
+            </ng-container>
+
+          </tr>
+        </tbody>
+      </table>
+      <table class="tabla-pedidos" *ngIf="indice ===3"> 
+        <!-- Cabecera de la tabla -->
+        <thead>
+          <tr>
+            <th >N° Mesa</th>
+            <!-- <th >Estados</th>-->
+            <th >Acciones</th>
+          </tr>
+        </thead>
+    
+        <!-- Cuerpo de la tabla con datos de ejemplo -->
+        <tbody>
+          <tr *ngFor="let pedido of pedidos">
+            <ng-container *ngIf="pedido.data.pagado">
+              <td>{{ pedido.mesa.data.numeroMesa }}</td>
+              <!--<td>{{ pedido.data.estado }}</td>
+              <td>{{ pedido.data.estadoComidas }}</td>
+              <td>{{ pedido.data.estadoBebidas }}</td>
+              <td>
+                <ion-button (click)="verEstados(pedido)"><i style="margin-left: 3%;" class="material-icons">remove_red_eye</i></ion-button>
+              </td>-->
+              <td>
+                <!-- Aquí puedes agregar botones u otras acciones para cada pedido -->
+                <ion-button *ngIf="pedido.data.pagado" (click)="aceptarPago(pedido)">Confirmar</ion-button>
               </td>
             </ng-container>
 

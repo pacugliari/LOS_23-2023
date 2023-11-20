@@ -30,9 +30,9 @@
             </ion-item>
             <ion-item style="width: 90%;margin-left: 5%;margin-top: 5%;">
               <ion-select label="Tipo"  interface="popover" formControlName="tipo" name="tipo">
-                <ion-select-option value="comida">Comidas</ion-select-option>
-                <ion-select-option value="bebida">Bebidas</ion-select-option>
-                <ion-select-option value="postre">Postres</ion-select-option>
+                <ion-select-option value="comida" *ngIf="usuario.data.tipo === 'cocinero'">Comidas</ion-select-option>
+                <ion-select-option value="bebida" *ngIf="usuario.data.tipo !== 'cocinero'">Bebidas</ion-select-option>
+                <ion-select-option value="postre" *ngIf="usuario.data.tipo === 'cocinero'">Postres</ion-select-option>
               </ion-select>
             </ion-item>
             <div class="photo-upload-container">

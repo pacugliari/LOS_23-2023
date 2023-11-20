@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
@@ -37,6 +37,7 @@ export class ListadoProductosComponent implements OnInit {
 
   async ngOnInit() {
     this.route.url.subscribe(async () => {
+      this.verPedido = false;
       this.cargando = true;
       this.usuario = this.usuarioService.getUsuarioLogueado();
       let pedidos = await this.firestoreService.obtener("pedidos");
@@ -182,8 +183,8 @@ export class ListadoProductosComponent implements OnInit {
         pedido: this.carrito,
         cliente: this.usuario,
         estado: "NoConfirmado",
-        estadoBebidas : this.seCargoBebida ? null : "Entregado",
-        estadoComidas : this.seCargoCocina ? null : "Entregado",
+        estadoBebidas : this.seCargoBebida ? null : "No hubo pedido",
+        estadoComidas : this.seCargoCocina ? null : "No hubo pedido",
       }
 
       let mozos = await this.firestoreService.obtener('usuarios');

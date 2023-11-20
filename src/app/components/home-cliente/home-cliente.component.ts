@@ -40,7 +40,7 @@ export class HomeClienteComponent implements OnInit {
   estado = '';
   habilitarJuegosEncuesta: boolean = false;
   pedidos: any;
-  miPedido: any;
+  miPedido: any = null;
   indice = 0;
   titulo = 'Inicio Clientes';
   detalles: any[] = [];
@@ -62,13 +62,13 @@ export class HomeClienteComponent implements OnInit {
         'pedidos',
         async (data) => {
           this.pedidos = data;
+          this.miPedido = null;
           for (let pedido of this.pedidos) {
             if (
-              pedido.data.cliente.id === this.usuario.id &&
-              pedido.data.estado === 'Entregado'
-            ) {
+              pedido.data.cliente.id === this.usuario.id 
+            ) {//&& pedido.data.estado === 'Entregado'
               this.miPedido = pedido;
-              if (!pedido.data.entregado) {
+              if (!pedido.data.entregado && pedido.data.estado === 'Entregado') {
                 Swal.fire({
                   title: 'Su pedido ya esta listo',
                   icon: 'success',
@@ -95,10 +95,26 @@ export class HomeClienteComponent implements OnInit {
   }
 
   async salir() {
+    this.cargando = true;
     let usuario = this.usuarioService.getUsuarioLogueado();
-    if(usuario.data.tipo === "anonimo"){
-      this.firestoreService.borrar(usuario,"usuarios");
+
+    if(usuario?.data?.tipo === "anonimo"){
+      await this.firestoreService.borrar(usuario,"usuarios");
+    }else{
+      usuario.data.enListaEspera = usuario.data.estadoMesa = null;
+      usuario.data.habilitarJuegosEncuesta = null;
+      await this.firestoreService.modificar(usuario,"usuarios");
     }
+
+    this.mesas = await this.firestoreService.obtener('mesas');
+    for (let mesa of this.mesas) {
+      if (usuario?.id === mesa?.data?.cliente?.id) {
+        mesa.data.cliente = null;
+        mesa.data.estado = "disponible";
+        await this.firestoreService.modificar(mesa,"mesas");
+      }
+    }
+    this.cargando = false;
     this.usuarioService.salir();
   }
   irEncuestas() {
@@ -321,6 +337,8 @@ export class HomeClienteComponent implements OnInit {
             `Su pedido esta siendo preparado`,
             'success'
           );
+          this.usuario.data.habilitarJuegosEncuesta = true;
+          await this.firestoreService.modificar(this.usuario,"usuarios");
         } else if (pedidoBuscado?.data?.estado === 'ListoEntrega') {
           this.mensajesService.mostrar(
             'OK',
@@ -333,6 +351,7 @@ export class HomeClienteComponent implements OnInit {
             `Su pedido fue entregado`,
             'success'
           );
+          this.usuario.data.habilitarJuegosEncuesta = true;
           this.usuario.data.habilitarPedirCuenta = true;
           await this.firestoreService.modificar( this.usuario, 'usuarios');
         } else {

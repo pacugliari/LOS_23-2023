@@ -43,13 +43,26 @@ export class AltaClienteComponent {
   });
 
   ngOnInit() {}
+  
+  async existeRegistrado(){
+    let encontrado = false;
+    let usuarios = await this.firestoreService.obtener('usuarios');
+    for(let element of usuarios){
+      if(element.data.usuario === this.form.value.usuario){
+        encontrado = true;
+        break;
+      }
+    }
+    return encontrado;
+  }
 
   async registrar() {
     //this.mandarNotificacionPush({nombre:this.form.value.nombre,apellido:this.form.value.apellido});
     this.cargando = true;
     let registroCorrecto = false;
+    let estaRegistrado = await this.existeRegistrado();
 
-    if (this.form.valid && this.foto) {
+    if (this.form.valid && this.foto && !estaRegistrado) {
       let fotoUrl = await this.storageService.guardarFoto(
         this.imageElement,
         'clientes'
@@ -73,7 +86,7 @@ export class AltaClienteComponent {
         'El cliente fue creado correctamente',
         'success'
       );
-      this.mandarNotificacionPush({nombre:this.form.value.nombre,apellido:this.form.value.apellido});
+      await this.mandarNotificacionPush({nombre:this.form.value.nombre,apellido:this.form.value.apellido});
       registroCorrecto = true;
     } else if (!this.foto && this.form.valid) {
       await this.mensajesService.mostrar(
@@ -81,7 +94,13 @@ export class AltaClienteComponent {
         'Falta tomar la foto',
         'error'
       );
-    } else {
+    } else if (estaRegistrado){
+      await this.mensajesService.mostrar(
+        'ERROR',
+        'Ese usuario ya se encuentra registrado',
+        'error'
+      );
+    }else {
       await this.mensajesService.mostrar(
         'ERROR',
         'Verifique que esten todos los campos completos',
@@ -152,6 +171,9 @@ export class AltaClienteComponent {
       notification: {
         title: 'Registro de nuevo cliente',
         body: data.nombre+','+data.apellido+' esta esperando que lo apruebes',
+      },
+      data: {
+        ruta: "clientes-pendientes"
       },
     })
     .subscribe((data) => {
