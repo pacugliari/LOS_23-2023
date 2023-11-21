@@ -277,7 +277,8 @@ export class HomeClienteComponent implements OnInit {
     console.log(2)
     if (
       userQR === QRs.IngresoLocal &&
-      this.usuario.data.enListaEspera !== 'Espera'
+      this.usuario.data.enListaEspera !== 'Espera' &&
+      this.usuario.data.enListaEspera !== 'Asignada'
     ) {
       this.mensajesService.mostrar(
         'OK',

@@ -80,9 +80,6 @@ export class ChatMozoComponent implements OnInit {
         }
       }
     });
-    this.chatService.mensajes.sort((a, b) => {
-      return parseInt(b.fecha) - parseInt(a.fecha);
-    });
   }
 
   volver() {
