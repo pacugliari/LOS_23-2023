@@ -117,8 +117,13 @@ export class HomeClienteComponent implements OnInit {
     this.cargando = false;
     this.usuarioService.salir();
   }
+
+  irCrear(){
+     this.router.navigate(['encuestas/clientes'], { replaceUrl: true });
+  }
+  
   irEncuestas() {
-    this.router.navigate(['listadoEncuestas'], { replaceUrl: true });
+    this.router.navigate(['grafico/clientes'], { replaceUrl: true });
   }
 
   juegos() {
