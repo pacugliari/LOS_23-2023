@@ -25,26 +25,18 @@ import { HomeClienteComponent } from './components/home-cliente/home-cliente.com
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
+import { ListadoChatsComponent } from './components/listado-chats/listado-chats.component';
 
 const routes: Routes = [
-  {path: 'splash-animado',component: SplashComponent},
-  {path: 'login',component: LoginComponent},
-  {path: 'home',component: HomeComponent,canActivate: [AuthGuard],},
-  {path: 'alta/dueño',component: AltaDuenioComponent,
-    //canActivate: [PerfilGuard],
-  },
-  
-  {
-    path: 'spinner',
-    component: SpinnerComponent,
-  },
-
-  {path: 'spinner',component: SpinnerComponent,},
+  { path: 'splash-animado', component: SplashComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'alta/dueño',component: AltaDuenioComponent},
+  { path: 'spinner', component: SpinnerComponent },
   { path: 'clientes-pendientes', component: ClientesPendientesComponent },
   { path: 'listadoEncuestas', component: ListaEncuestasComponent },
   { path: 'alta/cliente', component: AltaClienteComponent },
   { path: 'encuesta/supervisor', component: EncuestaSupervisorComponent },
-  
   { path: 'mayorMenor', component: MayormenorComponent },
   { path: 'ahorcado', component: AhorcadoComponent },
   { path: 'memotest', component: MemotestComponent },
@@ -57,26 +49,12 @@ const routes: Routes = [
   { path: 'listado/productos', component: ListadoProductosComponent },
   { path: 'chatMozo/:chatID', component: ChatMozoComponent },
   { path: 'homeEmpleado/:indice', component: HomeEmpleadoComponent },
-  {
-    path: 'alta-empleados',component:AltaEmpleadosComponent
-  },
-  {
-    path: 'alta-productos',component:AltaProductosComponent
-  },
-  { path: 'clientes-pendientes', component: ClientesPendientesComponent },
+  { path: 'alta-empleados',component:AltaEmpleadosComponent},
+  { path: 'chats', component: ListadoChatsComponent },
   { path: 'homeCliente', component: HomeClienteComponent },
-  {path: 'alta-empleados',component:AltaEmpleadosComponent},
-  {path: 'alta-productos',component:AltaProductosComponent},
-  {
-    path: '',
-    redirectTo: 'splash-animado',
-    pathMatch: 'full',
-  },
-  {
-    path: '**',
-    redirectTo: 'splash-animado',
-    pathMatch: 'full',
-  },
+  { path: 'alta-productos', component: AltaProductosComponent },
+  { path: '', redirectTo: 'splash-animado', pathMatch: 'full'},
+  { path: '**',redirectTo: 'splash-animado',pathMatch: 'full',},
 ];
 
 @NgModule({

@@ -11,6 +11,7 @@ import {
   onSnapshot,
   query,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { firestore } from 'src/main';
 
@@ -72,6 +73,21 @@ export class FirestoreService {
     let array: any[] = [];
     const querySnapshot = await getDocs(collection(firestore, ruta));
     querySnapshot.forEach((doc) => {
+      let data = {
+        id: doc.id,
+        data: doc.data(),
+      };
+      array.push(data);
+    });
+    return array;
+  }
+
+  async getWhere(path: string, condicion: string, condicion2: string) {
+    let array: any[] = [];
+    const Collection = collection(firestore, path);
+    const Query = query(Collection, where(condicion, '==', condicion2));
+    const Snapshot = await getDocs(Query);
+    Snapshot.forEach((doc) => {
       let data = {
         id: doc.id,
         data: doc.data(),
