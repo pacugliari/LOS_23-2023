@@ -33,7 +33,7 @@ ion-card {
   /* Estilo para el tablero (la cuadrícula de tarjetas) */
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 2fr);
     gap: 10px;
     padding: 10px;
   }

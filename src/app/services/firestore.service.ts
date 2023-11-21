@@ -20,7 +20,40 @@ import { firestore } from 'src/main';
 })
 export class FirestoreService {
   encuestasCollection = collection(firestore, 'encuestas');
+  encuestasSuperCollection = collection(firestore, 'encuestasSuper');
+  encuestasEmpleadosCollection = collection(firestore, 'encuestasEmpleados');
 
+<<<<<<< HEAD
+=======
+ async obtenerEncuestasSupervisor(): Promise<any[]> {
+    const querySnapshot = await getDocs(this.encuestasSuperCollection);
+    const encuestass: any[] = [];
+
+    querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+      encuestass.push({
+        id: doc.id,
+        data: doc.data(),
+      });
+    });
+
+    return encuestass;
+  }
+  
+  async obtenerEncuestasEmpleados(): Promise<any[]> {
+    const querySnapshot = await getDocs(this.encuestasEmpleadosCollection);
+    const encuestas: any[] = [];
+
+    querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+      encuestas.push({
+        id: doc.id,
+        data: doc.data(),
+      });
+    });
+
+    return encuestas;
+  }
+  
+>>>>>>> gamma
   async obtenerEncuestas(): Promise<any[]> {
     const querySnapshot = await getDocs(this.encuestasCollection);
     const encuestas: any[] = [];

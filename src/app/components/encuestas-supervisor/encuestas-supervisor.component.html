@@ -9,35 +9,28 @@
               <ion-row>
                 <ion-col>
               <label for="nombre">Nombre:</label>
-              <input type="text" id="nombre" name="nombre" [(ngModel)]="encuesta.nombre" placeholder="Nombre del cliente" style="margin-bottom: 20px;">
+              <input type="text" id="nombre" name="nombre" [(ngModel)]="encuesta.nombre" placeholder="Nombre del cliente/empleado" style="margin-bottom: 20px;">
             </ion-col>
           </ion-row>
+          <ion-col>
+            <label>¿Cliente o empleado?</label>
+            <select id="clienteoempleado" name="clienteoempleado" [(ngModel)]="encuesta.clienteoempleado" style="margin-bottom: 30px;">
+              <option value="cliente">Cliente</option>
+              <option value="empleado">empleado</option>
+            </select>
+          </ion-col>
           <ion-row>
             <ion-col>
-              <label for="opinion">Opinión:</label>
-              <textarea id="opinion" name="opinion" [(ngModel)]="encuesta.opinion" placeholder="Escribe tu opinión" style="margin-bottom: 20px;"></textarea>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <label for="valoracion">Valoración de atención:</label>
+              <label for="valoracion">¿Estas comodo con el ambiente?:</label>
               <input type="range" id="valoracion" name="valoracion" [(ngModel)]="encuesta.valoracion" min="0" max="10" style="margin-bottom: 30px;">
               <span>{{ encuesta.valoracion }}</span>
             </ion-col>
           </ion-row>
-          <ion-row>
-            <ion-col>
-          
-              <label for="fotos" style="display: block; margin-bottom: 20px;">Subir fotos (máx. 3):</label>
-              <button (click)="tomarFoto()">Tomar Foto</button>
-
-              <input type="file" id="fotos" name="fotos" (change)="agregarFoto($event)" accept="image/*" multiple style="margin-bottom: 30px;">
-            </ion-col>
-          </ion-row>
+         
           <ion-row>
             <ion-col>
                <!-- Radio (Nivel de Satisfacción) -->
-              <label for="nivel-satisfaccion">Nivel de Satisfacción con la comida:</label>
+              <label for="nivel-satisfaccion">Nivel de Satisfacción con el lugar:</label>
               <div>
                 <input type="radio" id="muySatisfecho" name="nivelSatisfaccion" [(ngModel)]="encuesta.nivelSatisfaccion" value="5">
                 <label for="muySatisfecho">Muy Satisfecho</label>
@@ -54,18 +47,12 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <label for="ofertas" style="margin-bottom: 20px;">¿Volverias a visitaros?</label>
-              <input type="checkbox" id="ofertas" name="ofertas" [(ngModel)]="encuesta.ofertasCorreo">
+              <label for="recomendar" style="margin-bottom: 20px;">¿Se lo recomendarias a otra persona?</label>
+              <input type="checkbox" id="recomendar" name="recomendar" [(ngModel)]="encuesta.recomendar">
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col>
-              <label>¿Es la primera vez que nos visitas?</label>
-              <select id="primera-visita" name="primeraVisita" [(ngModel)]="encuesta.primeraVisita" style="margin-bottom: 30px;">
-                <option value="si">Sí</option>
-                <option value="no">No</option>
-              </select>
-            </ion-col>
+           
           </ion-row>
           
               <button type="submit" style="width: 100%; margin-top: 30px;">Enviar Encuesta</button>

@@ -22,35 +22,47 @@ import { AltaProductosComponent } from './components/alta-productos/alta-product
 import { AltaEmpleadosComponent } from './components/alta-empleados/alta-empleados.component';
 import { ListadoProductosComponent } from './components/listado-productos/listado-productos.component';
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado.component';
-import { EncuestaSupervisorComponent } from './encuesta-supervisor/encuesta-supervisor.component';
 import { GraficoClientesComponent } from './components/grafico-clientes/grafico-clientes.component';
 import { ClientesPendientesComponent } from './components/clientes-pendientes/clientes-pendientes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeClienteComponent } from './components/home-cliente/home-cliente.component';
-import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { MemotestComponent } from './components/memotest/memotest.component';
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
+import { EncuestasClientesComponent } from './components/encuestas-clientes/encuestas-clientes.component';
 import { MayormenorComponent } from './components/mayormenor/mayormenor.component';
 import { ListaEncuestasComponent } from './components/lista-encuestas/lista-encuestas.component';
 import { ChatMozoComponent } from './components/chat-mozo/chat-mozo.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
 import { ListadoPedidosComponent } from './components/listado-pedidos/listado-pedidos.component';
 import { ListadoChatsComponent } from './components/listado-chats/listado-chats.component';
+import { EncuestasSupervisorComponent } from './components/encuestas-supervisor/encuestas-supervisor.component';
+import { JuegosComponent } from './components/juegos/juegos.component';
+import { EncuestaEmpleadosComponent } from './components/encuesta-empleados/encuesta-empleados.component';
+import { GraficoEmpleadosComponent } from './components/grafico-empleados/grafico-empleados.component';
+import { GraficoSupervisorComponent } from './components/grafico-supervisor/grafico-supervisor.component';
+import { EncuestaSupervisorComponent } from './components/encuesta-supervisor/encuesta-supervisor.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SplashComponent,
     LoginComponent,
+    JuegosComponent,
     AltaDuenioComponent,
     SpinnerComponent,
+    GraficoEmpleadosComponent,
+    GraficoSupervisorComponent,
+    EncuestaEmpleadosComponent,
+    EncuestasClientesComponent,
+    AhorcadoComponent,
+    MemotestComponent,
+    EncuestasSupervisorComponent,
+    MayormenorComponent,
     HomeComponent,
     ListaEncuestasComponent,
-    EncuestaSupervisorComponent,
     ListadoProductosComponent,
     AltaClienteComponent,
-    EncuestasClientesComponent,
-    MayormenorComponent,
     AltaProductosComponent,
     MemotestComponent,
     AhorcadoComponent,
@@ -66,7 +78,8 @@ import { ListadoChatsComponent } from './components/listado-chats/listado-chats.
     ChatMozoComponent,
     DateFormatPipe,
     ListadoPedidosComponent,
-    ListadoChatsComponent
+    ListadoChatsComponent,
+    EncuestaSupervisorComponent,
   ],
   imports: [
     HttpClientModule,

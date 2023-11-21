@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { MensajeService } from 'src/app/services/mensaje.service';
-
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-mayormenor',
   templateUrl: './mayormenor.component.html',
   styleUrls: ['./mayormenor.component.scss'],
 })
-export class MayormenorComponent  implements OnInit {
-
+export class MayormenorComponent {
   cartas: string[] = [];
 
-  constructor() {
+  constructor( private mensajesService:MensajeService) {
     for (let numero = 1; numero <= 12; numero++) {
       for (const palo of ['basto', 'copa', 'espada', 'oro']) {
         this.cartas.push(this.getCardPath(numero, palo));
@@ -32,24 +31,41 @@ export class MayormenorComponent  implements OnInit {
     return path;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.mostrarMensajeInicio();
     this.mazo = [...this.cartas];
     this.elegirCarta();
+  }
+  async mostrarMensajeInicio() {
+    await this.mensajesService.mostrar(
+      '¡Bienvenido!',
+      'Debes ganar el juego con un 5 de puntuacion para obtener un 20% de descuento.',
+      'info'
+    );
   }
 
   comprobar(mayor: boolean) {
     this.cartaAnterior = this.cartaNueva;
-
+  
     this.elegirCarta();
     let valorAnterior = this.obtenerValorNumerico(this.cartaAnterior);
     let valorNueva = this.obtenerValorNumerico(this.cartaNueva);
+  
     if (
       (mayor && valorNueva! > valorAnterior!) ||
       (!mayor && valorNueva! < valorAnterior!) ||
       valorNueva == valorAnterior
     ) {
-      this.puntaje++;
-      if (this.puntaje === this.cartas.length) this.mostrarAlertaGanador();
+      if (this.puntaje < this.cartas.length) {
+        this.puntaje++;
+        if (this.puntaje === 5) {
+          this.mostrarMensajeFelicitacion();
+        }
+      }
+  
+      if (this.puntaje === this.cartas.length) {
+        this.mostrarMensajeFelicitacion();
+      }
     } else {
       this.mostrarAlertaPerdedor();
     }
@@ -75,33 +91,25 @@ export class MayormenorComponent  implements OnInit {
     this.cartaAnterior = '';
   }
 
-  mostrarAlertaGanador() {
-    
-    Swal.fire({
-      title: '¡Ganaste!',
-      icon: 'success',
-      text: 'Has alcanzado el puntaje máximo y el mazo está vacío.',
-      confirmButtonColor: '#4CAF50',
-      confirmButtonText: 'Reiniciar',
-      background: '#fff',
-    }).then(() => {
-      this.reiniciarJuego();
-    });
+  async mostrarMensajeFelicitacion() {
+    await this.mensajesService.mostrar(
+      '¡Felicidades!',
+      '¡Ganaste un 20%!',
+      'success'
+    );
+
+    this.reiniciarJuego();
+  }
+  async mostrarAlertaPerdedor() {
+    await this.mensajesService.mostrar(
+      'Perdiste',
+      `Tu puntaje es: ${this.puntaje}`,
+      'error'
+    );
+
+    this.reiniciarJuego();
   }
 
-  mostrarAlertaPerdedor() {
-    
-    Swal.fire({
-      title: 'Perdiste',
-      icon: 'error',
-      text: `Tu puntaje es: ${this.puntaje}`,
-      confirmButtonColor: '#E33939',
-      confirmButtonText: 'Reintentar',
-      background: '#fff',
-    }).then(() => {
-      this.reiniciarJuego();
-    });
-  }
 
   obtenerFecha(): string {
     let ahora = new Date();

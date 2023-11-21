@@ -11,15 +11,14 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { GraficoClientesService } from 'src/app/services/grafico-clientes.service';
 
 
 @Component({
-  selector: 'app-encuestas-clientes',
-  templateUrl: './encuestas-clientes.component.html',
-  styleUrls: ['./encuestas-clientes.component.scss'],
+  selector: 'app-encuesta-supervisor',
+  templateUrl: './encuesta-supervisor.component.html',
+  styleUrls: ['./encuesta-supervisor.component.scss'],
 })
-export class EncuestasClientesComponent {
+export class EncuestaSupervisorComponent implements OnInit {
   encuesta: any = {
     nombre: '',
     opinion: '',
@@ -34,16 +33,17 @@ export class EncuestasClientesComponent {
     private barcodeScanner: BarcodeScanner,
     private mensajesService: MensajeService,
     private storageService: StorageService,
-    private graficoClientesService: GraficoClientesService,
     private firestoreService: FirestoreService,
     private router: Router) {}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
     async enviarEncuesta() {
       try {
         // Usar el servicio Firestore para guardar la encuesta
-        await this.firestoreService.guardar(this.encuesta, 'encuestas');
+        await this.firestoreService.guardar(this.encuesta, 'encuestasSuper');
         console.log('Encuesta enviada correctamente a Firestore a través de FirestoreService');
-        
         // Aquí puedes realizar acciones adicionales después de enviar la encuesta
       } catch (error) {
         console.error('Error al enviar la encuesta a Firestore:', error);

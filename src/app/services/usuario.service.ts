@@ -8,7 +8,11 @@ import { PushNotificationService } from './push-notification.service';
 @Injectable({
   providedIn: 'root'
 })
+
+// usuario.service.ts
+
 export class UsuarioService {
+  
 
 
   constructor(private firestoreService:FirestoreService,private router:Router,private mensaje: MensajeService,private pushService:PushNotificationService) { }
@@ -84,3 +88,5 @@ export class UsuarioService {
 
 
 }
+
+export { Usuario };

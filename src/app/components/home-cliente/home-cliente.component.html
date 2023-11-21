@@ -57,6 +57,7 @@
               <ion-button
                 *ngIf="(usuario?.data?.habilitarJuegosEncuesta === true) && usuario?.data?.estadoMesa === 'Vinculada' "
                 style="width: 80%; margin-top: 5%"
+                (click)="juegos()"
               ><!--miPedido?.data?.estado !== 'NoConfirmado'-->
                 Juegos
               </ion-button>

@@ -11,31 +11,28 @@ import Swal from 'sweetalert2';
 })
 export class AhorcadoComponent {
   public palabras: string[] = [
-    'biblioteca',
-    'mariposa',
-    'elefante',
-    'guitarra',
-    'computadora',
-    'television',
-    'refrigerador',
-    'matematicas',
-    'universidad',
+    'pizza',
+    'hamburgesa',
+    'helado',
+    'bebida',
+    'pastas',
+    'cocinero',
+    'metre',
+    'cliente',
+    'milanesa',
     'restaurantes',
-    'supermercado',
-    'fotografia',
-    'cumpleaños',
-    'automovil',
-    'bicicleta',
-    'helicoptero',
-    'jirafa',
-    'cocodrilo',
-    'hipopotamo',
-    'constelacion',
-    'astronomia',
-    'geografia',
-    'arqueologia',
-    'biologia',
-    'quimica',
+    'carne',
+    'comida',
+    'reserva',
+    'mesa',
+    'chef',
+    'propina',
+    'carta',
+    'mantel',
+    'volcan',
+    'churrasco',
+    'pure',
+   
   ];
 
   public abecedario: string[] = [
@@ -116,33 +113,22 @@ export class AhorcadoComponent {
     }
   }
 
-  alertaGanador() {
-    this.puntaje = 1;
-  
-    Swal.fire({
-      title: 'Felicitaciones, adivinaste la palabra',
-      icon: 'success',
-      color: '#000000',
-      background: '#D3D3D3',
-      confirmButtonColor: '#0f0',
-      confirmButtonText: 'Continue',
-      text: '¡Ganaste un 15% de descuento!',
-    });
+  async alertaGanador() {
+    await this.mensajesService.mostrar(
+      '¡Felicidades!',
+      '¡Ganaste un 15%!',
+      'success'
+    );
   }
 
-  public alertaPerdedor() {
-    this.puntaje = 0;
-   
-    Swal.fire({
-      title: 'Perdiste, te quedaste sin intentos',
-      icon: 'error',
-      confirmButtonColor: '#E33939',
-      padding: '3em',
-      color: '#000000',
-      background: '#D3D3D3',
-      confirmButtonText: 'Retry',
-      text: 'La palabra era: ' + this.palabra,
-    });
+  public async alertaPerdedor() {
+    await this.mensajesService.mostrar(
+      'Perdiste',
+      `Volve a intentar!`,
+      'error'
+    );
+
+
   }
 
   reiniciar() {

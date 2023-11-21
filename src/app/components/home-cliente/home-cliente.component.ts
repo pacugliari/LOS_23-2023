@@ -120,6 +120,11 @@ export class HomeClienteComponent implements OnInit {
   irEncuestas() {
     this.router.navigate(['listadoEncuestas'], { replaceUrl: true });
   }
+
+  juegos() {
+    this.router.navigate(['juegos'], { replaceUrl: true });
+  }
+
   verProductos() {
     this.router.navigate(['listado/productos'], { replaceUrl: true });
   }
