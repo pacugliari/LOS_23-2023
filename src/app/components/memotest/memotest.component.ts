@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-
-
 import { getDocs, query, collection, orderBy, limit } from 'firebase/firestore';
-
-
 import { Card } from './card.interface';
-
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { MensajeService } from 'src/app/services/mensaje.service';
@@ -14,19 +9,15 @@ import Swal from 'sweetalert2';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
-
 @Component({
   selector: 'app-memotest',
   templateUrl: './memotest.component.html',
   styleUrls: ['./memotest.component.scss'],
 })
-export class MemotestComponent  implements OnInit {
-
-
+export class MemotestComponent implements OnInit {
   userId: string | undefined;
   cardRows: Card[][] = [];
   mejoresRegistros: any[] = [];
-
   selectedCards: Card[] = [];
   animalImages: string[] = [
     'assets/memotest/hamburguesa.jpg',
@@ -36,18 +27,26 @@ export class MemotestComponent  implements OnInit {
   timer: number = 0;
   gameInterval: any;
   gameStarted: boolean = false;
+<<<<<<< HEAD
   userName: string | undefined; // Agrega esta propiedad
   constructor(private router: Router,private navCtrl: NavController,   private mensajesService:MensajeService,
     private firestoreService:FirestoreService,
     private usuarioService : UsuarioService) {}
 
+=======
+  userName: string | undefined; 
+  constructor(
+    private router: Router,
+    private navCtrl: NavController,
+    private mensajesService: MensajeService
+  ) {}
+>>>>>>> 8039755b364888e060dc6c24217d633c38545315
 
   async ngOnInit() {
     await this.mostrarMensajeInicio();
     this.initializeGame();
   }
 
-  
   async mostrarMensajeInicio() {
     await this.mensajesService.mostrar(
       '¡Bienvenido!',
@@ -56,10 +55,10 @@ export class MemotestComponent  implements OnInit {
     );
   }
 
-  atras(){
+  atras() {
     this.router.navigate(['homeCliente'], { replaceUrl: true });
   }
-  
+
   async initializeGame() {
     this.timer = 0;
     const pairs = this.animalImages.concat(this.animalImages);
@@ -71,19 +70,19 @@ export class MemotestComponent  implements OnInit {
     const rowSize = 4;
     for (let i = 0; i < pairs.length; i += rowSize) {
       this.cardRows.push(
-        pairs
-          .slice(i, i + rowSize)
-          .map((image) => ({
-            image,
-            flipped: false,
-            matched: false,
-          } as Card))
+        pairs.slice(i, i + rowSize).map(
+          (image) =>
+            ({
+              image,
+              flipped: false,
+              matched: false,
+            } as Card)
+        )
       );
     }
 
     // Inicia el temporizador después de cerrar el mensaje
     this.startTimer();
-  
   }
 
   flipCard(card: Card) {
@@ -101,17 +100,13 @@ export class MemotestComponent  implements OnInit {
       }
     }
   }
-  
 
   checkMatch() {
-    if (
-      this.selectedCards[0].image === this.selectedCards[1].image
-    ) {
+    if (this.selectedCards[0].image === this.selectedCards[1].image) {
       this.selectedCards[0].matched = true;
       this.selectedCards[1].matched = true;
     }
   }
-  
 
   startTimer() {
     this.gameStarted = true;
@@ -122,7 +117,6 @@ export class MemotestComponent  implements OnInit {
       }
     }, 1000);
   }
-  
 
   async endGame() {
     clearInterval(this.gameInterval);
@@ -151,7 +145,11 @@ export class MemotestComponent  implements OnInit {
       }
     } else {
       // Muestra mensaje de pérdida
-      const resultadoPerdida = await this.mensajesService.mostrar('¡Perdiste!', 'Inténtalo de nuevo', 'error');
+      const resultadoPerdida = await this.mensajesService.mostrar(
+        '¡Perdiste!',
+        'Inténtalo de nuevo',
+        'error'
+      );
 
       // Reinicia el juego después de cerrar el mensaje de pérdida
       if (resultadoPerdida.value) {
@@ -162,10 +160,5 @@ export class MemotestComponent  implements OnInit {
 
   isGameFinished(): boolean {
     return this.cardRows.every((row) => row.every((card) => card.matched));
-    
   }
- 
-
- 
-  
 }
