@@ -46,9 +46,9 @@
                 Juegos
               </ion-button>
               <ion-button
-                *ngIf="(usuario?.data?.habilitarJuegosEncuesta === true) && usuario?.data?.estadoMesa === 'Vinculada' && usuario?.data?.completoEncuesta !== true "
-                style="width: 80%; margin-top: 5%"
-                (click)="irCrear()"
+              *ngIf="(usuario?.data?.habilitarJuegosEncuesta === true) && usuario?.data?.estadoMesa === 'Vinculada' && usuario?.data?.completoEncuesta !== true"
+
+              style="width: 80%; margin-top: 5%" 
               >
                 Completar encuesta
               </ion-button>

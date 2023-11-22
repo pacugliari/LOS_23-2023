@@ -32,7 +32,7 @@ export class HomeClienteComponent implements OnInit {
     private firestoreService: FirestoreService,
     private route: ActivatedRoute
   ) {}
-
+  encuestaCompletada: boolean = false;
   scannedBarCode: any;
   mesas: any;
   usuario: any;
@@ -52,6 +52,8 @@ export class HomeClienteComponent implements OnInit {
 
   async ngOnInit() {
     
+    await this.actualizarUsuario();
+  this.cargando = true;
     this.route.url.subscribe(async () => {
       await this.actualizarUsuario();
       this.cargando = true;
@@ -169,15 +171,18 @@ export class HomeClienteComponent implements OnInit {
   }
 
   async actualizarUsuario() {
-    this.firestoreService.escucharCambios("usuarios",(respuesta)=>{
+    await this.firestoreService.escucharCambios("usuarios", async (respuesta) => {
       let usuarioLog = this.usuarioService.getUsuarioLogueado();
       let usuarios = respuesta;
-      this.usuario = usuarios.filter(
+      this.usuario = usuarios.find(
         (usuario: any) => usuario.id === usuarioLog.id
-      )[0];
-      console.log(JSON.stringify(this.usuario));
-    })
+      );
+  
+      // Verificación de la encuesta completada
+      this.encuestaCompletada = this.usuario?.data?.completoEncuesta === true;
+    });
   }
+  
 
   pedirCuenta() {
     this.detalles = [];
