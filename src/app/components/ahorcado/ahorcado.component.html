@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Ahorcado</ion-title>
-    <ion-buttons slot="start" >
+    <ion-buttons slot="start">
       <ion-button color="dark" (click)="atras()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
@@ -17,7 +17,6 @@
         src="assets/ahorcado/Ahorcado-{{ intentos }}.png"
         class="ahorcado-img"
         alt="ahorcado"
-        style="width: 80%"
       />
     </div>
     <div class="container right">
@@ -29,37 +28,37 @@
             </h3>
           </div>
         </div>
-        <div class="row">
-          <div class="col text-center">
-            <h1 class="palabra">{{ palabraJuego }}</h1>
-          </div>
-        </div>
-        <div class="row" *ngIf="partida === true || partida === false">
-          <div class="col text-center">
-            <button
-              class="btn btn-secondary tamaño reiniciar"
-              (click)="reiniciar()"
-            >
-              REINICIAR
-            </button>
-          </div>
-        </div>
       </div>
-      <div class="bottom">
-        <div class="row" *ngIf="partida === undefined">
-          <div class="col text-center">
-            <button
-              *ngFor="let letra of abecedario"
-              (click)="comprobarClick(letra)"
-              [style.background-color]="botonClick[letra] ? '#0275d8' : '#292b2c'"
-              class="btn text-light letra"
-            >
-              {{ letra.toUpperCase() }}
-            </button>
-          </div>
-        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center">
+      <h1 class="palabra">{{ palabraJuego }}</h1>
+    </div>
+  </div>
+  <div class="row" *ngIf="partida === true || partida === false">
+    <div class="col text-center">
+      <button
+        class="reiniciar"
+        (click)="reiniciar()"
+      >
+        REINICIAR
+      </button>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="row" *ngIf="partida === undefined">
+      <div class="">
+        <button
+          *ngFor="let letra of abecedario"
+          (click)="comprobarClick(letra)"
+          [style.background-color]="botonClick[letra] ? '#0275d8' : '#292b2c'"
+          class="btnm"
+        >
+          {{ letra.toUpperCase() }}
+        </button>
       </div>
     </div>
   </div>
 </ion-content>
-

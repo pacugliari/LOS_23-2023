@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 import { MensajeService } from 'src/app/services/mensaje.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 import Swal from 'sweetalert2';
 
@@ -64,7 +66,9 @@ export class AhorcadoComponent {
     'y',
     'z',
   ];
-  constructor(private mensajesService:MensajeService,private router:Router) {
+  constructor(private mensajesService:MensajeService,private router:Router
+    ,private firestoreService:FirestoreService,
+    private usuarioService : UsuarioService) {
     this.palabraJuego = '_ '.repeat(this.palabra.length);
   }
 
@@ -115,11 +119,27 @@ export class AhorcadoComponent {
   }
 
   async alertaGanador() {
-    await this.mensajesService.mostrar(
-      '¡Felicidades!',
-      '¡Ganaste un 15%!',
-      'success'
-    );
+
+    let usuarios = await this.firestoreService.obtener("usuarios");
+    let usuarioLog = this.usuarioService.getUsuarioLogueado();
+
+    let usuarioBuscado = usuarios.filter(
+      (usuario: any) => usuario.id === usuarioLog.id
+    )[0];
+
+    if(usuarioBuscado.data.descuento !== null && usuarioBuscado.data.descuento !== undefined){
+      this.mensajesService.mostrar("INFO","Usted ya tiene un descuento aplicado","info")
+    }else{
+      await this.mensajesService.mostrar(
+        '¡Felicidades!',
+        '¡Ganaste un 15%!',
+        'success'
+      );
+      
+      usuarioBuscado.data.descuento = 15;
+      await this.firestoreService.modificar(usuarioBuscado,"usuarios");
+    }
+
   }
 
 

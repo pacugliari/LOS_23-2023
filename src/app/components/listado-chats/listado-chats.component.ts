@@ -41,8 +41,6 @@ export class ListadoChatsComponent implements OnInit {
             let mesa = mesas[0];
             console.log(mesa);
             this.chatIds.push({ id: chatId, mesa: mesa.data.numeroMesa });
-          }else{
-            this.chatIds.push({ id: chatId, mesa: 'n°°°°' });
           }
         }
       }
