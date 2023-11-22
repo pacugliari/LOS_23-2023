@@ -107,6 +107,8 @@ export class HomeClienteComponent implements OnInit {
       usuario.data.enListaEspera = usuario.data.estadoMesa = null;
       usuario.data.habilitarJuegosEncuesta = null;
       usuario.data.habilitarPedirCuenta= null;
+      usuario.data.completoEncuesta = null;
+      usuario.data.descuento = null;
       await this.firestoreService.modificar(usuario,"usuarios");
     }
 
@@ -184,6 +186,10 @@ export class HomeClienteComponent implements OnInit {
     this.indice = 1;
     this.titulo = 'Pedir cuenta';
     this.total = 0;
+
+    if(this.usuario.data.descuento !== null && this.usuario.data.descuento !== undefined)
+      this.descuento = this.usuario.data.descuento
+
     this.miPedido.data.pedido.forEach((detalle: any) => {
       let nuevoDetalle = {
         cantidad: detalle.cantidad,
@@ -376,14 +382,7 @@ export class HomeClienteComponent implements OnInit {
 
           await this.firestoreService.modificar( this.usuario, 'usuarios');
         } else {
-          //this.usuario.data.habilitarCarta = true;
-          //await this.firestoreService.modificar( this.usuario, 'usuarios');
           this.verProductos();
-          /*this.mensajesService.mostrar(
-            'OK',
-            `Ya puede realizar su pedido`,
-            'success'
-          );*/
         }
       } else {
         this.mensajesService.mostrar(

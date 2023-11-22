@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import Swal from 'sweetalert2';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 
 @Component({
@@ -35,7 +37,9 @@ export class MemotestComponent  implements OnInit {
   gameInterval: any;
   gameStarted: boolean = false;
   userName: string | undefined; // Agrega esta propiedad
-  constructor(private router: Router,private navCtrl: NavController,   private mensajesService:MensajeService,) {}
+  constructor(private router: Router,private navCtrl: NavController,   private mensajesService:MensajeService,
+    private firestoreService:FirestoreService,
+    private usuarioService : UsuarioService) {}
 
 
   async ngOnInit() {
@@ -125,7 +129,26 @@ export class MemotestComponent  implements OnInit {
 
     if (this.timer < 30 && this.isGameFinished()) {
       // Muestra mensaje de felicitación con el descuento
-      await this.mensajesService.mostrar('¡Felicidades!', '¡Ganaste un 10% de descuento!', 'success');
+
+      let usuarios = await this.firestoreService.obtener("usuarios");
+      let usuarioLog = this.usuarioService.getUsuarioLogueado();
+  
+      let usuarioBuscado = usuarios.filter(
+        (usuario: any) => usuario.id === usuarioLog.id
+      )[0];
+  
+      if(usuarioBuscado.data.descuento !== null && usuarioBuscado.data.descuento !== undefined){
+        this.mensajesService.mostrar("INFO","Usted ya tiene un descuento aplicado","info")
+      }else{
+        await this.mensajesService.mostrar(
+          '¡Felicidades!',
+          '¡Ganaste un 10%!',
+          'success'
+        );
+        
+        usuarioBuscado.data.descuento = 10;
+        await this.firestoreService.modificar(usuarioBuscado,"usuarios");
+      }
     } else {
       // Muestra mensaje de pérdida
       const resultadoPerdida = await this.mensajesService.mostrar('¡Perdiste!', 'Inténtalo de nuevo', 'error');

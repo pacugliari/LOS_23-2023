@@ -121,11 +121,11 @@
                 </tbody>
               </table>
             </ion-card-content>
-            <h3>Descuentos: ${{ descuento }}</h3>
+            <h3>Descuentos ({{ descuento }}%): ${{(total*(descuento/100)).toFixed(2)}}</h3>
             <h3 *ngIf="!yaCargo">Propina: $ {{propina}}</h3>
             <h3 *ngIf="yaCargo">Propina ({{ propina }}%): ${{(total*(propina/100)).toFixed(2)}}</h3>
             <h3 *ngIf="yaCargo">Comentario: {{ comentario }}</h3>
-            <h1>Total: ${{ (total*(1+(propina/100))).toFixed(2) }}</h1>
+            <h1>Total: ${{ (total*(1+(propina/100)-(descuento/100))).toFixed(2) }}</h1>
           </ion-card>
         </div>
       </ion-col>

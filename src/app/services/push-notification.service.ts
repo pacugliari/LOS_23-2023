@@ -99,9 +99,9 @@ export class PushNotificationService {
             console.log(chatId);
             this.router.navigate([ruta, chatId], { replaceUrl: true });
           }
-        } else if (ruta === 'homeEmpleado'){//metre//administrarPedidosCocina
+        } else if (ruta === 'homeEmpleado'){//MOZO
           callback(5)
-        } else if (ruta === 'metre'){//metre
+        } else if (ruta === 'metre'){//METRE
           callback(1)
         }else{
           this.router.navigate([ruta], { replaceUrl: true });
