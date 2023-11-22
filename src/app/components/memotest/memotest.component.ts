@@ -27,20 +27,11 @@ export class MemotestComponent implements OnInit {
   timer: number = 0;
   gameInterval: any;
   gameStarted: boolean = false;
-<<<<<<< HEAD
   userName: string | undefined; // Agrega esta propiedad
   constructor(private router: Router,private navCtrl: NavController,   private mensajesService:MensajeService,
     private firestoreService:FirestoreService,
     private usuarioService : UsuarioService) {}
 
-=======
-  userName: string | undefined; 
-  constructor(
-    private router: Router,
-    private navCtrl: NavController,
-    private mensajesService: MensajeService
-  ) {}
->>>>>>> 8039755b364888e060dc6c24217d633c38545315
 
   async ngOnInit() {
     await this.mostrarMensajeInicio();
