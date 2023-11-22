@@ -52,7 +52,6 @@ export class HomeClienteComponent implements OnInit {
 
   async ngOnInit() {
     
-
     this.route.url.subscribe(async () => {
       await this.actualizarUsuario();
       this.cargando = true;
