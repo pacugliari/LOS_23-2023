@@ -54,6 +54,8 @@ export class PushNotificationService {
   }
 
   async escucharNotificaciones(callback: (respuesta: any) => any) {
+    await this.silenciarNotificaciones();
+
     //Ocurre cuando el dispositivo recive una notificacion push
     await PushNotifications.addListener(
       'pushNotificationReceived',
@@ -97,7 +99,7 @@ export class PushNotificationService {
             console.log(chatId);
             this.router.navigate([ruta, chatId], { replaceUrl: true });
           }
-        } else if (ruta === 'homeEmpleado'){//metre
+        } else if (ruta === 'homeEmpleado'){//metre//administrarPedidosCocina
           callback(5)
         } else if (ruta === 'metre'){//metre
           callback(1)

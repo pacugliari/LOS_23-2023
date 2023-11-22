@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit {
   }
 
   async salir() {
-    await this.pushNotService.silenciarNotificaciones();
     this.usuarioService.salir();
 
   }
