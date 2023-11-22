@@ -1,6 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Encuesta cliente</ion-title>
+    <ion-buttons slot="start" >
+      <ion-button color="dark" (click)="atras()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <ion-button  routerLink="/login"></ion-button>
-  <form (ngSubmit)="enviarEncuesta()" style="background-color: #faedcd">
+  <form style="background-color: #faedcd" *ngIf="!cargando">
     <ion-grid style="background-color: #faedcd;">
       <ion-row color="primary">
         <ion-col align-self-center size-md="8" size-lg="6" size-xs="12">
@@ -9,15 +19,10 @@
               <ion-row>
                 <ion-col>
               <label for="nombre">Nombre:</label>
-              <input type="text" id="nombre" name="nombre" [(ngModel)]="encuesta.nombre" placeholder="Nombre del cliente" style="margin-bottom: 20px;">
+              <input type="text" id="nombre" name="nombre" [(ngModel)]="encuesta.nombre" placeholder="Nombre del cliente" style="margin-bottom: 20px;font-size: 20px;width: 80%;">
             </ion-col>
           </ion-row>
-          <ion-row>
-            <ion-col>
-              <label for="opinion">Opinión:</label>
-              <textarea id="opinion" name="opinion" [(ngModel)]="encuesta.opinion" placeholder="Escribe tu opinión" style="margin-bottom: 20px;"></textarea>
-            </ion-col>
-          </ion-row>
+         
           <ion-row>
             <ion-col>
               <label for="valoracion">Valoración de atención:</label>
@@ -29,8 +34,7 @@
             <ion-col>
           
               <label for="fotos" style="display: block; margin-bottom: 20px;">Subir fotos (máx. 3):</label>
-              <button (click)="tomarFoto()">Tomar Foto</button>
-
+              <ion-button  (click)="tomarFoto()">Tomar Foto</ion-button>
               <input type="file" id="fotos" name="fotos" (change)="agregarFoto($event)" accept="image/*" multiple style="margin-bottom: 30px;">
             </ion-col>
           </ion-row>
@@ -40,22 +44,24 @@
               <label for="nivel-satisfaccion">Nivel de Satisfacción con la comida:</label>
               <div>
                 <input type="radio" id="muySatisfecho" name="nivelSatisfaccion" [(ngModel)]="encuesta.nivelSatisfaccion" value="5">
-                <label for="muySatisfecho">Muy Satisfecho</label>
+                <label for="muySatisfecho"> Muy Satisfecho</label><br>
                 <input type="radio" id="satisfecho" name="nivelSatisfaccion" [(ngModel)]="encuesta.nivelSatisfaccion" value="4">
-                <label for="satisfecho"> Satisfecho</label>
+                <label for="satisfecho"> Satisfecho</label><br>
                 <input type="radio" id="normal" name="nivelSatisfaccion" [(ngModel)]="encuesta.nivelSatisfaccion" value="3">
-                <label for="normal">normal</label>
+                <label for="normal"> Normal</label><br>
                 <input type="radio" id="regular" name="nivelSatisfaccion" [(ngModel)]="encuesta.nivelSatisfaccion" value="2">
-                <label for="regular">Regular</label>
+                <label for="regular"> Regular</label><br>
                 <input type="radio" id="pesimo" name="nivelSatisfaccion" [(ngModel)]="encuesta.nivelSatisfaccion" value="1">
-                <label for="pesimo"> Pesimo</label>
+                <label for="pesimo"> Pesimo</label><br>
               </div>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <label for="ofertas" style="margin-bottom: 20px;">¿Volverias a visitaros?</label>
+              <label for="ofertas" style="margin-bottom: 20px;">¿Volverias a visitaros?</label><br>
               <input type="checkbox" id="ofertas" name="ofertas" [(ngModel)]="encuesta.ofertasCorreo">
+              <label *ngIf="encuesta.ofertasCorreo">SI</label>
+              <label *ngIf="!encuesta.ofertasCorreo">NO</label>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -68,7 +74,18 @@
             </ion-col>
           </ion-row>
           
-              <button type="submit" style="width: 100%; margin-top: 30px;">Enviar Encuesta</button>
+       <!-- Agregar el mensaje condicional -->
+<div *ngIf="formularioEnviado" class="mensaje-formulario-enviado">
+  El formulario ya ha sido enviado. Solo se permite un envío.
+</div>
+
+<button type="submit" [disabled]="formularioEnviado" style="width: 100%; margin-top: 30px;">
+  
+</button>
+
+<ion-button (click)="enviarEncuesta()" style="width: 90%;margin-left: 5%;">Enviar encuesta</ion-button>
+
+
             </ion-list>
           </ion-card>
         </ion-col>
@@ -76,3 +93,7 @@
     </ion-grid>
   </form>
 </ion-content>
+
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>

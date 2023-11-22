@@ -52,7 +52,6 @@ export class HomeClienteComponent implements OnInit {
 
   async ngOnInit() {
     
-
     this.route.url.subscribe(async () => {
       await this.actualizarUsuario();
       this.cargando = true;
@@ -117,8 +116,13 @@ export class HomeClienteComponent implements OnInit {
     this.cargando = false;
     this.usuarioService.salir();
   }
+
+  irCrear(){
+     this.router.navigate(['encuestas/clientes'], { replaceUrl: true });
+  }
+  
   irEncuestas() {
-    this.router.navigate(['listadoEncuestas'], { replaceUrl: true });
+    this.router.navigate(['grafico/clientes'], { replaceUrl: true });
   }
 
   juegos() {
@@ -277,7 +281,8 @@ export class HomeClienteComponent implements OnInit {
     console.log(2)
     if (
       userQR === QRs.IngresoLocal &&
-      this.usuario.data.enListaEspera !== 'Espera'
+      this.usuario.data.enListaEspera !== 'Espera' &&
+      this.usuario.data.enListaEspera !== 'Asignada'
     ) {
       this.mensajesService.mostrar(
         'OK',

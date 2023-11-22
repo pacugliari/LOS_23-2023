@@ -161,9 +161,9 @@ export class GraficoEmpleadosComponent  implements OnInit {
   private async obtenerDatosEncuestasYDibujarGraficoBurbujas() {
     try {
       // Obtén los datos de las encuestas desde Firestore
-      const encuestass = await this.firestoreService.obtenerEncuestasEmpleados();
+      const encuestas = await this.firestoreService.obtenerEncuestasEmpleados();
       // Extrae los datos relevantes para construir el gráfico de burbujas
-      const dataBurbujas = encuestass.map((encuesta: any) => encuesta.data.recomendar);
+      const dataBurbujas = encuestas.map((encuesta: any) => encuesta.data.recomendar);
   
       // Obtén el contexto del lienzo del elemento ElementRef para el gráfico de burbujas
       const ctxBurbujas = (this.graficoCanvasBurbujas.nativeElement as HTMLCanvasElement).getContext('2d');

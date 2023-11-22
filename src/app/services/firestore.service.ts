@@ -23,6 +23,7 @@ export class FirestoreService {
   encuestasSuperCollection = collection(firestore, 'encuestasSuper');
   encuestasEmpleadosCollection = collection(firestore, 'encuestasEmpleados');
 
+
  async obtenerEncuestasSupervisor(): Promise<any[]> {
     const querySnapshot = await getDocs(this.encuestasSuperCollection);
     const encuestass: any[] = [];

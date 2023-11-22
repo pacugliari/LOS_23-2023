@@ -73,6 +73,7 @@ export class HomeEmpleadoComponent implements OnInit {
                   let cliente = pago.data.cliente;
                   cliente.data.habilitarPedirCuenta = false;
                   cliente.data.enListaEspera = cliente.data.estadoMesa = null;
+                  cliente.data.completoEncuesta = null;
                   await this.firestore.modificar(cliente, 'usuarios');
                   await this.firestore.modificar(pago, 'pagos');
                   await this.firestore.borrar(pago.data.pedido, 'pedidos');

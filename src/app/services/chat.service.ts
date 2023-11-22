@@ -52,6 +52,9 @@ export class ChatService {
           };
           this.mensajes.push(mensaje);
         });
+        this.mensajes = this.mensajes.sort((a, b) => {
+          return parseInt(a.fecha) - parseInt(b.fecha);
+        });
       });
       
     });

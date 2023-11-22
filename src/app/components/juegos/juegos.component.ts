@@ -32,6 +32,9 @@ export class JuegosComponent  implements OnInit {
     this.router.navigate(['ahorcado'], { replaceUrl: true });
   }
 
+  atras(){
+    this.router.navigate(['homeCliente'], { replaceUrl: true });
+  }
 
   async salir() {
     await this.pushNotService.silenciarNotificaciones();

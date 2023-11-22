@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MensajeService } from 'src/app/services/mensaje.service';
 
@@ -63,7 +64,7 @@ export class AhorcadoComponent {
     'y',
     'z',
   ];
-  constructor(private mensajesService:MensajeService) {
+  constructor(private mensajesService:MensajeService,private router:Router) {
     this.palabraJuego = '_ '.repeat(this.palabra.length);
   }
 
@@ -119,6 +120,11 @@ export class AhorcadoComponent {
       '¡Ganaste un 15%!',
       'success'
     );
+  }
+
+
+  atras(){
+    this.router.navigate(['homeCliente'], { replaceUrl: true });
   }
 
   public async alertaPerdedor() {

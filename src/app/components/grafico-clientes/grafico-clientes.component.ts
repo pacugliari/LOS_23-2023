@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import Chart from 'chart.js/auto';
 import { FirestoreService } from 'src/app/services/firestore.service';
 
@@ -13,7 +14,7 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
 
   @ViewChild('graficoCanvasTorta') graficoCanvasTorta!: ElementRef;
 
-  constructor(private firestoreService: FirestoreService) {}
+  constructor(private firestoreService: FirestoreService,private router:Router) {}
 
   ngOnInit() {}
 
@@ -21,6 +22,10 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
     this.obtenerDatosEncuestasYDibujarGraficoBarras();
     this.obtenerDatosEncuestasYDibujarGraficoTorta();
     this.obtenerDatosEncuestasYDibujarGraficoLineal();
+  }
+
+  atras(){
+    this.router.navigate(["homeCliente"])
   }
 
   private async obtenerDatosEncuestasYDibujarGraficoBarras() {
