@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title > JUEGOS</ion-title>
+    <ion-title>Juegos</ion-title>
+    <ion-buttons slot="start" >
+      <ion-button color="dark" (click)="atras()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,7 +20,7 @@
               <ion-button (click)="memotest()" style="width: 80%;margin-top: 5%;"> Memotest</ion-button>
               <ion-button (click)="mayormenor()" style="width: 80%;margin-top: 5%;"> Mayor Menor </ion-button>
               <ion-button (click)="ahorcado()" style="width: 80%;margin-top: 5%;"> Ahorcado</ion-button>
-              <ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
+              <!--<ion-button (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>-->
               <br><br>
             </ion-card>
           </div>

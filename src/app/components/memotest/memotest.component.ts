@@ -52,8 +52,9 @@ export class MemotestComponent  implements OnInit {
     );
   }
 
-
-  
+  atras(){
+    this.router.navigate(['homeCliente'], { replaceUrl: true });
+  }
   
   async initializeGame() {
     this.timer = 0;

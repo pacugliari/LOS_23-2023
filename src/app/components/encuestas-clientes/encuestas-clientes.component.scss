@@ -58,6 +58,7 @@ ion-toolbar {
   input[type="file"] {
     display: none;
   }
+
   
   input[type="file"] + label::before {
     content: "Seleccionar Foto";

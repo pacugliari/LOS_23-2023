@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MensajeService } from 'src/app/services/mensaje.service';
 import Swal from 'sweetalert2';
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2';
 export class MayormenorComponent {
   cartas: string[] = [];
 
-  constructor( private mensajesService:MensajeService) {
+  constructor( private mensajesService:MensajeService,private router:Router) {
     for (let numero = 1; numero <= 12; numero++) {
       for (const palo of ['basto', 'copa', 'espada', 'oro']) {
         this.cartas.push(this.getCardPath(numero, palo));
@@ -29,6 +30,10 @@ export class MayormenorComponent {
     var path = `assets/Cartas/${numero}de${palo}.png`;
     //console.log(path);
     return path;
+  }
+
+  atras(){
+    this.router.navigate(['homeCliente'], { replaceUrl: true });
   }
 
   async ngOnInit() {

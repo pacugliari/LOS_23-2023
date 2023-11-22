@@ -12,6 +12,7 @@ import { MensajeService } from 'src/app/services/mensaje.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { GraficoClientesService } from 'src/app/services/grafico-clientes.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class EncuestasClientesComponent {
     primeraVisita: 'si'
   };
   formularioEnviado = false;
+  cargando : boolean = false;
 
   constructor( private formBuilder: FormBuilder,
     private barcodeScanner: BarcodeScanner,
@@ -37,10 +39,16 @@ export class EncuestasClientesComponent {
     private storageService: StorageService,
     private graficoClientesService: GraficoClientesService,
     private firestoreService: FirestoreService,
-    private router: Router) {}
+    private router: Router,
+    private usuarioService: UsuarioService) {}
 
   
+    atras(){
+      this.router.navigate(["homeCliente"])
+    }
+
     async enviarEncuesta() {
+      this.cargando = true;
       try {
         // Verificar si el formulario ya ha sido enviado
         if (this.formularioEnviado) {
@@ -57,7 +65,16 @@ export class EncuestasClientesComponent {
   
           // Marcar el formulario como enviado
           this.formularioEnviado = true;
+
+          let usuarios = await this.firestoreService.obtener("usuarios");
+          let usuarioLog = this.usuarioService.getUsuarioLogueado();
   
+          let usuarioBuscado = usuarios.filter(
+            (usuario: any) => usuario.id === usuarioLog.id
+          )[0];
+          usuarioBuscado.data.completoEncuesta = true;
+          await this.firestoreService.modificar(usuarioBuscado,"usuarios");
+            
           // Aquí puedes realizar acciones adicionales después de enviar la encuesta
         } else {
           this.mostrarMensajes();
@@ -66,6 +83,8 @@ export class EncuestasClientesComponent {
         console.error('Error al enviar la encuesta a Firestore:', error);
         // Manejar el error, como mostrar un mensaje de error al usuario
       }
+      this.router.navigate(["homeCliente"])
+      this.cargando = false;
     }
   
     mostrarMensajeFormularioEnviado() {
