@@ -61,10 +61,10 @@ export class EncuestasClientesComponent {
         if (this.formularioCompleto()) {
           // Usar el servicio Firestore para guardar la encuesta
           await this.firestoreService.guardar(this.encuesta, 'encuestas');
-          this.mostrarMensaje();
+          await this.mostrarMensaje();
   
           // Marcar el formulario como enviado
-          this.formularioEnviado = true;
+          //this.formularioEnviado = true;
 
           let usuarios = await this.firestoreService.obtener("usuarios");
           let usuarioLog = this.usuarioService.getUsuarioLogueado();
@@ -120,14 +120,18 @@ export class EncuestasClientesComponent {
       if (this.encuesta.fotos.length < 3) {
         try {
           const image = await Camera.getPhoto({
-            quality: 90,
+            quality: 50,
             allowEditing: false,
-            resultType: CameraResultType.Base64,
-            source: CameraSource.Camera
+            resultType: CameraResultType.DataUrl,
+            source: CameraSource.Camera,
+            webUseInput: true,
           });
     
           // Agregar la foto a la lista de fotos en la encuesta
-          this.encuesta.fotos.push(`data:image/jpeg;base64,${image.base64String}`);
+          //this.encuesta.fotos.push(`data:image/jpeg;base64,${image.base64String}`);
+          let foto :any = image.dataUrl;
+          let url = await this.storageService.guardarFoto(foto,"encuestas")
+          this.encuesta.fotos.push (url);
         } catch (error) {
           console.error('Error al tomar la foto:', error);
           // Manejar el error, como mostrar un mensaje al usuario
