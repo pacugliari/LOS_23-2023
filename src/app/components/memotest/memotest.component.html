@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Memotest</ion-title>
-    <ion-buttons slot="start" >
+    <ion-buttons slot="start">
       <ion-button color="dark" (click)="atras()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
@@ -11,17 +11,32 @@
 
 <ion-content>
   <ion-header [translucent]="true">
-    <div class="timer" style="font-size: 20px;">
+    <div class="timer" style="font-size: 20px">
       Tiempo: {{ timer }} segundos
     </div>
   </ion-header>
-<div class="card-grid">
-  <div *ngFor="let row of cardRows" class="card-row">
-    <div *ngFor="let card of row" class="card" (click)="flipCard(card)">
-      <img [src]="card.flipped || card.matched ? card.image : 'assets/memotest/reverso.jpg'" alt="Card Image">
+
+  <!-- <div class="card-grid">
+    <div *ngFor="let row of cardRows" class="card-row">
+     
     </div>
-  </div>
-</div>
-<!-- Agrega esto en tu plantilla HTML -->
+  </div> -->
+
+  <ion-row *ngFor="let row of cardRows">
+    <ion-col size="6"  *ngFor="let card of row"  (click)="flipCard(card)">
+      
+      <div class="card">
+        <img
+          [src]="
+            card.flipped || card.matched
+              ? card.image
+              : 'assets/memotest/reverso.jpg'
+          "
+          alt="Card Image"
+        />
+      </div>
+
+    </ion-col>
+  </ion-row>
 
 </ion-content>
