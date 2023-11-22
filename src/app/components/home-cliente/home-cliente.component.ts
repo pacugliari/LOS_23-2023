@@ -32,7 +32,7 @@ export class HomeClienteComponent implements OnInit {
     private firestoreService: FirestoreService,
     private route: ActivatedRoute
   ) {}
-
+  encuestaCompletada: boolean = false;
   scannedBarCode: any;
   mesas: any;
   usuario: any;
@@ -91,8 +91,29 @@ export class HomeClienteComponent implements OnInit {
     this.usuarioService.salir();
   }
 
-  irCrear(){
-     this.router.navigate(['encuestas/clientes'], { replaceUrl: true });
+  irCrear() {
+    console.log('Estado actual de encuestaCompletada:', this.encuestaCompletada);
+  
+    if (!this.encuestaCompletada) {
+      console.log('Dentro de la condición if. Navegando a la página de encuestas...');
+      this.router.navigate(['encuestas/clientes'], { replaceUrl: true });
+      this.encuestaCompletada = true;
+      console.log('encuestaCompletada después de establecerla en true:', this.encuestaCompletada);
+    } else {
+      console.log('Encuesta ya completada. No se navegará.');
+      this.mensajeEncuesta();
+    }
+  }
+  
+  
+  
+  async mensajeEncuesta()
+  {
+    await this.mensajesService.mostrar(
+      'NO!',
+      'ya completaste la encuesta',
+      'error'
+    );
   }
   irEncuestas() {
     this.router.navigate(['grafico/clientes'], { replaceUrl: true });

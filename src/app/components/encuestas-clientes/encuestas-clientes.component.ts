@@ -30,6 +30,11 @@ export class EncuestasClientesComponent {
     primeraVisita: 'si'
   };
   formularioEnviado = false;
+<<<<<<< Updated upstream
+=======
+  cargando : boolean = false;
+  
+>>>>>>> Stashed changes
 
   constructor( private formBuilder: FormBuilder,
     private barcodeScanner: BarcodeScanner,
@@ -37,7 +42,12 @@ export class EncuestasClientesComponent {
     private storageService: StorageService,
     private graficoClientesService: GraficoClientesService,
     private firestoreService: FirestoreService,
+<<<<<<< Updated upstream
     private router: Router) {}
+=======
+    private router: Router,
+    private usuarioService: UsuarioService) { this.formularioEnviado = false;}
+>>>>>>> Stashed changes
 
   
     async enviarEncuesta() {
@@ -46,6 +56,7 @@ export class EncuestasClientesComponent {
         if (this.formularioEnviado) {
           // Mostrar un mensaje indicando que el formulario ya se envió
           this.mostrarMensajeFormularioEnviado();
+          this.router.navigate(["homeCliente"])
           return;
         }
   

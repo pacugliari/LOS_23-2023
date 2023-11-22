@@ -20,6 +20,7 @@
       <ion-row color="primary">
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
           <div class="ion-text-center" size-md="6" size-lg="5" size-xs="12">
+<<<<<<< Updated upstream
             <!--<ion-card  class="auth-card ion-margin">
               <h2>Estado del pedido:</h2>
               <h3>{{estado}}</h3>
@@ -33,6 +34,52 @@
               <ion-button *ngIf="miPedido.data.entregado && !miPedido.data.pagado" style="width: 80%;margin-top: 5%;" (click)="pedirCuenta()"> Pedir cuenta </ion-button>
               <!--<ion-button  (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>-->
               <br><br>
+=======
+            <ion-card class="auth-card ion-margin">
+              <ion-button
+                (click)="verProductos()"
+                *ngIf="usuario?.data?.habilitarCarta"
+                style="width: 80%; margin-top: 5%"
+              >
+                Carta
+              </ion-button>
+              <ion-button
+                (click)="chatMozo()"
+                *ngIf="usuario?.data?.estadoMesa === 'Vinculada'"
+                style="width: 80%; margin-top: 5%"
+              >
+                Consulta al Mozo
+              </ion-button>
+              <ion-button
+                *ngIf="(usuario?.data?.habilitarJuegosEncuesta === true) && usuario?.data?.estadoMesa === 'Vinculada' "
+                style="width: 80%; margin-top: 5%"
+                (click)="juegos()"
+              >
+                Juegos
+              </ion-button>
+              <ion-button
+            
+                (click)="irCrear()"
+              >
+                Completar encuesta
+              </ion-button>
+              <ion-button
+                *ngIf="usuario?.data?.enListaEspera === 'Espera' || usuario?.data?.estadoMesa === 'Vinculada' || usuario?.data?.estadoMesa === 'NoVinculada'"
+                (click)="irEncuestas()"
+                style="width: 80%; margin-top: 5%"
+              >
+                Encuestas
+              </ion-button>
+              <ion-button
+                *ngIf="usuario?.data?.habilitarPedirCuenta=== true && !miPedido?.data?.pagado === null"
+                style="width: 80%; margin-top: 5%"
+                (click)="pedirCuenta()"
+              >
+                Pedir cuenta
+              </ion-button>
+              <ion-button *ngIf="miPedido === null || miPedido === undefined "  (click)="salir()" style="width: 80%;margin-top: 5%;"> Salir </ion-button>
+              <br /><br />
+>>>>>>> Stashed changes
             </ion-card>
           </div>
         </ion-col>
