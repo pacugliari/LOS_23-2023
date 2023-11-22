@@ -60,7 +60,7 @@
                 Encuestas
               </ion-button>
               <ion-button
-                *ngIf="usuario?.data?.habilitarPedirCuenta=== true && !miPedido?.data?.pagado === null"
+                *ngIf="usuario?.data?.habilitarPedirCuenta=== true && !miPedido?.data?.pagado"
                 style="width: 80%; margin-top: 5%"
                 (click)="pedirCuenta()"
               >

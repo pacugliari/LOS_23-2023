@@ -37,7 +37,6 @@ export class JuegosComponent  implements OnInit {
   }
 
   async salir() {
-    await this.pushNotService.silenciarNotificaciones();
     this.usuarioService.salir();
 
   }

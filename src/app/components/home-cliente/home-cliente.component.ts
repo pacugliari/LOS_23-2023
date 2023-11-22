@@ -68,19 +68,7 @@ export class HomeClienteComponent implements OnInit {
             ) {//&& pedido.data.estado === 'Entregado'
               this.miPedido = pedido;
               if (!pedido.data.entregado && pedido.data.estado === 'Entregado') {
-                Swal.fire({
-                  title: 'Su pedido ya esta listo',
-                  icon: 'success',
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Confirmar',
-                  heightAuto: false,
-                }).then(async (result) => {
-                  if (result.isConfirmed) {
-                    pedido.data.entregado = true;
-                    await this.firestoreService.modificar(pedido, 'pedidos');
-                  }
-                });
+                this.confirmarPedido(pedido);
               }
             }
           }
@@ -93,6 +81,22 @@ export class HomeClienteComponent implements OnInit {
     });
   }
 
+  async confirmarPedido(pedido:any){
+    await Swal.fire({
+      title: 'Su pedido ya esta listo',
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      heightAuto: false,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        pedido.data.entregado = true;
+        await this.firestoreService.modificar(pedido, 'pedidos');
+      }
+    });
+  }
+
   async salir() {
     this.cargando = true;
     let usuario = this.usuarioService.getUsuarioLogueado();
@@ -102,6 +106,7 @@ export class HomeClienteComponent implements OnInit {
     }else{
       usuario.data.enListaEspera = usuario.data.estadoMesa = null;
       usuario.data.habilitarJuegosEncuesta = null;
+      usuario.data.habilitarPedirCuenta= null;
       await this.firestoreService.modificar(usuario,"usuarios");
     }
 
@@ -356,13 +361,19 @@ export class HomeClienteComponent implements OnInit {
             'success'
           );
         } else if (pedidoBuscado?.data?.estado === 'Entregado') {
-          this.mensajesService.mostrar(
-            'OK',
-            `Su pedido fue entregado`,
-            'success'
-          );
-          this.usuario.data.habilitarJuegosEncuesta = true;
-          this.usuario.data.habilitarPedirCuenta = true;
+
+          if(this.miPedido !== null && this.miPedido.data.entregado !== true){
+            await this.confirmarPedido(this.miPedido);
+          }else{
+            this.mensajesService.mostrar(
+              'OK',
+              `Su pedido fue entregado`,
+              'success'
+            );
+            this.usuario.data.habilitarJuegosEncuesta = true;
+            this.usuario.data.habilitarPedirCuenta = true;
+          }
+
           await this.firestoreService.modificar( this.usuario, 'usuarios');
         } else {
           //this.usuario.data.habilitarCarta = true;
