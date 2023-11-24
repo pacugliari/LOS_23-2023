@@ -13,10 +13,13 @@
     </ion-buttons>
   </ion-toolbar>
   </ion-header>
-<ion-content style="max-height: 100%;">
+<ion-content style="max-height: 100%;"  *ngIf="!cargando">
     <canvas #graficoCanvas></canvas>
     <canvas #graficoCanvasTorta></canvas>
     <canvas #nivelSatisfaccion></canvas>
 </ion-content>
 
+<ng-template [ngIf]="cargando">
+  <app-spinner></app-spinner>
+</ng-template>
 

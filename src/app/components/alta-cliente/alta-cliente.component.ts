@@ -30,25 +30,25 @@ export class AltaClienteComponent {
     private firestoreService: FirestoreService,
     private pushNotService: PushNotificationService,
     private storageService: StorageService,
-    private router:Router
+    private router: Router
   ) {}
 
   form = this.formBuilder.group({
     usuario: ['', [Validators.required]],
     clave: ['', [Validators.required]],
-    nombre: ['', [Validators.required]],
-    apellido: ['', [Validators.required]],
-    dni: ['', [Validators.required]],
-    correo: ['', [Validators.required,Validators.email]],
+    nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+    apellido: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+    dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+    correo: ['', [Validators.required, Validators.email]],
   });
 
   ngOnInit() {}
-  
-  async existeRegistrado(){
+
+  async existeRegistrado() {
     let encontrado = false;
     let usuarios = await this.firestoreService.obtener('usuarios');
-    for(let element of usuarios){
-      if(element.data.usuario === this.form.value.usuario){
+    for (let element of usuarios) {
+      if (element.data.usuario === this.form.value.usuario) {
         encontrado = true;
         break;
       }
@@ -77,7 +77,7 @@ export class AltaClienteComponent {
         foto: fotoUrl,
         clientePendiente: true,
         clienteRechazado: false,
-        tipo: "cliente"
+        tipo: 'cliente',
       };
 
       await this.firestoreService.guardar(data, 'usuarios');
@@ -86,7 +86,10 @@ export class AltaClienteComponent {
         'El cliente fue creado correctamente',
         'success'
       );
-      await this.mandarNotificacionPush({nombre:this.form.value.nombre,apellido:this.form.value.apellido});
+      await this.mandarNotificacionPush({
+        nombre: this.form.value.nombre,
+        apellido: this.form.value.apellido,
+      });
       registroCorrecto = true;
     } else if (!this.foto && this.form.valid) {
       await this.mensajesService.mostrar(
@@ -94,13 +97,13 @@ export class AltaClienteComponent {
         'Falta tomar la foto',
         'error'
       );
-    } else if (estaRegistrado){
+    } else if (estaRegistrado) {
       await this.mensajesService.mostrar(
         'ERROR',
         'Ese usuario ya se encuentra registrado',
         'error'
       );
-    }else {
+    } else {
       await this.mensajesService.mostrar(
         'ERROR',
         'Verifique que esten todos los campos completos',
@@ -160,24 +163,31 @@ export class AltaClienteComponent {
       : '';
   }
 
-  async mandarNotificacionPush(data:any){ 
-    let supervisores = await this.firestoreService.obtener("usuarios");
-    supervisores = supervisores.filter((element)=> {
-      return element.data.tipo === "duenio" || element.data.tipo === "supervisor"
-    })
-
-    this.pushNotService.sendPushNotification({
-      registration_ids: supervisores.map((element)=> element.data.tokenPush),
-      notification: {
-        title: 'Registro de nuevo cliente',
-        body: data.nombre+','+data.apellido+' esta esperando que lo apruebes',
-      },
-      data: {
-        ruta: "clientes-pendientes"
-      },
-    })
-    .subscribe((data) => {
-      console.log(data)
+  async mandarNotificacionPush(data: any) {
+    let supervisores = await this.firestoreService.obtener('usuarios');
+    supervisores = supervisores.filter((element) => {
+      return (
+        element.data.tipo === 'duenio' || element.data.tipo === 'supervisor'
+      );
     });
+
+    this.pushNotService
+      .sendPushNotification({
+        registration_ids: supervisores.map((element) => element.data.tokenPush),
+        notification: {
+          title: 'Registro de nuevo cliente',
+          body:
+            data.nombre +
+            ',' +
+            data.apellido +
+            ' esta esperando que lo apruebes',
+        },
+        data: {
+          ruta: 'clientes-pendientes',
+        },
+      })
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }

@@ -17,7 +17,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 export class GraficoClientesComponent implements OnInit, AfterViewInit {
   @ViewChild('graficoCanvas') graficoCanvas!: ElementRef;
   @ViewChild('nivelSatisfaccion') graficoCanvasLineal!: ElementRef;
-
+  cargando: boolean = false;
   @ViewChild('graficoCanvasTorta') graficoCanvasTorta!: ElementRef;
 
   constructor(
@@ -27,10 +27,14 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {}
 
-  ngAfterViewInit() {
-    this.obtenerDatosEncuestasYDibujarGraficoBarras();
-    this.obtenerDatosEncuestasYDibujarGraficoTorta();
-    this.obtenerDatosEncuestasYDibujarGraficoLineal();
+  async ngAfterViewInit() {
+    this.cargando = true;
+    await this.obtenerDatosEncuestasYDibujarGraficoBarras();
+    await this.obtenerDatosEncuestasYDibujarGraficoTorta();
+    await this.obtenerDatosEncuestasYDibujarGraficoLineal();
+    setTimeout(() => {
+      this.cargando = false;
+    }, 500);
   }
 
   atras() {
@@ -102,8 +106,8 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
       const labelsLineal = encuestas.map(
         (encuesta: any) => encuesta.data.nombre
       );
-      const dataLineal = encuestas.map(
-        (encuesta: any) =>  Math.round(encuesta.data.nivelSatisfaccion)
+      const dataLineal = encuestas.map((encuesta: any) =>
+        Math.round(encuesta.data.nivelSatisfaccion)
       );
 
       // Obtén el contexto del lienzo del elemento ElementRef para el gráfico lineal
