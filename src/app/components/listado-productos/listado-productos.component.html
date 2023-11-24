@@ -49,6 +49,12 @@
               <ion-button (click)="agregar(producto)" *ngIf="(usuario.data.tipo !== 'cocinero' &&  usuario.data.tipo !== 'bartender')">
                 <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
               </ion-button>
+              <h1 *ngIf="(usuario.data.tipo !== 'cocinero' &&  usuario.data.tipo !== 'bartender')" >
+                {{carrito[buscarProductoEnElCarrito(producto)]?.cantidad ? carrito[buscarProductoEnElCarrito(producto)]?.cantidad : 0}}
+              </h1>
+              <ion-button (click)="quitar(producto)" *ngIf="(usuario.data.tipo !== 'cocinero' &&  usuario.data.tipo !== 'bartender')" >
+                <ion-icon  slot="icon-only" name="remove-circle-outline"></ion-icon>
+              </ion-button>
             </ion-col>
           </ion-row>
         </ion-card-content>

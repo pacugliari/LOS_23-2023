@@ -28,6 +28,7 @@ export class ListadoProductosComponent implements OnInit {
   verPedido : boolean = false;
   seCargoCocina : boolean = false;
   seCargoBebida : boolean = false;
+  cantidad = 0;
 
   constructor(
     private firestoreService: FirestoreService,private usuarioService: UsuarioService,
@@ -76,46 +77,68 @@ export class ListadoProductosComponent implements OnInit {
     });
   }
 
+  buscarProductoEnElCarrito(producto : any){
+    let posicion = -1;
+    for (let i = 0; i < this.carrito.length; i++) {
+      let element = this.carrito[i];
+      if(element.producto.nombre === producto.nombre){
+        posicion = i;
+        break;
+      }
+    }
+    return posicion;
+  }
+
+  verificarSeCargo(){
+
+    this.seCargoBebida = false;
+    this.seCargoCocina = false;
+
+    for (let i = 0; i < this.carrito.length; i++) {
+      let element = this.carrito[i];
+      if(element.producto.tipo === "comida" || element.producto.tipo === "postre"){
+        this.seCargoCocina = true;
+      }else if (element.producto.tipo === "bebida"){
+        this.seCargoBebida = true;
+      }
+    }
+
+  }
+
+  async quitar(producto:any){
+    let indice = this.buscarProductoEnElCarrito(producto);
+
+    if(indice !== -1){
+      if (this.carrito[indice].cantidad > 0){
+        this.carrito[indice].cantidad--;
+        if(this.carrito[indice].cantidad === 0){ 
+          this.carrito.splice(indice,1);
+          this.verificarSeCargo();
+        }
+      }
+    }
+    this.calcularTotales();
+  }
+
+
   async agregar(producto:any){
+    
+    let indice = this.buscarProductoEnElCarrito(producto);
 
-    const { value: cantidad } = await Swal.fire({
-      title: 'Ingrese la cantidad',
-      input: 'number',
-      inputLabel: 'Cantidad:',
-      inputValue: 1,
-      heightAuto: false,
-      inputAttributes: {
-        min: '1',
-        step: '1',
-      },
-      showCancelButton: true,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar',
-    });
+    if(indice === -1){
 
-    if(cantidad){
       if(producto.tipo === "comida" || producto.tipo === "postre"){
         this.seCargoCocina = true;
       }
       if(producto.tipo === "bebida"){
         this.seCargoBebida = true;
       }
-      
-      let existe = false;
-      this.carrito.forEach((element:any) => {
-        if(element.producto.nombre === producto.nombre){
-          element.cantidad = Number(element.cantidad)+Number(cantidad);
-          existe = true;
-        }
-      });
 
-      if(!existe){
-        this.carrito.push ({producto:producto,cantidad:cantidad})
-      }
-      
-      this.calcularTotales();
+      this.carrito.push ({producto:producto,cantidad:1})
+    }else{
+      this.carrito[indice].cantidad++;
     }
-
+    this.calcularTotales();
   }
 
   filtrarPorCategoria(tipo:string){
