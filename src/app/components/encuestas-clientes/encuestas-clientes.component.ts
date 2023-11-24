@@ -23,7 +23,7 @@ import { computeStackId } from '@ionic/angular/common/directives/navigation/stac
 export class EncuestasClientesComponent {
   encuesta: any = {
     nombre: '',
-
+    fecha:new Date().getTime(),
     valoracion: 5, // Valoración por defecto
     fotos: [], // Para almacenar las fotos seleccionadas
     nivelSatisfaccion: 5, // Nivel de satisfacción por defecto

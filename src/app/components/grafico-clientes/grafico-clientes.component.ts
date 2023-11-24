@@ -18,6 +18,7 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
   @ViewChild('graficoCanvas') graficoCanvas!: ElementRef;
   @ViewChild('nivelSatisfaccion') graficoCanvasLineal!: ElementRef;
   cargando: boolean = false;
+  encuestas: any[] = [];
   @ViewChild('graficoCanvasTorta') graficoCanvasTorta!: ElementRef;
 
   constructor(
@@ -29,9 +30,15 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
 
   async ngAfterViewInit() {
     this.cargando = true;
-    await this.obtenerDatosEncuestasYDibujarGraficoBarras();
-    await this.obtenerDatosEncuestasYDibujarGraficoTorta();
-    await this.obtenerDatosEncuestasYDibujarGraficoLineal();
+    this.encuestas = await this.firestoreService.obtenerEncuestas();
+
+    this.encuestas = this.encuestas.sort((a, b) => {
+      return parseInt(b.data.fecha) - parseInt(a.data.fecha);
+    });
+
+    this.obtenerDatosEncuestasYDibujarGraficoBarras();
+    this.obtenerDatosEncuestasYDibujarGraficoTorta();
+    this.obtenerDatosEncuestasYDibujarGraficoLineal();
     setTimeout(() => {
       this.cargando = false;
     }, 500);
@@ -48,13 +55,12 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
   private async obtenerDatosEncuestasYDibujarGraficoBarras() {
     try {
       // Obtén los datos de las encuestas desde Firestore
-      const encuestas = await this.firestoreService.obtenerEncuestas();
 
       // Extrae los datos relevantes para construir el gráfico de barras
-      const labelsBarra = encuestas.map(
+      const labelsBarra = this.encuestas.map(
         (encuesta: any) => encuesta.data.nombre
       );
-      const dataBarra = encuestas.map(
+      const dataBarra = this.encuestas.map(
         (encuesta: any) => encuesta.data.valoracion
       );
 
@@ -100,13 +106,12 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
   private async obtenerDatosEncuestasYDibujarGraficoLineal() {
     try {
       // Obtén los datos de las encuestas desde Firestore
-      const encuestas = await this.firestoreService.obtenerEncuestas();
 
       // Extrae los datos relevantes para construir el gráfico lineal
-      const labelsLineal = encuestas.map(
+      const labelsLineal = this.encuestas.map(
         (encuesta: any) => encuesta.data.nombre
       );
-      const dataLineal = encuestas.map((encuesta: any) =>
+      const dataLineal = this.encuestas.map((encuesta: any) =>
         Math.round(encuesta.data.nivelSatisfaccion)
       );
 
@@ -161,10 +166,9 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
   private async obtenerDatosEncuestasYDibujarGraficoTorta() {
     try {
       // Obtén los datos de las encuestas desde Firestore
-      const encuestas = await this.firestoreService.obtenerEncuestas();
 
       // Extrae los datos relevantes para construir el gráfico de torta
-      const respuestasTorta = encuestas.map(
+      const respuestasTorta = this.encuestas.map(
         (encuesta: any) => encuesta.data.primeraVisita
       );
       const conteoRespuestasTorta = this.contarRespuestas(respuestasTorta);

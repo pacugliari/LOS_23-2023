@@ -14,3 +14,11 @@ ion-input,ion-content,ion-item{
 ion-fab-button,ion-button{
     --background: #D0A933;
 }
+
+.foto-scroll {
+    display: flex;
+    overflow-x: auto;
+    margin: 5px;
+    white-space: nowrap;
+  }
+  

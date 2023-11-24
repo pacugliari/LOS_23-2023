@@ -28,6 +28,12 @@ export class ListaEncuestasComponent  implements OnInit {
     this.cargando = true;
     this.encuestas = await this.firestoreService.obtener('encuestas');
     console.log(this.encuestas);
+    this.encuestas = this.encuestas.sort((a, b) => {
+      return parseInt(b.data.fecha) - parseInt(a.data.fecha);
+    });
+    console.log(this.encuestas);
+
+    console.log(this.encuestas);
     console.log(this.encuestas);
     this.cargando = false;
   }

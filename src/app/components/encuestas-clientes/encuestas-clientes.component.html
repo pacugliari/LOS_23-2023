@@ -19,14 +19,14 @@
               <ion-row>
                 <ion-col>
               <label for="nombre">Nombre:</label>
-              <input type="text" id="nombre" name="nombre" [(ngModel)]="encuesta.nombre" placeholder="Nombre del cliente" style="margin-bottom: 20px;font-size: 20px;width: 80%;">
+              <input maxlength="10" type="text" id="nombre" name="nombre" [(ngModel)]="encuesta.nombre" placeholder="Nombre del cliente" style="margin-bottom: 20px;font-size: 20px;width: 80%;">
             </ion-col>
           </ion-row>
          
           <ion-row>
             <ion-col>
               <label for="valoracion">Valoración de atención:</label>
-              <input type="range" id="valoracion" name="valoracion" [(ngModel)]="encuesta.valoracion" min="0" max="10" style="margin-bottom: 30px;">
+              <input type="range" id="valoracion" name="valoracion" [(ngModel)]="encuesta.valoracion" min="1" max="10" style="margin-bottom: 30px;">
               <span>{{ encuesta.valoracion }}</span>
             </ion-col>
           </ion-row>
