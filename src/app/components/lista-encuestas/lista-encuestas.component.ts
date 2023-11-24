@@ -34,7 +34,7 @@ export class ListaEncuestasComponent  implements OnInit {
 
 
   atras() {
-    this.router.navigate(['homeCliente'], { replaceUrl: true });
+    this.router.navigate(['grafico/clientes'], { replaceUrl: true });
   }
 
 }

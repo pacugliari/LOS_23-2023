@@ -1,4 +1,10 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import Chart from 'chart.js/auto';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -14,7 +20,10 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
 
   @ViewChild('graficoCanvasTorta') graficoCanvasTorta!: ElementRef;
 
-  constructor(private firestoreService: FirestoreService,private router:Router) {}
+  constructor(
+    private firestoreService: FirestoreService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -24,27 +33,37 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
     this.obtenerDatosEncuestasYDibujarGraficoLineal();
   }
 
-  atras(){
-    this.router.navigate(["homeCliente"])
+  atras() {
+    this.router.navigate(['homeCliente']);
+  }
+
+  adelante() {
+    this.router.navigate(['listadoEncuestas']);
   }
 
   private async obtenerDatosEncuestasYDibujarGraficoBarras() {
     try {
       // Obtén los datos de las encuestas desde Firestore
       const encuestas = await this.firestoreService.obtenerEncuestas();
-  
+
       // Extrae los datos relevantes para construir el gráfico de barras
-      const labelsBarra = encuestas.map((encuesta: any) => encuesta.data.nombre);
-      const dataBarra = encuestas.map((encuesta: any) => encuesta.data.valoracion);
-  
+      const labelsBarra = encuestas.map(
+        (encuesta: any) => encuesta.data.nombre
+      );
+      const dataBarra = encuestas.map(
+        (encuesta: any) => encuesta.data.valoracion
+      );
+
       // Obtén el contexto del lienzo del elemento ElementRef
-      const ctx = (this.graficoCanvas.nativeElement as HTMLCanvasElement).getContext('2d');
-  
+      const ctx = (
+        this.graficoCanvas.nativeElement as HTMLCanvasElement
+      ).getContext('2d');
+
       // Comprueba si el contexto no es nulo antes de crear el gráfico de barras
       if (ctx) {
         // Destruye el gráfico existente si ya existe
         Chart.getChart(ctx.canvas.id)?.destroy();
-  
+
         // Crea el gráfico de barras
         const barChart = new Chart(ctx, {
           type: 'bar',
@@ -65,7 +84,9 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
           },
         });
       } else {
-        console.error('No se pudo obtener el contexto del lienzo para el gráfico de barras.');
+        console.error(
+          'No se pudo obtener el contexto del lienzo para el gráfico de barras.'
+        );
       }
     } catch (error) {
       console.error('Error al obtener datos de encuestas:', error);
@@ -76,19 +97,25 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
     try {
       // Obtén los datos de las encuestas desde Firestore
       const encuestas = await this.firestoreService.obtenerEncuestas();
-  
+
       // Extrae los datos relevantes para construir el gráfico lineal
-      const labelsLineal = encuestas.map((encuesta: any) => encuesta.data.nombre);
-      const dataLineal = encuestas.map((encuesta: any) => encuesta.data.ofertasCorreo);
-  
+      const labelsLineal = encuestas.map(
+        (encuesta: any) => encuesta.data.nombre
+      );
+      const dataLineal = encuestas.map(
+        (encuesta: any) =>  Math.round(encuesta.data.nivelSatisfaccion)
+      );
+
       // Obtén el contexto del lienzo del elemento ElementRef para el gráfico lineal
-      const ctxLineal = (this.graficoCanvasLineal.nativeElement as HTMLCanvasElement).getContext('2d');
-  
+      const ctxLineal = (
+        this.graficoCanvasLineal.nativeElement as HTMLCanvasElement
+      ).getContext('2d');
+
       // Comprueba si el contexto no es nulo antes de crear el gráfico lineal
       if (ctxLineal) {
         // Destruye el gráfico lineal existente si ya existe
         Chart.getChart(ctxLineal.canvas.id)?.destroy();
-  
+
         // Crea el gráfico lineal
         const linealChart = new Chart(ctxLineal, {
           type: 'line',
@@ -105,53 +132,72 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
             ],
           },
           options: {
-            // Configuración de opciones del gráfico lineal
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1, // Incremento entre los valores en el eje Y
+                },
+                min: 1, // Valor mínimo en el eje Y
+                max: 5, // Valor máximo en el eje Y
+              },
+            },
           },
         });
       } else {
-        console.error('No se pudo obtener el contexto del lienzo para el gráfico lineal.');
+        console.error(
+          'No se pudo obtener el contexto del lienzo para el gráfico lineal.'
+        );
       }
     } catch (error) {
       console.error('Error al obtener datos de encuestas:', error);
     }
   }
-  
+
   private async obtenerDatosEncuestasYDibujarGraficoTorta() {
     try {
       // Obtén los datos de las encuestas desde Firestore
       const encuestas = await this.firestoreService.obtenerEncuestas();
-  
+
       // Extrae los datos relevantes para construir el gráfico de torta
-      const respuestasTorta = encuestas.map((encuesta: any) => encuesta.data.primeraVisita);
+      const respuestasTorta = encuestas.map(
+        (encuesta: any) => encuesta.data.primeraVisita
+      );
       const conteoRespuestasTorta = this.contarRespuestas(respuestasTorta);
-  
+
       // Obtén el contexto del lienzo del elemento ElementRef para el gráfico de torta
-      const ctxTorta = (this.graficoCanvasTorta.nativeElement as HTMLCanvasElement).getContext('2d');
-  
+      const ctxTorta = (
+        this.graficoCanvasTorta.nativeElement as HTMLCanvasElement
+      ).getContext('2d');
+
       // Comprueba si el contexto no es nulo antes de crear el gráfico de torta
       if (ctxTorta) {
         // Destruye el gráfico de torta existente si ya existe
         Chart.getChart(ctxTorta.canvas.id)?.destroy();
-  
+
         // Crea el gráfico de torta
-       const tortaChart = new Chart(ctxTorta, {
-  type: 'doughnut',
-  data: {
-    labels: Object.keys(conteoRespuestasTorta),
-    datasets: [
-      {
-        data: Object.values(conteoRespuestasTorta),
-        backgroundColor: this.generarColores(Object.keys(conteoRespuestasTorta).length),
-        label: 'Primera vez que vino', // Puedes ajustar el texto del label según tus necesidades
-      },
-    ],
-  },
+        const tortaChart = new Chart(ctxTorta, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(conteoRespuestasTorta),
+            datasets: [
+              {
+                data: Object.values(conteoRespuestasTorta),
+                backgroundColor: this.generarColores(
+                  Object.keys(conteoRespuestasTorta).length
+                ),
+                label: 'Primera vez que vino', // Puedes ajustar el texto del label según tus necesidades
+              },
+            ],
+          },
           options: {
             // Configuración de opciones del gráfico de torta
           },
         });
       } else {
-        console.error('No se pudo obtener el contexto del lienzo para el gráfico de torta.');
+        console.error(
+          'No se pudo obtener el contexto del lienzo para el gráfico de torta.'
+        );
       }
     } catch (error) {
       console.error('Error al obtener datos de encuestas:', error);
@@ -160,7 +206,7 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
 
   private contarRespuestas(respuestas: string[]) {
     const conteo: { [key: string]: number } = {};
-  
+
     respuestas.forEach((respuesta) => {
       if (conteo[respuesta]) {
         conteo[respuesta]++;
@@ -168,9 +214,9 @@ export class GraficoClientesComponent implements OnInit, AfterViewInit {
         conteo[respuesta] = 1;
       }
     });
-  
-    console.log('Conteo de respuestas:', conteo);  // Agrega este log para verificar el conteo
-  
+
+    console.log('Conteo de respuestas:', conteo); // Agrega este log para verificar el conteo
+
     return conteo;
   }
 

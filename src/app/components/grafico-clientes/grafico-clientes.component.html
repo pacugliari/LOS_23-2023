@@ -1,12 +1,17 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>Graficos</ion-title>
-      <ion-buttons slot="start" >
-        <ion-button color="dark" (click)="atras()">
-          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Graficos</ion-title>
+    <ion-buttons slot="start">
+      <ion-button color="dark" (click)="atras()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="dark" (click)="adelante()">
+        <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
   </ion-header>
 <ion-content style="max-height: 100%;">
     <canvas #graficoCanvas></canvas>
